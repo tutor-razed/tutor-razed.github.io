@@ -1,0 +1,292 @@
+<?php ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Letter Countdown</title>
+
+<style>
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    background: linear-gradient(135deg, #1b1b3a, #0f3460);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.hidden { display: none; }
+
+h1 {
+    font-size: 3rem;
+    color: #ffcc00;
+    text-shadow: 0 0 15px orange;
+}
+
+input, select, button {
+    font-size: 1.1rem;
+    padding: 10px;
+    margin: 6px;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+    background: linear-gradient(to bottom, #ff9800, #ff5722);
+    color: #000;
+    font-weight: bold;
+}
+button:hover { transform: scale(1.05); }
+
+#puzzle {
+    font-size: 2.3rem;
+    letter-spacing: 6px;
+    margin: 25px;
+    line-height: 3.2rem;
+}
+
+.word-gap { margin-right: 30px; }
+
+.keyboard {
+    max-width: 720px;
+    margin: 20px auto;
+}
+.keyboard button {
+    width: 48px;
+    height: 48px;
+    margin: 5px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.correct {
+    background: linear-gradient(#00ff99, #00cc66) !important;
+}
+.wrong {
+    background: linear-gradient(#ff0033, #990000) !important;
+    color: white;
+}
+
+#fuse-container {
+    width: 320px;
+    height: 22px;
+    border-radius: 12px;
+    border: 3px solid #fff;
+    margin: 20px auto;
+    background: #333;
+    overflow: hidden;
+}
+
+#fuse {
+    height: 100%;
+    background: linear-gradient(90deg, yellow, orange, red);
+    width: 100%;
+    animation: flicker 0.5s infinite alternate;
+    transition: width 0.4s linear;
+}
+
+@keyframes flicker {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.3); }
+}
+
+#bomb {
+    font-size: 5rem;
+    animation: shake 0.6s infinite;
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+    75% { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* BOOM SCREEN */
+#boomScreen {
+    animation: flashRed 0.4s infinite alternate;
+}
+
+@keyframes flashRed {
+    from { background: black; }
+    to { background: darkred; }
+}
+
+#boom {
+    font-size: 6rem;
+    color: yellow;
+    text-shadow: 0 0 30px red;
+}
+
+/* WIN SCREEN */
+#winScreen {
+    animation: flashGreen 0.4s infinite alternate;
+}
+
+@keyframes flashGreen {
+    from { background: #003300; }
+    to { background: #006600; }
+}
+
+#win {
+    font-size: 5rem;
+    color: #00ffcc;
+    text-shadow: 0 0 25px gold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💣 LETTER COUNTDOWN 💣</h1>
+
+<div id="setup">
+    <h2>Player A: Enter Secret Phrase</h2>
+    <input type="password" id="secretInput" placeholder="Secret phrase">
+    <br>
+    <label><input type="checkbox" id="toggleView"> Show phrase</label>
+    <br>
+    <label>Wrong guesses allowed:</label>
+    <select id="maxWrong">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="26">26</option>
+    </select>
+    <br>
+    <button onclick="startGame()">🚀 Start Game</button>
+</div>
+
+<div id="game" class="hidden">
+    <div id="fuse-container"><div id="fuse"></div></div>
+    <div id="bomb">💣</div>
+    <div id="puzzle"></div>
+    <div class="keyboard" id="keyboard"></div>
+    <button onclick="resetGame()">🔁 Reset Game</button>
+</div>
+
+<div id="boomScreen" class="hidden">
+    <div id="boom">💥 BOOM 💥</div>
+    <p>The phrase was:</p>
+    <h2 id="boomPhrase"></h2>
+    <button onclick="resetGame()">▶ PLAY AGAIN</button>
+</div>
+
+<div id="winScreen" class="hidden">
+    <div id="win">🎉 YOU SAVED THE BOMB 🎉</div>
+    <p>The phrase was:</p>
+    <h2 id="winPhrase"></h2>
+    <button onclick="resetGame()">▶ PLAY AGAIN</button>
+</div>
+
+<script>
+let phrase = "";
+let guessed = [];
+let wrong = 0;
+let maxWrong = 5;
+let letterButtons = {};
+
+document.getElementById("toggleView").addEventListener("change", e => {
+    document.getElementById("secretInput").type =
+        e.target.checked ? "text" : "password";
+});
+
+document.addEventListener("keydown", e => {
+    if (!document.getElementById("game").classList.contains("hidden")) {
+        let key = e.key.toUpperCase();
+        if (key >= "A" && key <= "Z" && letterButtons[key] && !letterButtons[key].disabled) {
+            guess(key, letterButtons[key]);
+        }
+    }
+});
+
+function startGame() {
+    phrase = document.getElementById("secretInput").value.toUpperCase();
+    if (!phrase.trim()) return alert("Enter a phrase!");
+
+    maxWrong = parseInt(document.getElementById("maxWrong").value);
+    guessed = [];
+    wrong = 0;
+
+    hideAll();
+    document.getElementById("game").classList.remove("hidden");
+
+    drawPuzzle();
+    drawKeyboard();
+    updateFuse();
+}
+
+function hideAll() {
+    ["setup","game","boomScreen","winScreen"].forEach(id =>
+        document.getElementById(id).classList.add("hidden")
+    );
+}
+
+function drawPuzzle() {
+    let html = "";
+    for (let char of phrase) {
+        if (char === " ") html += `<span class="word-gap"></span>`;
+        else if (guessed.includes(char)) html += char + " ";
+        else html += "_ ";
+    }
+    document.getElementById("puzzle").innerHTML = html;
+}
+
+function drawKeyboard() {
+    const kb = document.getElementById("keyboard");
+    kb.innerHTML = "";
+    letterButtons = {};
+    for (let i = 65; i <= 90; i++) {
+        let letter = String.fromCharCode(i);
+        let btn = document.createElement("button");
+        btn.textContent = letter;
+        btn.onclick = () => guess(letter, btn);
+        kb.appendChild(btn);
+        letterButtons[letter] = btn;
+    }
+}
+
+function guess(letter, btn) {
+    btn.disabled = true;
+    if (phrase.includes(letter)) {
+        guessed.push(letter);
+        btn.classList.add("correct");
+    } else {
+        wrong++;
+        btn.classList.add("wrong");
+        updateFuse();
+    }
+    drawPuzzle();
+    checkEnd();
+}
+
+function updateFuse() {
+    let percent = ((maxWrong - wrong) / maxWrong) * 100;
+    document.getElementById("fuse").style.width = Math.max(0, percent) + "%";
+}
+
+function checkEnd() {
+    if (wrong >= maxWrong) {
+        hideAll();
+        document.getElementById("boomScreen").classList.remove("hidden");
+        document.getElementById("boomPhrase").textContent = phrase;
+    } else if (phrase.split("").every(c => c === " " || guessed.includes(c))) {
+        hideAll();
+        document.getElementById("winScreen").classList.remove("hidden");
+        document.getElementById("winPhrase").textContent = phrase;
+    }
+}
+
+function resetGame() {
+    phrase = "";
+    guessed = [];
+    wrong = 0;
+    document.getElementById("secretInput").value = "";
+    hideAll();
+    document.getElementById("setup").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
