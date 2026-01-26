@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Letter Countdown</title>
+<title>Color Bomb Hangman</title>
 
 <style>
 body {
@@ -46,6 +46,11 @@ button:hover { transform: scale(1.05); }
 }
 
 .word-gap { margin-right: 30px; }
+
+.punctuation {
+    color: #00ffff;
+    font-weight: bold;
+}
 
 .keyboard {
     max-width: 720px;
@@ -103,47 +108,48 @@ button:hover { transform: scale(1.05); }
     100% { transform: rotate(0deg); }
 }
 
-/* BOOM SCREEN */
+/* BOOM */
 #boomScreen {
     animation: flashRed 0.4s infinite alternate;
 }
-
 @keyframes flashRed {
     from { background: black; }
     to { background: darkred; }
 }
-
 #boom {
     font-size: 6rem;
     color: yellow;
     text-shadow: 0 0 30px red;
 }
 
-/* WIN SCREEN */
+/* WIN */
 #winScreen {
     animation: flashGreen 0.4s infinite alternate;
 }
-
 @keyframes flashGreen {
     from { background: #003300; }
     to { background: #006600; }
 }
-
 #win {
     font-size: 5rem;
     color: #00ffcc;
     text-shadow: 0 0 25px gold;
+}
+
+#error {
+    color: #ff6666;
+    font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<h1>💣 LETTER COUNTDOWN 💣</h1>
+<h1>💣 COLOR BOMB HANGMAN 💣</h1>
 
 <div id="setup">
     <h2>Player A: Enter Secret Phrase</h2>
-    <input type="password" id="secretInput" placeholder="Secret phrase">
+    <input type="password" id="secretInput" placeholder="Letters only (min 5)">
     <br>
     <label><input type="checkbox" id="toggleView"> Show phrase</label>
     <br>
@@ -156,6 +162,7 @@ button:hover { transform: scale(1.05); }
     </select>
     <br>
     <button onclick="startGame()">🚀 Start Game</button>
+    <div id="error"></div>
 </div>
 
 <div id="game" class="hidden">
@@ -186,6 +193,7 @@ let guessed = [];
 let wrong = 0;
 let maxWrong = 5;
 let letterButtons = {};
+const allowedPunctuation = [".", ",", "?", "!"];
 
 document.getElementById("toggleView").addEventListener("change", e => {
     document.getElementById("secretInput").type =
@@ -202,12 +210,33 @@ document.addEventListener("keydown", e => {
 });
 
 function startGame() {
-    phrase = document.getElementById("secretInput").value.toUpperCase();
-    if (!phrase.trim()) return alert("Enter a phrase!");
+    const input = document.getElementById("secretInput").value.toUpperCase();
+    const error = document.getElementById("error");
+    error.textContent = "";
 
-    maxWrong = parseInt(document.getElementById("maxWrong").value);
+    // Validate characters
+    for (let c of input) {
+        if (
+            !(c >= "A" && c <= "Z") &&
+            c !== " " &&
+            !allowedPunctuation.includes(c)
+        ) {
+            error.textContent = "Only letters, spaces, and . , ? ! are allowed.";
+            return;
+        }
+    }
+
+    // Count letters only
+    const letterCount = input.split("").filter(c => c >= "A" && c <= "Z").length;
+    if (letterCount < 5) {
+        error.textContent = "Phrase must contain at least 5 letters.";
+        return;
+    }
+
+    phrase = input;
     guessed = [];
     wrong = 0;
+    maxWrong = parseInt(document.getElementById("maxWrong").value);
 
     hideAll();
     document.getElementById("game").classList.remove("hidden");
@@ -226,9 +255,15 @@ function hideAll() {
 function drawPuzzle() {
     let html = "";
     for (let char of phrase) {
-        if (char === " ") html += `<span class="word-gap"></span>`;
-        else if (guessed.includes(char)) html += char + " ";
-        else html += "_ ";
+        if (char === " ") {
+            html += `<span class="word-gap"></span>`;
+        } else if (allowedPunctuation.includes(char)) {
+            html += `<span class="punctuation">${char}</span> `;
+        } else if (guessed.includes(char)) {
+            html += char + " ";
+        } else {
+            html += "_ ";
+        }
     }
     document.getElementById("puzzle").innerHTML = html;
 }
@@ -271,7 +306,13 @@ function checkEnd() {
         hideAll();
         document.getElementById("boomScreen").classList.remove("hidden");
         document.getElementById("boomPhrase").textContent = phrase;
-    } else if (phrase.split("").every(c => c === " " || guessed.includes(c))) {
+    } else if (
+        phrase.split("").every(c =>
+            c === " " ||
+            allowedPunctuation.includes(c) ||
+            guessed.includes(c)
+        )
+    ) {
         hideAll();
         document.getElementById("winScreen").classList.remove("hidden");
         document.getElementById("winPhrase").textContent = phrase;
@@ -283,6 +324,7 @@ function resetGame() {
     guessed = [];
     wrong = 0;
     document.getElementById("secretInput").value = "";
+    document.getElementById("error").textContent = "";
     hideAll();
     document.getElementById("setup").classList.remove("hidden");
 }
