@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraction Frenzy - Learn Adding & Subtracting Fractions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50, #4a6491);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(90deg, #ff8a00, #da1b60, #3333cc, #00c853, #7e57c2, #29b6f6);
+            border-radius: 12px 12px 0 0;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 3px dashed #4a6491;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            color: #2c3e50;
+            margin: 15px 0;
+            text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #3333cc, #00c853, #ff8a00, #7e57c2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff8a00, #da1b60, #3333cc);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-top: 15px;
+            font-weight: 600;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .problem-display {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9ff, #eef4ff);
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #4a6491;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .problem-display::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 0;
+        }
+        
+        .fraction-display {
+            display: inline-block;
+            text-align: center;
+            margin: 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .numerator, .denominator {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: bold;
+            padding: 5px 15px;
+            min-width: 80px;
+        }
+        
+        .divider {
+            display: block;
+            height: 5px;
+            background: #3333cc;
+            margin: 3px auto;
+            width: 80%;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 0;
+            right: 0;
+            height: 9px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+        }
+        
+        .operator {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin: 0 20px;
+            color: #da1b60;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .equal-sign {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin: 0 15px;
+            color: #3333cc;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .steps-container {
+            background: #f9fbfd;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border: 2px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .steps-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(51, 51, 204, 0.03) 0%, rgba(255,255,255,0) 40%), 
+                        radial-gradient(circle at 80% 70%, rgba(0, 200, 83, 0.03) 0%, rgba(255,255,255,0) 40%);
+            z-index: 0;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.09);
+            border: 2px solid #eaeff5;
+            border-left: 6px solid #4a6491;
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f4ff;
+        }
+        
+        .step-title::before {
+            content: "";
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(45deg, #3333cc, #4a6491);
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 36px;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        #step1 .step-title::before { content: "1"; background: linear-gradient(45deg, #ff8a00, #ff5722); }
+        #step2 .step-title::before { content: "2"; background: linear-gradient(45deg, #00c853, #009624); }
+        #step3 .step-title::before { content: "3"; background: linear-gradient(45deg, #29b6f6, #0288d1); }
+        #step4 .step-title::before { content: "4"; background: linear-gradient(45deg, #7e57c2, #5e35b1); }
+        #step5 .step-title::before { content: "5"; background: linear-gradient(45deg, #ffca28, #ffa000); }
+        
+        .step-content {
+            font-size: 1.35rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #37474f;
+        }
+        
+        .fraction-conversion {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .conversion-step {
+            text-align: center;
+            min-width: 180px;
+        }
+        
+        .conversion-text {
+            margin: 15px 0;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #3333cc;
+        }
+        
+        .factor-display {
+            display: inline-block;
+            background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+            border: 2px dashed #2196f3;
+            border-radius: 15px;
+            padding: 8px 15px;
+            margin: 8px 0;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #0d47a1;
+            min-width: 80px;
+        }
+        
+        .input-fraction {
+            display: inline-block;
+            text-align: center;
+            margin: 0 10px;
+        }
+        
+        .input-fraction input {
+            width: 85px;
+            padding: 8px 5px;
+            border: 3px solid #4a90e2;
+            border-radius: 12px;
+            font-size: 1.6rem;
+            text-align: center;
+            font-weight: bold;
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+        
+        .input-fraction input:focus {
+            border-color: #3333cc;
+            box-shadow: 0 0 0 3px rgba(51, 51, 204, 0.25);
+            outline: none;
+        }
+        
+        .input-fraction input.correct {
+            border-color: #00c853;
+            background-color: #e8f5e9;
+            box-shadow: 0 0 8px rgba(0, 200, 83, 0.4);
+        }
+        
+        .input-fraction input.incorrect {
+            border-color: #ff1744;
+            background-color: #ffebee;
+            box-shadow: 0 0 8px rgba(255, 23, 68, 0.4);
+        }
+        
+        .simplify-display {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5fbf5, #e6f7e6);
+            border-radius: 18px;
+            border: 2px solid #a5d6a7;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .simplify-display::before {
+            content: "Simplify this fraction";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00c853;
+            color: white;
+            padding: 3px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #3333cc, #4a6491);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.4rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s;
+            font-weight: bold;
+            letter-spacing: 0.8px;
+            box-shadow: 0 6px 20px rgba(51, 51, 204, 0.45);
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+        }
+        
+        button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        button:hover::after {
+            left: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(51, 51, 204, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 4px 15px rgba(51, 51, 204, 0.4);
+        }
+        
+        button.secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+        
+        button.secondary:hover {
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.6);
+        }
+        
+        button.success {
+            background: linear-gradient(45deg, #00c853, #009624);
+            box-shadow: 0 6px 20px rgba(0, 200, 83, 0.45);
+        }
+        
+        button.success:hover {
+            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
+        }
+        
+        button:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        button:disabled:hover {
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+            min-height: 30px;
+            font-size: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feedback::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .feedback.correct {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border: 2px solid #81c784;
+        }
+        
+        .feedback.correct::before {
+            background: radial-gradient(circle, #00c853, transparent 70%);
+        }
+        
+        .feedback.incorrect {
+            background: #ffebee;
+            color: #b71c1c;
+            border: 2px solid #ef9a9a;
+        }
+        
+        .feedback.incorrect::before {
+            background: radial-gradient(circle, #ff1744, transparent 70%);
+        }
+        
+        .feedback p {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hint-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin: 25px 0;
+            font-size: 1.2rem;
+            position: relative;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .hint-box::before {
+            content: "💡";
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            font-size: 2.5rem;
+            color: #ffca28;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .hint-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            font-size: 1.35rem;
+            display: block;
+            padding-top: 5px;
+        }
+        
+        .progress-container {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 28px;
+            background: linear-gradient(90deg, #e0e6ed, #cfd8dc);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-top: 12px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.15), 0 2px 5px rgba(0,0,0,0.08);
+            border: 2px solid #b0bec5;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3333cc, #00c853, #ff8a00);
+            border-radius: 12px;
+            width: 0%;
+            transition: width 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.2) 100%);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .score-display {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .score-value {
+            color: #ff8a00;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ffca28, #ffa000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(255,202,40,0.3);
+            position: relative;
+        }
+        
+        .score-value::after {
+            content: "★";
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 1.8rem;
+            color: #ffc107;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.97);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+            animation: celebrationEntry 0.7s ease-out forwards;
+        }
+        
+        @keyframes celebrationEntry {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+        
+        .final-message {
+            font-size: 4.5rem;
+            font-weight: bold;
+            color: #3333cc;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 4px 4px 0 #ffd700, 8px 8px 0 rgba(0,0,0,0.15);
+            background: linear-gradient(45deg, #3333cc, #ff8a00, #00c853, #7e57c2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1.5px;
+            position: relative;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .final-message::after {
+            content: "★";
+            position: absolute;
+            top: -30px;
+            right: -40px;
+            font-size: 3.5rem;
+            color: #ffca28;
+            animation: rotate 4s linear infinite;
+        }
+        
+        .final-message::before {
+            content: "★";
+            position: absolute;
+            bottom: -40px;
+            left: -30px;
+            font-size: 3.5rem;
+            color: #ffca28;
+            animation: rotate 5s reverse linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .explanation {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border: 2px solid #eaeaea;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .explanation::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #3333cc, #00c853, #ff8a00);
+        }
+        
+        .explanation h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .explanation h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, #3333cc, #00c853);
+            border-radius: 3px;
+        }
+        
+        .explanation ul {
+            padding-left: 30px;
+            margin: 20px 0;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #37474f;
+        }
+        
+        .explanation li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .explanation li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #00c853;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        
+        .math-concept {
+            display: inline-block;
+            background: linear-gradient(45deg, #3333cc, #4a6491);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 0 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        
+        .math-concept.lcm {
+            background: linear-gradient(45deg, #ff8a00, #ff5722);
+        }
+        
+        .math-concept.factor {
+            background: linear-gradient(45deg, #00c853, #009624);
+        }
+        
+        .math-concept.simplify {
+            background: linear-gradient(45deg, #7e57c2, #5e35b1);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                border-radius: 18px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .problem-display {
+                font-size: 1.9rem;
+                padding: 15px;
+                min-height: 90px;
+            }
+            
+            .numerator, .denominator {
+                font-size: 1.8rem;
+                min-width: 60px;
+                padding: 3px 10px;
+            }
+            
+            .divider {
+                height: 4px;
+                width: 70%;
+            }
+            
+            .operator, .equal-sign {
+                font-size: 2.2rem;
+                margin: 0 10px;
+            }
+            
+            .fraction-conversion {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .conversion-step {
+                margin: 15px 0;
+            }
+            
+            .input-fraction input {
+                width: 70px;
+                font-size: 1.4rem;
+                padding: 6px 5px;
+            }
+            
+            .factor-display {
+                font-size: 1.15rem;
+                padding: 6px 12px;
+                min-width: 70px;
+            }
+            
+            .conversion-text {
+                font-size: 1.25rem;
+            }
+            
+            button {
+                padding: 14px 28px;
+                font-size: 1.25rem;
+                min-width: 160px;
+                border-radius: 50px;
+            }
+            
+            .step-title {
+                font-size: 1.6rem;
+            }
+            
+            .step-content {
+                font-size: 1.2rem;
+            }
+            
+            .score-display {
+                font-size: 1.5rem;
+            }
+            
+            .score-value {
+                font-size: 2.1rem;
+            }
+            
+            .progress-bar {
+                height: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                margin: 5px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .numerator, .denominator {
+                font-size: 1.6rem;
+                min-width: 50px;
+                padding: 2px 8px;
+            }
+            
+            .divider {
+                height: 3px;
+                width: 60%;
+            }
+            
+            .operator, .equal-sign {
+                font-size: 1.9rem;
+                margin: 0 8px;
+            }
+            
+            .input-fraction input {
+                width: 60px;
+                font-size: 1.3rem;
+                padding: 5px 5px;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+                padding: 15px;
+                font-size: 1.3rem;
+            }
+            
+            .step-title {
+                font-size: 1.5rem;
+            }
+            
+            .step-content {
+                font-size: 1.15rem;
+            }
+            
+            .hint-box {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fraction Frenzy</h1>
+            <div class="subtitle">Master adding and subtracting fractions with step-by-step guidance using stacked fractions!</div>
+        </header>
+        
+        <div class="game-container">
+            <div class="progress-container">
+                <div class="score-display">Score: <span class="score-value" id="score">0</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            
+            <div class="problem-display" id="problem-display">
+                <div class="fraction-display">
+                    <span class="numerator" id="prob-num1">?</span>
+                    <span class="divider"></span>
+                    <span class="denominator" id="prob-den1">?</span>
+                </div>
+                <span class="operator" id="prob-operator">+</span>
+                <div class="fraction-display">
+                    <span class="numerator" id="prob-num2">?</span>
+                    <span class="divider"></span>
+                    <span class="denominator" id="prob-den2">?</span>
+                </div>
+                <span class="equal-sign">=</span>
+                <span>?</span>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step active" id="step0">
+                    <div class="step-title">Welcome to Fraction Frenzy!</div>
+                    <div class="step-content">
+                        <p>In this game, you'll learn how to add and subtract fractions by following these steps:</p>
+                        <ol style="margin-left: 25px; margin-top: 15px; font-size: 1.25rem; line-height: 1.8;">
+                            <li>Find the <span class="math-concept lcm">Lowest Common Multiple (LCM)</span> of the denominators</li>
+                            <li>Convert fractions using the <span class="math-concept factor">multiplication factor</span> to get equivalent fractions</li>
+                            <li>Add or subtract the numerators</li>
+                            <li><span class="math-concept simplify">Simplify</span> the final fraction to lowest terms</li>
+                        </ol>
+                        <div class="hint-box">
+                            <div class="hint-title">💡 Remember:</div>
+                            <div>The <span class="math-concept lcm">LCM</span> is the smallest number that both denominators can divide into evenly. We use it to find a common denominator.</div>
+                        </div>
+                    </div>
+                    <div class="btn-container">
+                        <button id="start-btn">Start Learning!</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step1">
+                    <div class="step-title">Step 1: Find the Common Denominator (LCM)</div>
+                    <div class="step-content">
+                        <p>What is the <span class="math-concept lcm">Lowest Common Multiple (LCM)</span> of the denominators?</p>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div class="fraction-display" style="display: inline-block; margin: 0 25px;">
+                                <span class="numerator">?</span>
+                                <span class="divider"></span>
+                                <span class="denominator" id="step1-den1">?</span>
+                            </div>
+                            <span style="font-size: 2rem; margin: 0 20px;">and</span>
+                            <div class="fraction-display" style="display: inline-block; margin: 0 25px;">
+                                <span class="numerator">?</span>
+                                <span class="divider"></span>
+                                <span class="denominator" id="step1-den2">?</span>
+                            </div>
+                        </div>
+                        <div class="hint-box">
+                            <div class="hint-title">💡 How to find the LCM:</div>
+                            <div>List the multiples of each denominator and find the smallest number that appears in both lists.</div>
+                            <div style="margin-top: 10px; font-weight: bold;">Example:</div>
+                            <div>Multiples of 3: 3, 6, 9, 12, 15...</div>
+                            <div>Multiples of 4: 4, 8, 12, 16, 20...</div>
+                            <div>LCM of 3 and 4 is 12 (smallest common multiple)</div>
+                        </div>
+                        <div class="input-group" style="text-align: center; margin: 25px 0;">
+                            <div style="font-size: 1.6rem; margin-bottom: 10px;">LCM =</div>
+                            <input type="number" id="lcm-input" min="1" style="width: 100px; padding: 10px; font-size: 1.8rem; text-align: center; border-radius: 12px; border: 3px solid #4a90e2;">
+                        </div>
+                        <div class="feedback" id="feedback1"></div>
+                    </div>
+                    <div class="btn-container">
+                        <button class="secondary" id="hint-btn-step1">Show Example</button>
+                        <button id="check-step1">Check Answer</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step2">
+                    <div class="step-title">Step 2: Convert to Equivalent Fractions</div>
+                    <div class="step-content">
+                        <p>To get the common denominator, we need to multiply each fraction by a special number called the <span class="math-concept factor">factor</span>.</p>
+                        <p>The factor is: <span style="font-weight: bold; color: #3333cc;">LCM ÷ Original Denominator</span></p>
+                        
+                        <div class="fraction-conversion">
+                            <div class="conversion-step">
+                                <div class="fraction-display">
+                                    <span class="numerator" id="frac1-num">?</span>
+                                    <span class="divider"></span>
+                                    <span class="denominator" id="frac1-den">?</span>
+                                </div>
+                                <div class="conversion-text">×</div>
+                                <div class="factor-display">
+                                    <span id="factor1-num">?</span><br>
+                                    <span style="font-size: 1.1rem; display: block; margin-top: -3px;">factor</span>
+                                </div>
+                                <div class="conversion-text">=</div>
+                                <div class="input-fraction">
+                                    <input type="number" id="num1-input" min="0" class="num-input">
+                                    <div class="divider" style="width: 70%; margin: 2px auto;"></div>
+                                    <div id="denom1-display" style="font-weight: bold; font-size: 1.4rem; color: #3333cc;">?</div>
+                                </div>
+                            </div>
+                            
+                            <div class="conversion-step">
+                                <div class="fraction-display">
+                                    <span class="numerator" id="frac2-num">?</span>
+                                    <span class="divider"></span>
+                                    <span class="denominator" id="frac2-den">?</span>
+                                </div>
+                                <div class="conversion-text">×</div>
+                                <div class="factor-display">
+                                    <span id="factor2-num">?</span><br>
+                                    <span style="font-size: 1.1rem; display: block; margin-top: -3px;">factor</span>
+                                </div>
+                                <div class="conversion-text">=</div>
+                                <div class="input-fraction">
+                                    <input type="number" id="num2-input" min="0" class="num-input">
+                                    <div class="divider" style="width: 70%; margin: 2px auto;"></div>
+                                    <div id="denom2-display" style="font-weight: bold; font-size: 1.4rem; color: #3333cc;">?</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hint-box">
+                            <div class="hint-title">💡 Remember:</div>
+                            <div>Whatever number you multiply the bottom by to get the LCM, you must also multiply the top by the same number.</div>
+                            <div style="margin-top: 8px; font-weight: bold;">Example:</div>
+                            <div>To convert 1/3 to denominator 12: 12 ÷ 3 = 4 (factor)</div>
+                            <div>So: (1 × 4) / (3 × 4) = 4/12</div>
+                        </div>
+                        <div class="feedback" id="feedback2"></div>
+                    </div>
+                    <div class="btn-container">
+                        <button class="secondary" id="hint-btn-step2">Show Example</button>
+                        <button id="check-step2">Check Answer</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step3">
+                    <div class="step-title">Step 3: Add or Subtract the Numerators</div>
+                    <div class="step-content">
+                        <p>Now that both fractions have the same denominator, we can <span id="operation-word" style="font-weight: bold; color: #da1b60;">add</span> the numerators:</p>
+                        
+                        <div style="text-align: center; margin: 25px 0; font-size: 1.6rem;">
+                            <div class="fraction-display" style="display: inline-block; margin: 0 15px;">
+                                <span class="numerator" id="new-num1">?</span>
+                                <span class="divider"></span>
+                                <span class="denominator" id="common-denom3">?</span>
+                            </div>
+                            <span style="font-size: 2.2rem; margin: 0 15px;" id="operator-display">+</span>
+                            <div class="fraction-display" style="display: inline-block; margin: 0 15px;">
+                                <span class="numerator" id="new-num2">?</span>
+                                <span class="divider"></span>
+                                <span class="denominator" id="common-denom4">?</span>
+                            </div>
+                            <span style="font-size: 2.2rem; margin: 0 15px;">=</span>
+                            <div class="input-fraction">
+                                <input type="number" id="result-num-input" class="num-input">
+                                <div class="divider" style="width: 70%; margin: 2px auto;"></div>
+                                <div id="common-denom5" style="font-weight: bold; font-size: 1.4rem; color: #3333cc;">?</div>
+                            </div>
+                        </div>
+                        
+                        <div class="hint-box">
+                            <div class="hint-title">💡 Remember:</div>
+                            <div>For <span style="color: #00c853; font-weight: bold;">addition</span>: add the numerators (top numbers).</div>
+                            <div>For <span style="color: #ff5722; font-weight: bold;">subtraction</span>: subtract the second numerator from the first.</div>
+                            <div>The denominator (bottom number) stays the same!</div>
+                        </div>
+                        <div class="feedback" id="feedback3"></div>
+                    </div>
+                    <div class="btn-container">
+                        <button class="secondary" id="hint-btn-step3">Show Example</button>
+                        <button id="check-step3">Check Answer</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step4">
+                    <div class="step-title">Step 4: Simplify the Fraction</div>
+                    <div class="step-content">
+                        <p>Now we need to simplify the fraction to its lowest terms:</p>
+                        
+                        <div class="simplify-display">
+                            <div class="fraction-display" style="display: inline-block; margin: 0 10px;">
+                                <span class="numerator" id="unsimplified-num">?</span>
+                                <span class="divider"></span>
+                                <span class="denominator" id="unsimplified-den">?</span>
+                            </div>
+                        </div>
+                        
+                        <p style="margin: 20px 0; font-size: 1.4rem;">Find the <span class="math-concept simplify">Greatest Common Divisor (GCD)</span> of the numerator and denominator, then divide both by that number.</p>
+                        
+                        <div style="text-align: center; margin: 25px 0;">
+                            <div style="font-size: 1.5rem; margin-bottom: 15px;">Simplified fraction:</div>
+                            <div class="input-fraction">
+                                <input type="number" id="simplified-num" min="0" class="num-input">
+                                <div class="divider" style="width: 70%; margin: 2px auto;"></div>
+                                <input type="number" id="simplified-den" min="1" class="num-input">
+                            </div>
+                        </div>
+                        
+                        <div class="hint-box">
+                            <div class="hint-title">💡 How to simplify:</div>
+                            <div>1. Find the largest number that divides evenly into both the numerator and denominator (the GCD)</div>
+                            <div>2. Divide both the numerator and denominator by the GCD</div>
+                            <div style="margin-top: 8px; font-weight: bold;">Example:</div>
+                            <div>8/12 → GCD of 8 and 12 is 4</div>
+                            <div>(8 ÷ 4) / (12 ÷ 4) = 2/3</div>
+                        </div>
+                        <div class="feedback" id="feedback4"></div>
+                    </div>
+                    <div class="btn-container">
+                        <button class="secondary" id="hint-btn-step4">Show Example</button>
+                        <button id="check-step4">Check Answer</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step5">
+                    <div class="step-title">Great Job! You Solved It!</div>
+                    <div class="step-content">
+                        <p style="font-size: 1.5rem; margin-bottom: 20px;">The final answer is:</p>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div class="fraction-display" style="display: inline-block;">
+                                <span class="numerator" id="final-num">?</span>
+                                <span class="divider"></span>
+                                <span class="denominator" id="final-den">?</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.6rem; margin: 25px 0;">You earned <span id="points-earned" style="font-weight: bold; color: #ff8a00; font-size: 1.8rem;">10</span> points!</p>
+                        <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 15px; padding: 15px; margin-top: 15px; border: 2px solid #81c784;">
+                            <div style="font-weight: bold; color: #2e7d32; font-size: 1.3rem;">Keep practicing to master fractions!</div>
+                        </div>
+                    </div>
+                    <div class="btn-container">
+                        <button id="next-problem">Next Problem</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="explanation">
+                <h2>Understanding the Concepts</h2>
+                <ul>
+                    <li><span class="math-concept lcm">Lowest Common Multiple (LCM)</span>: The smallest positive number that is a multiple of two or more numbers. For fractions, we use it to find a common denominator so we can add or subtract them.</li>
+                    <li><span class="math-concept factor">Multiplication Factor</span>: The number we multiply both the numerator and denominator by to get an equivalent fraction with the common denominator. Calculated as: LCM ÷ Original Denominator.</li>
+                    <li><span class="math-concept simplify">Simplifying Fractions</span>: Reducing a fraction to its simplest form by dividing both numerator and denominator by their Greatest Common Divisor (GCD). A fraction is in simplest form when the GCD of numerator and denominator is 1.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="celebration" id="celebration">
+        <div class="final-message">Perfect!</div>
+        <div style="font-size: 3rem; margin: 20px; color: #ff8a00; text-shadow: 0 2px 5px rgba(0,0,0,0.2);">🎉 Amazing Work! 🎉</div>
+        <div style="font-size: 1.8rem; margin: 15px 0; color: #3333cc; max-width: 80%; text-align: center;">
+            You're becoming a fraction master!
+        </div>
+        <button id="continue-btn" class="success" style="font-size: 1.7rem; padding: 18px 50px; margin-top: 30px; min-width: 280px;">Continue Learning</button>
+    </div>
+
+    <script>
+        // Game state
+        const gameState = {
+            score: 0,
+            currentProblem: null,
+            currentStep: 0,
+            correctLCM: 0,
+            correctNum1: 0,
+            correctNum2: 0,
+            correctResultNum: 0,
+            correctSimplifiedNum: 0,
+            correctSimplifiedDen: 0,
+            factor1: 0,
+            factor2: 0
+        };
+
+        // DOM Elements
+        const elements = {
+            problemDisplay: document.getElementById('problem-display'),
+            step0: document.getElementById('step0'),
+            step1: document.getElementById('step1'),
+            step2: document.getElementById('step2'),
+            step3: document.getElementById('step3'),
+            step4: document.getElementById('step4'),
+            step5: document.getElementById('step5'),
+            startBtn: document.getElementById('start-btn'),
+            checkStep1: document.getElementById('check-step1'),
+            checkStep2: document.getElementById('check-step2'),
+            checkStep3: document.getElementById('check-step3'),
+            checkStep4: document.getElementById('check-step4'),
+            nextProblem: document.getElementById('next-problem'),
+            lcmInput: document.getElementById('lcm-input'),
+            num1Input: document.getElementById('num1-input'),
+            num2Input: document.getElementById('num2-input'),
+            resultNumInput: document.getElementById('result-num-input'),
+            simplifiedNum: document.getElementById('simplified-num'),
+            simplifiedDen: document.getElementById('simplified-den'),
+            step1Den1: document.getElementById('step1-den1'),
+            step1Den2: document.getElementById('step1-den2'),
+            frac1Num: document.getElementById('frac1-num'),
+            frac1Den: document.getElementById('frac1-den'),
+            frac2Num: document.getElementById('frac2-num'),
+            frac2Den: document.getElementById('frac2-den'),
+            factor1Num: document.getElementById('factor1-num'),
+            factor2Num: document.getElementById('factor2-num'),
+            denom1Display: document.getElementById('denom1-display'),
+            denom2Display: document.getElementById('denom2-display'),
+            newNum1: document.getElementById('new-num1'),
+            newNum2: document.getElementById('new-num2'),
+            commonDenom3: document.getElementById('common-denom3'),
+            commonDenom4: document.getElementById('common-denom4'),
+            commonDenom5: document.getElementById('common-denom5'),
+            operatorDisplay: document.getElementById('operator-display'),
+            operationWord: document.getElementById('operation-word'),
+            unsimplifiedNum: document.getElementById('unsimplified-num'),
+            unsimplifiedDen: document.getElementById('unsimplified-den'),
+            finalNum: document.getElementById('final-num'),
+            finalDen: document.getElementById('final-den'),
+            pointsEarned: document.getElementById('points-earned'),
+            feedback1: document.getElementById('feedback1'),
+            feedback2: document.getElementById('feedback2'),
+            feedback3: document.getElementById('feedback3'),
+            feedback4: document.getElementById('feedback4'),
+            scoreDisplay: document.getElementById('score'),
+            progressFill: document.getElementById('progress-fill'),
+            celebration: document.getElementById('celebration'),
+            continueBtn: document.getElementById('continue-btn'),
+            hintBtn1: document.getElementById('hint-btn-step1'),
+            hintBtn2: document.getElementById('hint-btn-step2'),
+            hintBtn3: document.getElementById('hint-btn-step3'),
+            hintBtn4: document.getElementById('hint-btn-step4'),
+            probNum1: document.getElementById('prob-num1'),
+            probDen1: document.getElementById('prob-den1'),
+            probNum2: document.getElementById('prob-num2'),
+            probDen2: document.getElementById('prob-den2'),
+            probOperator: document.getElementById('prob-operator')
+        };
+
+        // Helper Functions
+        function gcd(a, b) {
+            if (b === 0) return a;
+            return gcd(b, a % b);
+        }
+
+        function lcm(a, b) {
+            return (a * b) / gcd(a, b);
+        }
+
+        function simplifyFraction(num, den) {
+            if (num === 0) return { num: 0, den: 1 };
+            
+            const divisor = gcd(Math.abs(num), den);
+            return {
+                num: num / divisor,
+                den: den / divisor
+            };
+        }
+
+        function generateProblem() {
+            // Randomly choose addition or subtraction
+            const operator = Math.random() > 0.5 ? '+' : '-';
+            
+            // Generate denominators between 2 and 12
+            let den1, den2;
+            do {
+                den1 = Math.floor(Math.random() * 11) + 2;
+                den2 = Math.floor(Math.random() * 11) + 2;
+            } while (den1 === den2 && Math.random() > 0.3); // Allow same denominators sometimes
+            
+            // Generate numerators (less than denominators for proper fractions)
+            const num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
+            const num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+            
+            // For subtraction, ensure first fraction is larger to avoid negative results
+            if (operator === '-') {
+                const frac1Value = num1 / den1;
+                const frac2Value = num2 / den2;
+                
+                if (frac1Value < frac2Value) {
+                    // Swap fractions to ensure positive result
+                    return {
+                        num1: num2,
+                        den1: den2,
+                        num2: num1,
+                        den2: den1,
+                        operator: '-'
+                    };
+                }
+            }
+            
+            return { num1, den1, num2, den2, operator };
+        }
+
+        function displayProblem() {
+            const p = gameState.currentProblem;
+            
+            // Update problem display
+            elements.probNum1.textContent = p.num1;
+            elements.probDen1.textContent = p.den1;
+            elements.probNum2.textContent = p.num2;
+            elements.probDen2.textContent = p.den2;
+            elements.probOperator.textContent = p.operator;
+            
+            // Set up step 1
+            elements.step1Den1.textContent = p.den1;
+            elements.step1Den2.textContent = p.den2;
+            
+            // Calculate correct answers for all steps
+            gameState.correctLCM = lcm(p.den1, p.den2);
+            
+            // Calculate factors for step 2
+            gameState.factor1 = gameState.correctLCM / p.den1;
+            gameState.factor2 = gameState.correctLCM / p.den2;
+            
+            // Step 2: Calculate equivalent numerators
+            gameState.correctNum1 = p.num1 * gameState.factor1;
+            gameState.correctNum2 = p.num2 * gameState.factor2;
+            
+            // Step 3: Calculate result numerator
+            if (p.operator === '+') {
+                gameState.correctResultNum = gameState.correctNum1 + gameState.correctNum2;
+            } else {
+                gameState.correctResultNum = gameState.correctNum1 - gameState.correctNum2;
+            }
+            
+            // Step 4: Simplify the result
+            const simplified = simplifyFraction(gameState.correctResultNum, gameState.correctLCM);
+            gameState.correctSimplifiedNum = simplified.num;
+            gameState.correctSimplifiedDen = simplified.den;
+        }
+
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            gameState.currentStep = stepNumber;
+            
+            // Update progress bar
+            const progress = (stepNumber / 5) * 100;
+            elements.progressFill.style.width = `${progress}%`;
+            
+            // Clear inputs and feedback for the new step
+            if (stepNumber === 1) {
+                elements.lcmInput.value = '';
+                elements.feedback1.textContent = '';
+                elements.feedback1.className = 'feedback';
+                elements.lcmInput.className = '';
+            } else if (stepNumber === 2) {
+                elements.num1Input.value = '';
+                elements.num2Input.value = '';
+                elements.feedback2.textContent = '';
+                elements.feedback2.className = 'feedback';
+                elements.num1Input.className = '';
+                elements.num2Input.className = '';
+                
+                // Set up displays for step 2
+                const p = gameState.currentProblem;
+                elements.frac1Num.textContent = p.num1;
+                elements.frac1Den.textContent = p.den1;
+                elements.frac2Num.textContent = p.num2;
+                elements.frac2Den.textContent = p.den2;
+                elements.factor1Num.textContent = gameState.factor1;
+                elements.factor2Num.textContent = gameState.factor2;
+                elements.denom1Display.textContent = gameState.correctLCM;
+                elements.denom2Display.textContent = gameState.correctLCM;
+            } else if (stepNumber === 3) {
+                elements.resultNumInput.value = '';
+                elements.feedback3.textContent = '';
+                elements.feedback3.className = 'feedback';
+                elements.resultNumInput.className = '';
+                
+                // Set up displays for step 3
+                elements.newNum1.textContent = gameState.correctNum1;
+                elements.newNum2.textContent = gameState.correctNum2;
+                elements.commonDenom3.textContent = gameState.correctLCM;
+                elements.commonDenom4.textContent = gameState.correctLCM;
+                elements.commonDenom5.textContent = gameState.correctLCM;
+                elements.operatorDisplay.textContent = gameState.currentProblem.operator;
+                elements.operationWord.textContent = gameState.currentProblem.operator === '+' ? 'add' : 'subtract';
+                elements.operationWord.style.color = gameState.currentProblem.operator === '+' ? '#00c853' : '#ff5722';
+            } else if (stepNumber === 4) {
+                elements.simplifiedNum.value = '';
+                elements.simplifiedDen.value = '';
+                elements.feedback4.textContent = '';
+                elements.feedback4.className = 'feedback';
+                elements.simplifiedNum.className = '';
+                elements.simplifiedDen.className = '';
+                
+                // Set up the fraction to simplify
+                elements.unsimplifiedNum.textContent = gameState.correctResultNum;
+                elements.unsimplifiedDen.textContent = gameState.correctLCM;
+            } else if (stepNumber === 5) {
+                // Set up final answer display
+                if (gameState.correctSimplifiedNum === 0) {
+                    elements.finalNum.textContent = '0';
+                    elements.finalDen.textContent = '';
+                    elements.finalDen.style.visibility = 'hidden';
+                    document.querySelector('#step5 .divider').style.visibility = 'hidden';
+                } else if (gameState.correctSimplifiedDen === 1) {
+                    elements.finalNum.textContent = gameState.correctSimplifiedNum;
+                    elements.finalDen.textContent = '';
+                    elements.finalDen.style.visibility = 'hidden';
+                    document.querySelector('#step5 .divider').style.visibility = 'hidden';
+                } else {
+                    elements.finalNum.textContent = gameState.correctSimplifiedNum;
+                    elements.finalDen.textContent = gameState.correctSimplifiedDen;
+                    elements.finalDen.style.visibility = 'visible';
+                    document.querySelector('#step5 .divider').style.visibility = 'visible';
+                }
+            }
+        }
+
+        function checkStep1() {
+            const userLCM = parseInt(elements.lcmInput.value);
+            const feedback = elements.feedback1;
+            
+            if (isNaN(userLCM) || userLCM <= 0) {
+                feedback.innerHTML = '<p>Please enter a positive number.</p>';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+            
+            if (userLCM === gameState.correctLCM) {
+                feedback.innerHTML = `<p>Correct! ${gameState.correctLCM} is the smallest number that both denominators divide into evenly.</p>`;
+                feedback.className = 'feedback correct';
+                elements.lcmInput.className = 'correct';
+                setTimeout(() => showStep(2), 1200);
+            } else {
+                const p = gameState.currentProblem;
+                const multiples1 = [];
+                const multiples2 = [];
+                
+                for (let i = 1; i <= p.den2; i++) multiples1.push(p.den1 * i);
+                for (let i = 1; i <= p.den1; i++) multiples2.push(p.den2 * i);
+                
+                const commonMultiples = multiples1.filter(num => multiples2.includes(num));
+                
+                feedback.innerHTML = `
+                    <p>Not quite. Let's find the LCM of ${p.den1} and ${p.den2}:</p>
+                    <p>Multiples of ${p.den1}: ${multiples1.slice(0, 6).join(', ')}, ...</p>
+                    <p>Multiples of ${p.den2}: ${multiples2.slice(0, 6).join(', ')}, ...</p>
+                    <p>The smallest common multiple is ${gameState.correctLCM}</p>
+                `;
+                feedback.className = 'feedback incorrect';
+                elements.lcmInput.className = 'incorrect';
+            }
+        }
+
+        function checkStep2() {
+            const userNum1 = parseInt(elements.num1Input.value);
+            const userNum2 = parseInt(elements.num2Input.value);
+            const feedback = elements.feedback2;
+            
+            if (isNaN(userNum1) || isNaN(userNum2) || userNum1 < 0 || userNum2 < 0) {
+                feedback.innerHTML = '<p>Please enter valid numerators (non-negative numbers).</p>';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+            
+            const num1Correct = (userNum1 === gameState.correctNum1);
+            const num2Correct = (userNum2 === gameState.correctNum2);
+            
+            if (num1Correct && num2Correct) {
+                const p = gameState.currentProblem;
+                feedback.innerHTML = `
+                    <p>Perfect! You correctly multiplied both the numerator and denominator by the factor:</p>
+                    <p>${p.num1}/${p.den1} × ${gameState.factor1} = ${gameState.correctNum1}/${gameState.correctLCM}</p>
+                    <p>${p.num2}/${p.den2} × ${gameState.factor2} = ${gameState.correctNum2}/${gameState.correctLCM}</p>
+                `;
+                feedback.className = 'feedback correct';
+                elements.num1Input.className = 'correct';
+                elements.num2Input.className = 'correct';
+                setTimeout(() => showStep(3), 1500);
+            } else {
+                let message = '<p>';
+                if (!num1Correct) {
+                    message += `First fraction should be ${gameState.correctNum1}/${gameState.correctLCM}.<br>`;
+                    elements.num1Input.className = 'incorrect';
+                } else {
+                    elements.num1Input.className = 'correct';
+                }
+                
+                if (!num2Correct) {
+                    message += `Second fraction should be ${gameState.correctNum2}/${gameState.correctLCM}.`;
+                    elements.num2Input.className = 'incorrect';
+                } else {
+                    elements.num2Input.className = 'correct';
+                }
+                
+                message += '</p>';
+                feedback.innerHTML = message;
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function checkStep3() {
+            const userResultNum = parseInt(elements.resultNumInput.value);
+            const feedback = elements.feedback3;
+            
+            if (isNaN(userResultNum)) {
+                feedback.innerHTML = '<p>Please enter a number for the numerator.</p>';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+            
+            if (userResultNum === gameState.correctResultNum) {
+                const opSymbol = gameState.currentProblem.operator;
+                feedback.innerHTML = `
+                    <p>Correct! ${gameState.correctNum1} ${opSymbol} ${gameState.correctNum2} = ${gameState.correctResultNum}</p>
+                    <p>Remember: the denominator stays the same.</p>
+                `;
+                feedback.className = 'feedback correct';
+                elements.resultNumInput.className = 'correct';
+                setTimeout(() => showStep(4), 1200);
+            } else {
+                const opWord = gameState.currentProblem.operator === '+' ? 'addition' : 'subtraction';
+                feedback.innerHTML = `
+                    <p>Not quite. For ${opWord}, we ${opWord} the numerators and keep the denominator the same:</p>
+                    <p>${gameState.correctNum1} ${gameState.currentProblem.operator} ${gameState.correctNum2} = ${gameState.correctResultNum}</p>
+                `;
+                feedback.className = 'feedback incorrect';
+                elements.resultNumInput.className = 'incorrect';
+            }
+        }
+
+        function checkStep4() {
+            const userNum = parseInt(elements.simplifiedNum.value);
+            const userDen = parseInt(elements.simplifiedDen.value);
+            const feedback = elements.feedback4;
+            
+            if (isNaN(userNum) || isNaN(userDen) || userDen <= 0) {
+                feedback.innerHTML = '<p>Please enter a valid simplified fraction (denominator must be positive).</p>';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+            
+            if (userNum === gameState.correctSimplifiedNum && userDen === gameState.correctSimplifiedDen) {
+                let answerDisplay = '';
+                if (gameState.correctSimplifiedNum === 0) {
+                    answerDisplay = '0';
+                } else if (gameState.correctSimplifiedDen === 1) {
+                    answerDisplay = `${gameState.correctSimplifiedNum}`;
+                } else {
+                    answerDisplay = `${gameState.correctSimplifiedNum}/${gameState.correctSimplifiedDen}`;
+                }
+                
+                feedback.innerHTML = `
+                    <p>Excellent! You simplified the fraction correctly.</p>
+                    <p>${gameState.correctResultNum}/${gameState.correctLCM} ÷ ${gcd(gameState.correctResultNum, gameState.correctLCM)} = ${answerDisplay}</p>
+                `;
+                feedback.className = 'feedback correct';
+                elements.simplifiedNum.className = 'correct';
+                elements.simplifiedDen.className = 'correct';
+                
+                // Update score
+                gameState.score += 10;
+                elements.scoreDisplay.textContent = gameState.score;
+                
+                // Show celebration for perfect answer on challenging problems
+                const p = gameState.currentProblem;
+                if ((p.den1 > 6 || p.den2 > 6) && (p.num1 > 3 || p.num2 > 3)) {
+                    setTimeout(showCelebration, 1000);
+                } else {
+                    setTimeout(() => showStep(5), 1200);
+                }
+            } else {
+                let correctAnswer = '';
+                if (gameState.correctSimplifiedNum === 0) {
+                    correctAnswer = '0';
+                } else if (gameState.correctSimplifiedDen === 1) {
+                    correctAnswer = `${gameState.correctSimplifiedNum}`;
+                } else {
+                    correctAnswer = `${gameState.correctSimplifiedNum}/${gameState.correctSimplifiedDen}`;
+                }
+                
+                const divisor = gcd(gameState.correctResultNum, gameState.correctLCM);
+                
+                feedback.innerHTML = `
+                    <p>Not quite. To simplify ${gameState.correctResultNum}/${gameState.correctLCM}:</p>
+                    <p>GCD of ${gameState.correctResultNum} and ${gameState.correctLCM} is ${divisor}</p>
+                    <p>(${gameState.correctResultNum} ÷ ${divisor}) / (${gameState.correctLCM} ÷ ${divisor}) = ${correctAnswer}</p>
+                `;
+                feedback.className = 'feedback incorrect';
+                elements.simplifiedNum.className = 'incorrect';
+                elements.simplifiedDen.className = 'incorrect';
+            }
+        }
+
+        function showCelebration() {
+            elements.celebration.style.display = 'flex';
+            
+            // Create confetti
+            for (let i = 0; i < 200; i++) {
+                createConfetti();
+            }
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // Random position, color, size and animation
+            const posX = Math.random() * 100;
+            const posY = -10; // Start above the screen
+            const size = Math.random() * 10 + 5;
+            const colors = ['#ff4081', '#3f51b5', '#009688', '#ff9800', '#4caf50', '#2196f3', '#9c27b0', '#e91e63', '#ffc107', '#ff5722'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const animationDuration = Math.random() * 3 + 2;
+            const delay = Math.random() * 1;
+            const rotation = Math.random() * 360;
+            
+            confetti.style.backgroundColor = color;
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            confetti.style.left = `${posX}%`;
+            confetti.style.top = `${posY}%`;
+            confetti.style.transform = `rotate(${rotation}deg)`;
+            confetti.style.opacity = Math.random() * 0.8 + 0.2;
+            confetti.style.animationDuration = `${animationDuration}s`;
+            confetti.style.animationDelay = `${delay}s`;
+            
+            elements.celebration.appendChild(confetti);
+        }
+
+        // Event Listeners
+        elements.startBtn.addEventListener('click', () => {
+            gameState.currentProblem = generateProblem();
+            displayProblem();
+            showStep(1);
+        });
+
+        elements.checkStep1.addEventListener('click', checkStep1);
+        elements.checkStep2.addEventListener('click', checkStep2);
+        elements.checkStep3.addEventListener('click', checkStep3);
+        elements.checkStep4.addEventListener('click', checkStep4);
+        
+        elements.nextProblem.addEventListener('click', () => {
+            gameState.currentProblem = generateProblem();
+            displayProblem();
+            showStep(1);
+        });
+        
+        elements.continueBtn.addEventListener('click', () => {
+            elements.celebration.style.display = 'none';
+            showStep(5);
+        });
+        
+        // Hint buttons
+        elements.hintBtn1.addEventListener('click', () => {
+            const p = gameState.currentProblem;
+            const multiples1 = [];
+            const multiples2 = [];
+            
+            for (let i = 1; i <= 10; i++) {
+                multiples1.push(p.den1 * i);
+                multiples2.push(p.den2 * i);
+            }
+            
+            const commonMultiples = multiples1.filter(num => multiples2.includes(num));
+            const smallestCommon = commonMultiples.length > 0 ? Math.min(...commonMultiples) : p.den1 * p.den2;
+            
+            alert(`Finding LCM of ${p.den1} and ${p.den2}:\n\nMultiples of ${p.den1}: ${multiples1.slice(0, 8).join(', ')}...\nMultiples of ${p.den2}: ${multiples2.slice(0, 8).join(', ')}...\n\nCommon multiples: ${commonMultiples.slice(0, 5).join(', ')}\n\nThe LCM is ${smallestCommon}`);
+        });
+        
+        elements.hintBtn2.addEventListener('click', () => {
+            const p = gameState.currentProblem;
+            const factor1 = gameState.factor1;
+            const factor2 = gameState.factor2;
+            
+            alert(`To convert fractions to the common denominator ${gameState.correctLCM}:\n\nFor ${p.num1}/${p.den1}:\nFactor = ${gameState.correctLCM} ÷ ${p.den1} = ${factor1}\nNew numerator = ${p.num1} × ${factor1} = ${gameState.correctNum1}\n\nFor ${p.num2}/${p.den2}:\nFactor = ${gameState.correctLCM} ÷ ${p.den2} = ${factor2}\nNew numerator = ${p.num2} × ${factor2} = ${gameState.correctNum2}`);
+        });
+        
+        elements.hintBtn3.addEventListener('click', () => {
+            const p = gameState.currentProblem;
+            const opWord = p.operator === '+' ? 'addition' : 'subtraction';
+            const opSymbol = p.operator === '+' ? '+' : '-';
+            
+            alert(`For ${opWord} with common denominators:\n\n${gameState.correctNum1}/${gameState.correctLCM} ${opSymbol} ${gameState.correctNum2}/${gameState.correctLCM} = (${gameState.correctNum1} ${opSymbol} ${gameState.correctNum2}) / ${gameState.correctLCM} = ${gameState.correctResultNum}/${gameState.correctLCM}`);
+        });
+        
+        elements.hintBtn4.addEventListener('click', () => {
+            const num = gameState.correctResultNum;
+            const den = gameState.correctLCM;
+            
+            if (num === 0) {
+                alert(`0 divided by any number is 0. So ${num}/${den} = 0/1 = 0`);
+                return;
+            }
+            
+            const divisor = gcd(Math.abs(num), den);
+            
+            if (divisor === 1) {
+                alert(`${num}/${den} is already in simplest form because the GCD of ${num} and ${den} is 1.`);
+            } else {
+                const simplifiedNum = num / divisor;
+                const simplifiedDen = den / divisor;
+                
+                alert(`To simplify ${num}/${den}:\n\n1. Find GCD of ${num} and ${den}, which is ${divisor}\n2. Divide both by ${divisor}:\n   Numerator: ${num} ÷ ${divisor} = ${simplifiedNum}\n   Denominator: ${den} ÷ ${divisor} = ${simplifiedDen}\n\nSo ${num}/${den} = ${simplifiedNum}/${simplifiedDen}`);
+            }
+        });
+        
+        // Allow Enter key to trigger check buttons
+        elements.lcmInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkStep1();
+        });
+        
+        elements.num1Input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkStep2();
+        });
+        
+        elements.num2Input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkStep2();
+        });
+        
+        elements.resultNumInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkStep3();
+        });
+        
+        elements.simplifiedNum.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkStep4();
+        });
+        
+        elements.simplifiedDen.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkStep4();
+        });
+        
+        // Initialize the game
+        elements.scoreDisplay.textContent = gameState.score;
+    </script>
+</body>
+</html>
