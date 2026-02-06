@@ -149,7 +149,12 @@ button:hover { transform: scale(1.05); }
 
 <div id="setup">
     <h2>Player A: Enter Secret Phrase</h2>
-    <input type="password" id="secretInput" placeholder="Letters only (min 5)">
+    <input type="password" id="secretInput" placeholder="Letters only (min 5)" list="phraseSuggestions">
+    <datalist id="phraseSuggestions"></datalist>
+    <br>
+    <button type="button" id="randomPhraseBtn">🎲 Random phrase</button>
+    <button type="button" id="nextPhraseBtn">➡️ Next phrase</button>
+
     <br>
     <label><input type="checkbox" id="toggleView"> Show phrase</label>
     <br>
@@ -193,12 +198,56 @@ let guessed = [];
 let wrong = 0;
 let maxWrong = 5;
 let letterButtons = {};
-const allowedPunctuation = [".", ",", "?", "!"];
+const allowedPunctuation = [".", ",", "?", "!", "'"];
+
+// Phrase bank for students (edit freely)
+const PHRASE_BANK = [
+  "CAT",
+  "DOG",
+  "RED BOAT",
+  "BIG TREE",
+  "I CAN DO IT",
+  "WE ARE FRIENDS",
+  "LET'S GO",
+  "DON'T STOP",
+  "READ A BOOK",
+  "PACK A LUNCH"
+];
+
+let phraseIndex = 0;
+
+function pickRandomPhrase(){
+  return PHRASE_BANK[Math.floor(Math.random() * PHRASE_BANK.length)];
+}
+
+function pickNextPhrase(){
+  const p = PHRASE_BANK[phraseIndex % PHRASE_BANK.length];
+  phraseIndex++;
+  return p;
+}
+
+function populateSuggestions(){
+  const dl = document.getElementById("phraseSuggestions");
+  if (!dl) return;
+  dl.innerHTML = PHRASE_BANK.map(p => `<option value="${p}"></option>`).join("");
+}
+
 
 document.getElementById("toggleView").addEventListener("change", e => {
     document.getElementById("secretInput").type =
         e.target.checked ? "text" : "password";
 });
+
+document.getElementById("randomPhraseBtn").addEventListener("click", () => {
+  document.getElementById("secretInput").value = pickRandomPhrase();
+  document.getElementById("secretInput").focus();
+});
+
+document.getElementById("nextPhraseBtn").addEventListener("click", () => {
+  document.getElementById("secretInput").value = pickNextPhrase();
+  document.getElementById("secretInput").focus();
+});
+
 
 document.addEventListener("keydown", e => {
     if (!document.getElementById("game").classList.contains("hidden")) {
@@ -221,7 +270,7 @@ function startGame() {
             c !== " " &&
             !allowedPunctuation.includes(c)
         ) {
-            error.textContent = "Only letters, spaces, and . , ? ! are allowed.";
+            error.textContent = "Only letters, spaces, and . , ? ! ' are allowed.";
             return;
         }
     }
@@ -272,15 +321,33 @@ function drawKeyboard() {
     const kb = document.getElementById("keyboard");
     kb.innerHTML = "";
     letterButtons = {};
-    for (let i = 65; i <= 90; i++) {
-        let letter = String.fromCharCode(i);
-        let btn = document.createElement("button");
-        btn.textContent = letter;
-        btn.onclick = () => guess(letter, btn);
-        kb.appendChild(btn);
-        letterButtons[letter] = btn;
-    }
+
+    const rows = [
+        ["Q","W","E","R","T","Y","U","I","O","P"],
+        ["A","S","D","F","G","H","J","K","L"],
+        ["Z","X","C","V","B","N","M"]
+    ];
+
+    rows.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.style.display = "flex";
+        rowDiv.style.justifyContent = "center";
+        rowDiv.style.flexWrap = "wrap";
+        rowDiv.style.gap = "5px";
+        rowDiv.style.marginBottom = "6px";
+
+        row.forEach(letter => {
+            let btn = document.createElement("button");
+            btn.textContent = letter;
+            btn.onclick = () => guess(letter, btn);
+            rowDiv.appendChild(btn);
+            letterButtons[letter] = btn;
+        });
+
+        kb.appendChild(rowDiv);
+    });
 }
+
 
 function guess(letter, btn) {
     btn.disabled = true;
@@ -328,6 +395,9 @@ function resetGame() {
     hideAll();
     document.getElementById("setup").classList.remove("hidden");
 }
+
+populateSuggestions();
+
 </script>
 
 </body>
