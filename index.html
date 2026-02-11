@@ -1,314 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tutor Razed</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Global Styles */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      background: linear-gradient(to bottom, #3cb371, #1e90ff);
-      color: #fff;
-    }
-    a { text-decoration: none; color: #fff; }
-    a:hover { color: #ffeb3b; }
-
-    .container { width: 90%; max-width: 1100px; margin: auto; padding: 20px; }
-
-    /* Navigation Bar */
-    nav {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
-    }
-    nav li {
-      background: transparent;
-      padding: 0;
-      margin: 0;
-      border-right: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    nav li:last-child { border-right: none; }
-    nav a {
-      display: block;
-      padding: 15px 20px;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      background: rgba(255, 235, 59, 0.3);
-      color: #ffeb3b;
-    }
-
-    header {
-      background: rgba(0,0,0,0.3);
-      padding: 50px 0;
-      text-align: center;
-      border-bottom: 3px solid #fff;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-    header h1 { font-size: 3em; margin-bottom: 10px; color: #fff; text-shadow: 2px 2px 5px #000; }
-    header p { font-size: 1.5em; color: #f0f8ff; }
-
-    section { padding: 60px 0; }
-    section:nth-child(even) { background: rgba(0,0,0,0.2); }
-
-    h2 {
-      font-size: 2.5em;
-      margin-bottom: 30px;
-      text-align: center;
-      text-shadow: 1px 1px 3px #000;
-    }
-    p, li { font-size: 1.2em; margin-bottom: 15px; }
-
-    /* Project Grid */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
-    }
-    .project-card {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 15px;
-      padding: 25px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      transition: 0.3s;
-      cursor: pointer;
-      text-align: center;
-    }
-    .project-card:hover {
-      background: rgba(255, 235, 59, 0.3);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      border-color: #ffeb3b;
-    }
-    .project-card h3 {
-      font-size: 1.5em;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-    .project-card p {
-      font-size: 1em;
-      color: #f0f8ff;
-      margin-bottom: 15px;
-    }
-    .project-card a {
-      display: inline-block;
-      background: #ff9800;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .project-card a:hover {
-      background: #ffc107;
-      color: #000;
-      transform: scale(1.05);
-    }
-
-    ul { list-style: none; padding-left: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-    ul li { background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px; transition: 0.3s; }
-    ul li:hover { background: #ffeb3b; color: #000; transform: scale(1.05); }
-
-    footer {
-      background: rgba(0,0,0,0.5);
-      text-align: center;
-      padding: 20px;
-      border-top: 3px solid #fff;
-      box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
-    }
-
-    /* Rabbit Game Button */
-    .game-link {
-      display: inline-block;
-      background: #ff9800;
-      color: #fff;
-      font-weight: bold;
-      padding: 15px 30px;
-      border-radius: 25px;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
-    .game-link:hover {
-      background: #ffc107;
-      color: #000;
-      transform: scale(1.1);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px){
-      header h1 { font-size: 2.5em; }
-      header p { font-size: 1.2em; }
-      h2 { font-size: 2em; }
-      nav ul { flex-direction: column; }
-      nav li { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
-      nav li:last-child { border-bottom: none; }
-      .projects-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navigation Menu -->
-  <nav>
-    <ul id="navMenu"></ul>
-  </nav>
-
-  <!-- Header Section -->
-  <header>
-    <div class="container">
-      <h1>Tutor Razed</h1>
-      <p>Helping students discover the joy of learning math and more!</p>
-      <a class="game-link" href="integers/rabbit-integers.html">Play the Rabbit Integer Game 🐇</a>
-      <a class="game-link" href="lettercountdown/lettercountdown.html">Play Letter Countdown 🔤</a>
-      <a class="game-link" href="fractionsaddsub/fractionsaddsub.html">Fractions: Add & Subtract</a>
-
-    </div>
-  </header>
-
-  <!-- About Section -->
-  <section id="about">
-    <div class="container">
-      <h2>About Me</h2>
-      <p>Hi! I’m an online tutor passionate about making learning fun and engaging. I specialize in math, reading, and science for elementary to highschool. My goal is to help students gain confidence and enjoy the learning process.</p>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects">
-    <div class="container">
-      <h2>Explore Projects</h2>
-      <div class="projects-grid" id="projectsGrid"></div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="container">
-      <h2>Contact Me</h2>
-      <p>Email: <a href="mailto:youremail@example.com">razed-developer@outlook.com</a></p>
-      </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Tutor Razed. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    // ===== PROJECT CONFIGURATION =====
-    // Edit this object to add/remove projects or change their display order
-    // Set 'enabled: false' to hide a project without deleting the entry
-    const projects = [
-      {
-        name: "Rabbit Integer Game",
-        enabled: true,
-        description: "Learn about positive and negative numbers with a fun rabbit-themed game!",
-        link: "integers/rabbit-integers.html",
-        emoji: "🐇"
-      },
-      {
-        name: "Letter Countdown",
-        enabled: true,
-        description: "A word game where you create words from a selection of letters.",
-        link: "lettercountdown/lettercountdown.html",
-        emoji: "🔤"
-      },
-      {
-        name: "Multiplication Table",
-        enabled: true,
-        description: "Interactive 12x12 multiplication table for quick reference and practice.",
-        link: "multiplication/",
-        emoji: "✖️"
-      },
-      {
-        name: "Fractions: Add & Subtract",
-        enabled: true,
-        description: "Master adding and subtracting fractions with step-by-step guidance.",
-        link: "fractionsaddsub/fractionsaddsub.html",
-        emoji: "🔢"
-      },
-      {
-        name: "Polygons",
-        enabled: true,
-        description: "Explore the properties and characteristics of different polygons.",
-        link: "polygons/",
-        emoji: "⬠"
-      },
-      {
-        name: "Detective Cases",
-        enabled: true,
-        description: "Solve mysterious cases by gathering evidence and interviewing suspects.",
-        link: "detective/",
-        emoji: "🔍"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutor Razed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
       }
-    ];
+      .glass-morphism {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+    </style>
 
-    // ===== RENDER FUNCTIONS =====
-    function renderNavigation() {
-      const navMenu = document.getElementById("navMenu");
-      navMenu.innerHTML = "";
-      
-      // Home link
-      const homeLink = document.createElement("li");
-      homeLink.innerHTML = '<a href="#about">Home</a>';
-      navMenu.appendChild(homeLink);
-      
-      // Project links
-      projects.filter(p => p.enabled).forEach(project => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${project.link}">${project.name}</a>`;
-        navMenu.appendChild(li);
-      });
-      
-      // Contact link
-      const contactLink = document.createElement("li");
-      contactLink.innerHTML = '<a href="#contact">Contact</a>';
-      navMenu.appendChild(contactLink);
-    }
-
-    function renderProjects() {
-      const grid = document.getElementById("projectsGrid");
-      grid.innerHTML = "";
-      
-      projects.filter(p => p.enabled).forEach(project => {
-        const card = document.createElement("div");
-        card.className = "project-card";
-        card.innerHTML = `
-          <h3>${project.emoji} ${project.name}</h3>
-          <p>${project.description}</p>
-          <a href="${project.link}">Launch Project →</a>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // ===== INITIALIZE ON PAGE LOAD =====
-    document.addEventListener("DOMContentLoaded", function() {
-      renderNavigation();
-      renderProjects();
-    });
-  </script>
-
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-CxMD1l72.js"></script>
+</head>
+  <body>
+    <div id="root"></div>
 </body>
 </html>
-
-
-
