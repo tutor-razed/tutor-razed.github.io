@@ -1,4 +1,3 @@
-<?php ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,6 +148,16 @@ button:hover { transform: scale(1.05); }
 
 <div id="setup">
     <h2>Player A: Enter Secret Phrase</h2>
+
+    <hr style="max-width:720px; margin:20px auto; opacity:.3;">
+    <h3>Online Play</h3>
+    <input id="roomCode" placeholder="Room code (or use invite link)">
+    <button type="button" id="createRoomBtn">Create Room</button>
+    <button type="button" id="joinRoomBtn">Join Room</button>
+    <div id="onlineInfo"></div>
+
+    <br>
+
     <input type="password" id="secretInput" placeholder="Letters only (min 5)" list="phraseSuggestions">
     <datalist id="phraseSuggestions"></datalist>
     <br>
@@ -192,7 +201,9 @@ button:hover { transform: scale(1.05); }
     <button onclick="resetGame()">▶ PLAY AGAIN</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+
 let phrase = "";
 let guessed = [];
 let wrong = 0;
@@ -215,190 +226,527 @@ const PHRASE_BANK = [
 ];
 
 let phraseIndex = 0;
-
-function pickRandomPhrase(){
-  return PHRASE_BANK[Math.floor(Math.random() * PHRASE_BANK.length)];
-}
-
+function pickRandomPhrase(){ return PHRASE_BANK[Math.floor(Math.random() * PHRASE_BANK.length)]; }
 function pickNextPhrase(){
   const p = PHRASE_BANK[phraseIndex % PHRASE_BANK.length];
   phraseIndex++;
   return p;
 }
-
 function populateSuggestions(){
   const dl = document.getElementById("phraseSuggestions");
   if (!dl) return;
   dl.innerHTML = PHRASE_BANK.map(p => `<option value="${p}"></option>`).join("");
 }
 
+// --- Supabase Online Mode ---
+const SUPABASE_URL = "https://deccrfwqzkgxsitlmtzm.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_Y9-YxPTzK-J3EWHY0Sw6ww_AltcM95-";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+let online = {
+  enabled: false,
+  roomId: null,
+  userId: null,
+  isHost: false,
+  roomSub: null,
+  guessSub: null,
+  secretLocal: null, // host keeps secret locally too (and can reload from room_secrets)
+};
+
+function uiInfo(msg){
+  const el = document.getElementById("onlineInfo");
+  if (el) el.textContent = msg || "";
+}
+
+function makeRoomId(len=5){
+  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let s=""; for(let i=0;i<len;i++) s+=chars[Math.floor(Math.random()*chars.length)];
+  return s;
+}
+
+function roomLink(roomId){
+  return `${location.origin}${location.pathname}?room=${encodeURIComponent(roomId)}`;
+}
+
+function buildInitialMask(secretUpper){
+  let out = "";
+  for (const c of secretUpper){
+    if (c >= "A" && c <= "Z") out += "_";
+    else if (c === " ") out += " ";
+    else if (allowedPunctuation.includes(c)) out += c;
+    else out += "_";
+  }
+  return out;
+}
+
+function applyGuessToMask(mask, secretUpper, letter){
+  let arr = mask.split("");
+  for (let i=0;i<secretUpper.length;i++){
+    if (secretUpper[i] === letter) arr[i] = letter;
+  }
+  return arr.join("");
+}
+
+async function loadHostSecretIfNeeded(){
+  if (!online.isHost || !online.roomId) return;
+  if (online.secretLocal) return;
+
+  const { data, error } = await sb.from("room_secrets").select("secret").eq("room_id", online.roomId).maybeSingle();
+  if (!error && data && data.secret){
+    online.secretLocal = data.secret;
+    phrase = data.secret; // keep host UI aligned
+  }
+}
+
+async function initOnline(){
+  const { data, error } = await sb.auth.signInAnonymously();
+  if (error) {
+    uiInfo("Supabase auth error: " + error.message);
+    return;
+  }
+  online.userId = data.user.id;
+
+  // Auto-join via invite link
+  const params = new URLSearchParams(location.search);
+  const room = params.get("room");
+  if (room){
+    document.getElementById("roomCode").value = room.toUpperCase();
+    await joinRoom(room.toUpperCase());
+  }
+}
+
+// ---- UI events (local only) ----
 document.getElementById("toggleView").addEventListener("change", e => {
-    document.getElementById("secretInput").type =
-        e.target.checked ? "text" : "password";
+  document.getElementById("secretInput").type = e.target.checked ? "text" : "password";
 });
-
 document.getElementById("randomPhraseBtn").addEventListener("click", () => {
   document.getElementById("secretInput").value = pickRandomPhrase();
   document.getElementById("secretInput").focus();
 });
-
 document.getElementById("nextPhraseBtn").addEventListener("click", () => {
   document.getElementById("secretInput").value = pickNextPhrase();
   document.getElementById("secretInput").focus();
 });
 
-
+// Keyboard typing support
 document.addEventListener("keydown", e => {
-    if (!document.getElementById("game").classList.contains("hidden")) {
-        let key = e.key.toUpperCase();
-        if (key >= "A" && key <= "Z" && letterButtons[key] && !letterButtons[key].disabled) {
-            guess(key, letterButtons[key]);
-        }
+  if (!document.getElementById("game").classList.contains("hidden")) {
+    let key = e.key.toUpperCase();
+    if (key >= "A" && key <= "Z" && letterButtons[key] && !letterButtons[key].disabled) {
+      guess(key, letterButtons[key]);
     }
+  }
 });
 
-function startGame() {
-    const input = document.getElementById("secretInput").value.toUpperCase();
-    const error = document.getElementById("error");
-    error.textContent = "";
+populateSuggestions();
+initOnline();
 
-    // Validate characters
-    for (let c of input) {
-        if (
-            !(c >= "A" && c <= "Z") &&
-            c !== " " &&
-            !allowedPunctuation.includes(c)
-        ) {
-            error.textContent = "Only letters, spaces, and . , ? ! ' are allowed.";
-            return;
-        }
-    }
+document.getElementById("createRoomBtn").addEventListener("click", async () => {
+  if (!online.userId) return uiInfo("Not signed in yet… try again in a second.");
+  const id = makeRoomId();
+  const allowed_wrong = parseInt(document.getElementById("maxWrong").value, 10);
 
-    // Count letters only
-    const letterCount = input.split("").filter(c => c >= "A" && c <= "Z").length;
-    if (letterCount < 5) {
-        error.textContent = "Phrase must contain at least 5 letters.";
-        return;
-    }
+  const { error } = await sb.from("rooms").insert({
+    id,
+    host_user: online.userId,
+    status: "waiting",
+    allowed_wrong,
+    wrong: 0,
+    guessed: [],
+    mask: "",
+    reveal: null
+  });
 
-    phrase = input;
-    guessed = [];
-    wrong = 0;
-    maxWrong = parseInt(document.getElementById("maxWrong").value);
+  if (error){
+    uiInfo("Create room failed: " + error.message);
+    return;
+  }
 
-    hideAll();
-    document.getElementById("game").classList.remove("hidden");
+  online.enabled = true;
+  online.roomId = id;
+  online.isHost = true;
 
-    drawPuzzle();
-    drawKeyboard();
-    updateFuse();
+  uiInfo("Room created. Share link: " + roomLink(id));
+  await subscribeRoom(id);
+});
+
+document.getElementById("joinRoomBtn").addEventListener("click", async () => {
+  const id = document.getElementById("roomCode").value.trim().toUpperCase();
+  if (!id) return uiInfo("Enter a room code.");
+  await joinRoom(id);
+});
+
+async function joinRoom(id){
+  if (!online.userId) return uiInfo("Not signed in yet… try again in a second.");
+
+  const { data: room, error } = await sb.from("rooms").select("*").eq("id", id).single();
+  if (error) return uiInfo("Join failed: " + error.message);
+
+  // Claim guest slot if empty and you're not the host
+  if (room.guest_user == null && room.host_user !== online.userId){
+    const { error: upErr } = await sb.from("rooms")
+      .update({ guest_user: online.userId })
+      .eq("id", id)
+      .eq("guest_user", null);
+    if (upErr) console.warn(upErr);
+  }
+
+  online.enabled = true;
+  online.roomId = id;
+
+  const { data: room2 } = await sb.from("rooms").select("*").eq("id", id).single();
+  online.isHost = (room2.host_user === online.userId);
+
+  uiInfo(`Joined room ${id}. You are ${online.isHost ? "Host" : "Guest"}.`);
+  await subscribeRoom(id);
+  await loadHostSecretIfNeeded();
+}
+
+async function subscribeRoom(roomId){
+  if (online.roomSub) await sb.removeChannel(online.roomSub);
+  online.roomSub = sb.channel("room:"+roomId)
+    .on("postgres_changes",
+      { event: "*", schema: "public", table: "rooms", filter: `id=eq.${roomId}` },
+      (payload) => onRoomUpdate(payload.new)
+    )
+    .subscribe();
+
+  // Host subscribes to guesses to process them
+  if (online.isHost){
+    await loadHostSecretIfNeeded();
+
+    if (online.guessSub) await sb.removeChannel(online.guessSub);
+    online.guessSub = sb.channel("guesses:"+roomId)
+      .on("postgres_changes",
+        { event: "INSERT", schema: "public", table: "room_guesses", filter: `room_id=eq.${roomId}` },
+        (payload) => onGuessEvent(payload.new)
+      )
+      .subscribe();
+  }
 }
 
 function hideAll() {
-    ["setup","game","boomScreen","winScreen"].forEach(id =>
-        document.getElementById(id).classList.add("hidden")
-    );
+  ["setup","game","boomScreen","winScreen"].forEach(id =>
+    document.getElementById(id).classList.add("hidden")
+  );
+}
+
+function drawPuzzleOnline(maskOrPhrase){
+  let html = "";
+  for (let char of maskOrPhrase) {
+    if (char === " ") html += `<span class="word-gap"></span>`;
+    else if (allowedPunctuation.includes(char)) html += `<span class="punctuation">${char}</span> `;
+    else if (char >= "A" && char <= "Z") html += char + " ";
+    else if (char === "_") html += "_ ";
+    else html += "_ ";
+  }
+  document.getElementById("puzzle").innerHTML = html;
+}
+
+function renderKeyboardState(){
+  // Rebuild keyboard and apply correct/wrong classes based on current state.
+  drawKeyboard();
+
+  // In online mode, guests infer correctness from mask (revealed letters exist in mask)
+  // Host can use phrase directly.
+  const reference = online.enabled
+    ? (online.isHost ? phrase : (phrase || ""))  // guest: phrase holds mask during play
+    : phrase;
+
+  Object.keys(letterButtons).forEach(letter => {
+    const btn = letterButtons[letter];
+    if (!btn) return;
+
+    if (guessed.includes(letter)){
+      btn.disabled = true;
+
+      // correct if it appears in reference display (mask contains the letter or host phrase contains)
+      const isCorrect = reference.includes(letter);
+      btn.classList.add(isCorrect ? "correct" : "wrong");
+    }
+  });
+}
+
+function onRoomUpdate(room){
+  maxWrong = room.allowed_wrong;
+  wrong = room.wrong;
+  guessed = room.guessed || [];
+
+  // Guest never sees secret; during play we store mask in `phrase` for rendering.
+  if (!online.isHost){
+    phrase = room.mask || "";
+  } else {
+    // Host: try to ensure phrase/secretLocal is available after refresh
+    if (!online.secretLocal && room.status !== "waiting") {
+      loadHostSecretIfNeeded();
+    }
+  }
+
+  if (room.status === "waiting"){
+    hideAll();
+    document.getElementById("setup").classList.remove("hidden");
+    return;
+  }
+
+  if (room.status === "playing"){
+    hideAll();
+    document.getElementById("game").classList.remove("hidden");
+
+    const display = online.isHost ? phrase : (room.mask || "");
+    drawPuzzleOnline(display);
+    renderKeyboardState();
+    updateFuse();
+    return;
+  }
+
+  if (room.status === "ended"){
+    const revealedPhrase = online.isHost ? (phrase || online.secretLocal || "") : (room.reveal || room.mask || "");
+
+    const didWin = room.mask && !room.mask.includes("_");
+    const didLose = room.wrong >= room.allowed_wrong;
+
+    hideAll();
+    if (didLose){
+      document.getElementById("boomScreen").classList.remove("hidden");
+      document.getElementById("boomPhrase").textContent = revealedPhrase;
+    } else if (didWin){
+      document.getElementById("winScreen").classList.remove("hidden");
+      document.getElementById("winPhrase").textContent = revealedPhrase;
+    } else {
+      // fallback
+      document.getElementById("game").classList.remove("hidden");
+      drawPuzzleOnline(room.mask || "");
+      renderKeyboardState();
+      updateFuse();
+    }
+  }
 }
 
 function drawPuzzle() {
-    let html = "";
-    for (let char of phrase) {
-        if (char === " ") {
-            html += `<span class="word-gap"></span>`;
-        } else if (allowedPunctuation.includes(char)) {
-            html += `<span class="punctuation">${char}</span> `;
-        } else if (guessed.includes(char)) {
-            html += char + " ";
-        } else {
-            html += "_ ";
-        }
-    }
-    document.getElementById("puzzle").innerHTML = html;
+  let html = "";
+  for (let char of phrase) {
+    if (char === " ") html += `<span class="word-gap"></span>`;
+    else if (allowedPunctuation.includes(char)) html += `<span class="punctuation">${char}</span> `;
+    else if (guessed.includes(char)) html += char + " ";
+    else html += "_ ";
+  }
+  document.getElementById("puzzle").innerHTML = html;
 }
 
 function drawKeyboard() {
-    const kb = document.getElementById("keyboard");
-    kb.innerHTML = "";
-    letterButtons = {};
+  const kb = document.getElementById("keyboard");
+  kb.innerHTML = "";
+  letterButtons = {};
 
-    const rows = [
-        ["Q","W","E","R","T","Y","U","I","O","P"],
-        ["A","S","D","F","G","H","J","K","L"],
-        ["Z","X","C","V","B","N","M"]
-    ];
+  const rows = [
+    ["Q","W","E","R","T","Y","U","I","O","P"],
+    ["A","S","D","F","G","H","J","K","L"],
+    ["Z","X","C","V","B","N","M"]
+  ];
 
-    rows.forEach(row => {
-        const rowDiv = document.createElement("div");
-        rowDiv.style.display = "flex";
-        rowDiv.style.justifyContent = "center";
-        rowDiv.style.flexWrap = "wrap";
-        rowDiv.style.gap = "5px";
-        rowDiv.style.marginBottom = "6px";
+  rows.forEach(row => {
+    const rowDiv = document.createElement("div");
+    rowDiv.style.display = "flex";
+    rowDiv.style.justifyContent = "center";
+    rowDiv.style.flexWrap = "wrap";
+    rowDiv.style.gap = "5px";
+    rowDiv.style.marginBottom = "6px";
 
-        row.forEach(letter => {
-            let btn = document.createElement("button");
-            btn.textContent = letter;
-            btn.onclick = () => guess(letter, btn);
-            rowDiv.appendChild(btn);
-            letterButtons[letter] = btn;
-        });
-
-        kb.appendChild(rowDiv);
+    row.forEach(letter => {
+      let btn = document.createElement("button");
+      btn.textContent = letter;
+      btn.onclick = () => guess(letter, btn);
+      rowDiv.appendChild(btn);
+      letterButtons[letter] = btn;
     });
-}
 
-
-function guess(letter, btn) {
-    btn.disabled = true;
-    if (phrase.includes(letter)) {
-        guessed.push(letter);
-        btn.classList.add("correct");
-    } else {
-        wrong++;
-        btn.classList.add("wrong");
-        updateFuse();
-    }
-    drawPuzzle();
-    checkEnd();
+    kb.appendChild(rowDiv);
+  });
 }
 
 function updateFuse() {
-    let percent = ((maxWrong - wrong) / maxWrong) * 100;
-    document.getElementById("fuse").style.width = Math.max(0, percent) + "%";
+  let percent = ((maxWrong - wrong) / maxWrong) * 100;
+  document.getElementById("fuse").style.width = Math.max(0, percent) + "%";
 }
 
 function checkEnd() {
-    if (wrong >= maxWrong) {
-        hideAll();
-        document.getElementById("boomScreen").classList.remove("hidden");
-        document.getElementById("boomPhrase").textContent = phrase;
-    } else if (
-        phrase.split("").every(c =>
-            c === " " ||
-            allowedPunctuation.includes(c) ||
-            guessed.includes(c)
-        )
+  if (wrong >= maxWrong) {
+    hideAll();
+    document.getElementById("boomScreen").classList.remove("hidden");
+    document.getElementById("boomPhrase").textContent = phrase;
+  } else if (
+    phrase.split("").every(c =>
+      c === " " ||
+      allowedPunctuation.includes(c) ||
+      guessed.includes(c)
+    )
+  ) {
+    hideAll();
+    document.getElementById("winScreen").classList.remove("hidden");
+    document.getElementById("winPhrase").textContent = phrase;
+  }
+}
+
+async function startGame() {
+  const input = document.getElementById("secretInput").value.toUpperCase();
+  const error = document.getElementById("error");
+  error.textContent = "";
+
+  // Validate characters
+  for (let c of input) {
+    if (
+      !(c >= "A" && c <= "Z") &&
+      c !== " " &&
+      !allowedPunctuation.includes(c)
     ) {
-        hideAll();
-        document.getElementById("winScreen").classList.remove("hidden");
-        document.getElementById("winPhrase").textContent = phrase;
+      error.textContent = "Only letters, spaces, and . , ? ! ' are allowed.";
+      return;
     }
+  }
+
+  // Count letters only
+  const letterCount = input.split("").filter(c => c >= "A" && c <= "Z").length;
+  if (letterCount < 5) {
+    error.textContent = "Phrase must contain at least 5 letters.";
+    return;
+  }
+
+  phrase = input;
+  guessed = [];
+  wrong = 0;
+  maxWrong = parseInt(document.getElementById("maxWrong").value);
+
+  // ONLINE: host starts the round
+  if (online.enabled){
+    if (!online.isHost){
+      error.textContent = "Only the host can start the game in online mode.";
+      return;
+    }
+
+    online.secretLocal = input;
+
+    const mask = buildInitialMask(input);
+
+    // save secret to host-only table
+    const up1 = await sb.from("room_secrets").upsert({ room_id: online.roomId, secret: input });
+    if (up1.error){
+      error.textContent = "Failed to save secret: " + up1.error.message;
+      return;
+    }
+
+    // publish public state
+    const up2 = await sb.from("rooms").update({
+      status: "playing",
+      allowed_wrong: maxWrong,
+      wrong: 0,
+      guessed: [],
+      mask,
+      reveal: null
+    }).eq("id", online.roomId);
+
+    if (up2.error){
+      error.textContent = "Failed to start room: " + up2.error.message;
+      return;
+    }
+
+    // Let realtime drive the UI
+    return;
+  }
+
+  // LOCAL mode
+  hideAll();
+  document.getElementById("game").classList.remove("hidden");
+  drawPuzzle();
+  drawKeyboard();
+  updateFuse();
+}
+
+async function guess(letter, btn) {
+  // ONLINE: send guess event; host processes and updates room
+  if (online.enabled){
+    btn.disabled = true;
+
+    const { error } = await sb.from("room_guesses").insert({
+      room_id: online.roomId,
+      user_id: online.userId,
+      letter
+    });
+
+    if (error){
+      console.warn(error);
+      btn.disabled = false;
+    }
+    return;
+  }
+
+  // LOCAL mode
+  btn.disabled = true;
+  if (phrase.includes(letter)) {
+    if (!guessed.includes(letter)) guessed.push(letter);
+    btn.classList.add("correct");
+  } else {
+    wrong++;
+    btn.classList.add("wrong");
+    updateFuse();
+  }
+  drawPuzzle();
+  checkEnd();
+}
+
+async function onGuessEvent(ev){
+  if (!online.isHost) return;
+
+  // Make sure host has secret (important after refresh)
+  if (!online.secretLocal) {
+    await loadHostSecretIfNeeded();
+  }
+  const secret = online.secretLocal;
+  if (!secret) return;
+
+  const { data: room, error } = await sb.from("rooms").select("*").eq("id", online.roomId).single();
+  if (error || !room) return;
+
+  const letter = (ev.letter || "").toUpperCase();
+  if (!(letter >= "A" && letter <= "Z")) return;
+
+  const currentGuessed = room.guessed || [];
+  if (currentGuessed.includes(letter)) return;
+
+  const guessed2 = [...currentGuessed, letter];
+  let wrong2 = room.wrong;
+  let mask2 = room.mask;
+
+  if (secret.includes(letter)){
+    mask2 = applyGuessToMask(mask2, secret, letter);
+  } else {
+    wrong2 = wrong2 + 1;
+  }
+
+  const endedByWrong = wrong2 >= room.allowed_wrong;
+  const endedByWin = !mask2.includes("_");
+  const status2 = (endedByWrong || endedByWin) ? "ended" : "playing";
+
+  await sb.from("rooms").update({
+    guessed: guessed2,
+    wrong: wrong2,
+    mask: mask2,
+    status: status2,
+    reveal: (status2 === "ended") ? secret : null
+  }).eq("id", online.roomId);
 }
 
 function resetGame() {
-    phrase = "";
-    guessed = [];
-    wrong = 0;
-    document.getElementById("secretInput").value = "";
-    document.getElementById("error").textContent = "";
-    hideAll();
-    document.getElementById("setup").classList.remove("hidden");
+  phrase = "";
+  guessed = [];
+  wrong = 0;
+  online.secretLocal = online.secretLocal; // keep host secret in memory until next round if you want
+
+  document.getElementById("secretInput").value = "";
+  document.getElementById("error").textContent = "";
+
+  hideAll();
+  document.getElementById("setup").classList.remove("hidden");
 }
-
-populateSuggestions();
-
 </script>
-
 </body>
 </html>

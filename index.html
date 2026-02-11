@@ -19,6 +19,40 @@
 
     .container { width: 90%; max-width: 1100px; margin: auto; padding: 20px; }
 
+    /* Navigation Bar */
+    nav {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    nav li:last-child { border-right: none; }
+    nav a {
+      display: block;
+      padding: 15px 20px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: rgba(255, 235, 59, 0.3);
+      color: #ffeb3b;
+    }
+
     header {
       background: rgba(0,0,0,0.3);
       padding: 50px 0;
@@ -34,15 +68,62 @@
 
     h2 {
       font-size: 2.5em;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       text-align: center;
       text-shadow: 1px 1px 3px #000;
     }
     p, li { font-size: 1.2em; margin-bottom: 15px; }
 
+    /* Project Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .project-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 25px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: 0.3s;
+      cursor: pointer;
+      text-align: center;
+    }
+    .project-card:hover {
+      background: rgba(255, 235, 59, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      border-color: #ffeb3b;
+    }
+    .project-card h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .project-card p {
+      font-size: 1em;
+      color: #f0f8ff;
+      margin-bottom: 15px;
+    }
+    .project-card a {
+      display: inline-block;
+      background: #ff9800;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .project-card a:hover {
+      background: #ffc107;
+      color: #000;
+      transform: scale(1.05);
+    }
+
     ul { list-style: none; padding-left: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-    li { background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px; transition: 0.3s; }
-    li:hover { background: #ffeb3b; color: #000; transform: scale(1.05); }
+    ul li { background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px; transition: 0.3s; }
+    ul li:hover { background: #ffeb3b; color: #000; transform: scale(1.05); }
 
     footer {
       background: rgba(0,0,0,0.5);
@@ -74,10 +155,19 @@
       header h1 { font-size: 2.5em; }
       header p { font-size: 1.2em; }
       h2 { font-size: 2em; }
+      nav ul { flex-direction: column; }
+      nav li { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+      nav li:last-child { border-bottom: none; }
+      .projects-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <ul id="navMenu"></ul>
+  </nav>
 
   <!-- Header Section -->
   <header>
@@ -99,17 +189,11 @@
     </div>
   </section>
 
-  <!-- Resources Section -->
-  <section id="resources">
+  <!-- Projects Section -->
+  <section id="projects">
     <div class="container">
-      <h2>Resources</h2>
-      <ul>
-        <li><a href="multiplication/">12x12 Multiplication Table</a></li>
-        <li><a href="integers/rabbit-integers.html">Rabbit Integer Game 🐇</a></li>
-        <li><a href="lettercountdown/lettercountdown.html">Letter Countdown Game 🔤</a></li>
-
-        <!-- Add more resources here -->
-      </ul>
+      <h2>Explore Projects</h2>
+      <div class="projects-grid" id="projectsGrid"></div>
     </div>
   </section>
 
@@ -127,6 +211,101 @@
       <p>&copy; 2025 Tutor Razed. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    // ===== PROJECT CONFIGURATION =====
+    // Edit this object to add/remove projects or change their display order
+    // Set 'enabled: false' to hide a project without deleting the entry
+    const projects = [
+      {
+        name: "Rabbit Integer Game",
+        enabled: true,
+        description: "Learn about positive and negative numbers with a fun rabbit-themed game!",
+        link: "integers/rabbit-integers.html",
+        emoji: "🐇"
+      },
+      {
+        name: "Letter Countdown",
+        enabled: true,
+        description: "A word game where you create words from a selection of letters.",
+        link: "lettercountdown/lettercountdown.html",
+        emoji: "🔤"
+      },
+      {
+        name: "Multiplication Table",
+        enabled: true,
+        description: "Interactive 12x12 multiplication table for quick reference and practice.",
+        link: "multiplication/",
+        emoji: "✖️"
+      },
+      {
+        name: "Fractions: Add & Subtract",
+        enabled: true,
+        description: "Master adding and subtracting fractions with step-by-step guidance.",
+        link: "fractionsaddsub/fractionsaddsub.html",
+        emoji: "🔢"
+      },
+      {
+        name: "Polygons",
+        enabled: true,
+        description: "Explore the properties and characteristics of different polygons.",
+        link: "polygons/",
+        emoji: "⬠"
+      },
+      {
+        name: "Detective Cases",
+        enabled: true,
+        description: "Solve mysterious cases by gathering evidence and interviewing suspects.",
+        link: "detective/",
+        emoji: "🔍"
+      }
+    ];
+
+    // ===== RENDER FUNCTIONS =====
+    function renderNavigation() {
+      const navMenu = document.getElementById("navMenu");
+      navMenu.innerHTML = "";
+      
+      // Home link
+      const homeLink = document.createElement("li");
+      homeLink.innerHTML = '<a href="#about">Home</a>';
+      navMenu.appendChild(homeLink);
+      
+      // Project links
+      projects.filter(p => p.enabled).forEach(project => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${project.link}">${project.name}</a>`;
+        navMenu.appendChild(li);
+      });
+      
+      // Contact link
+      const contactLink = document.createElement("li");
+      contactLink.innerHTML = '<a href="#contact">Contact</a>';
+      navMenu.appendChild(contactLink);
+    }
+
+    function renderProjects() {
+      const grid = document.getElementById("projectsGrid");
+      grid.innerHTML = "";
+      
+      projects.filter(p => p.enabled).forEach(project => {
+        const card = document.createElement("div");
+        card.className = "project-card";
+        card.innerHTML = `
+          <h3>${project.emoji} ${project.name}</h3>
+          <p>${project.description}</p>
+          <a href="${project.link}">Launch Project →</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ===== INITIALIZE ON PAGE LOAD =====
+    document.addEventListener("DOMContentLoaded", function() {
+      renderNavigation();
+      renderProjects();
+    });
+  </script>
 
 </body>
 </html>

@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence Board – Case 001</title>
+  <link rel="stylesheet" href="case.css" />
+  <style>
+    /* Board look */
+    .board-wrap{
+      position: relative;
+      background: #2b1f12; /* corkboard-ish */
+      border: 10px solid #3b2a18;
+      border-radius: 14px;
+      padding: 22px;
+      overflow: hidden;
+      min-height: 760px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.25);
+    }
+    .board-grid{
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      z-index: 2; /* above the strings */
+    }
+    .pin{
+      position: relative;
+      background: rgba(255,255,255,.95);
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(0,0,0,.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      transform: rotate(var(--tilt, 0deg));
+    }
+    .pin:before{
+      content:"";
+      position:absolute;
+      top: -8px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: #d11a2a; /* pushpin */
+      box-shadow: 0 2px 0 rgba(0,0,0,.25);
+    }
+    .pin img{
+      width: 100%;
+      height: auto;
+      display:block;
+      border-radius: 8px;
+    }
+    .label{
+      margin-top: 8px;
+      font-size: 13px;
+      color: #111827;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .id{
+      font-weight: 700;
+    }
+    .hint{
+      color:#4b5563;
+      font-style: italic;
+      text-align:right;
+      flex: 1;
+    }
+
+    /* Place cards on the grid */
+    .c1{ grid-column: 1 / span 4; }
+    .c2{ grid-column: 5 / span 4; }
+    .c3{ grid-column: 9 / span 4; }
+    .c4{ grid-column: 2 / span 4; }
+    .c5{ grid-column: 7 / span 4; }
+    .c6{ grid-column: 10 / span 3; }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .board-wrap{ min-height: auto; }
+      .c1,.c2,.c3,.c4,.c5,.c6{ grid-column: 1 / -1; }
+    }
+
+    /* SVG strings overlay */
+    svg#strings{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:1;
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <strong>Razed Arbour High — Incident Records</strong>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="suspects.html">Students</a>
+      <a href="witnesses.html">Statements</a>
+      <a href="board.html">Board</a>
+      <a href="submit.html">Submit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <h1>Evidence Board</h1>
+    <p class="muted">Connect the evidence. Follow the timeline. Prove your conclusion.</p>
+  </section>
+
+  <section class="board-wrap" id="board">
+    <!-- strings get drawn behind the cards -->
+    <svg id="strings"></svg>
+
+    <div class="board-grid">
+      <article class="pin c1" id="E01" style="--tilt:-1.5deg">
+        <img src="assets/evidence/E01.png" alt="E01 Victim Statement">
+        <div class="label"><span class="id">E01</span><span class="hint">Victim statement</span></div>
+      </article>
+
+      <article class="pin c2" id="E02" style="--tilt:1.2deg">
+        <img src="assets/evidence/E02.png" alt="E02 Gym Attendance">
+        <div class="label"><span class="id">E02</span><span class="hint">Gym attendance</span></div>
+      </article>
+
+      <article class="pin c3" id="E03" style="--tilt:-0.8deg">
+        <img src="assets/evidence/E03.png" alt="E03 Hallway camera">
+        <div class="label"><span class="id">E03</span><span class="hint">Hallway camera</span></div>
+      </article>
+
+      <article class="pin c4" id="E09" style="--tilt:1.8deg">
+        <img src="assets/evidence/E09.png" alt="E09 Message record">
+        <div class="label"><span class="id">E09</span><span class="hint">Message record</span></div>
+      </article>
+
+      <article class="pin c5" id="E08" style="--tilt:-1.1deg">
+        <img src="assets/evidence/E08.png" alt="E08 Lost & found">
+        <div class="label"><span class="id">E08</span><span class="hint">Lost & Found</span></div>
+      </article>
+
+      <article class="pin c6" id="E10" style="--tilt:0.6deg">
+        <img src="assets/evidence/E10.png" alt="E10 Footwear reference">
+        <div class="label"><span class="id">E10</span><span class="hint">Footwear match</span></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">Administrative Records</div>
+</footer>
+
+<script>
+  // Draw "string" lines between evidence items.
+  // You can change these connections to control the story flow.
+  const connections = [
+    ["E01", "E02"],
+    ["E02", "E03"],
+    ["E03", "E10"],
+    ["E09", "E03"],
+    ["E03", "E08"],
+  ];
+
+  function centerOf(el){
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width/2, y: r.top + r.height/2 };
+  }
+
+  function draw(){
+    const board = document.getElementById("board");
+    const svg = document.getElementById("strings");
+    const b = board.getBoundingClientRect();
+
+    svg.setAttribute("viewBox", `0 0 ${b.width} ${b.height}`);
+    svg.innerHTML = "";
+
+    for(const [aId, bId] of connections){
+      const a = document.getElementById(aId);
+      const c = document.getElementById(bId);
+      if(!a || !c) continue;
+
+      const p1 = centerOf(a);
+      const p2 = centerOf(c);
+
+      // convert page coords -> board coords
+      const x1 = p1.x - b.left;
+      const y1 = p1.y - b.top;
+      const x2 = p2.x - b.left;
+      const y2 = p2.y - b.top;
+
+      // string
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1", x1); line.setAttribute("y1", y1);
+      line.setAttribute("x2", x2); line.setAttribute("y2", y2);
+      line.setAttribute("stroke", "#b91c1c");         // red string
+      line.setAttribute("stroke-width", "3");
+      line.setAttribute("stroke-linecap", "round");
+      line.setAttribute("opacity", "0.85");
+      svg.appendChild(line);
+
+      // little "pin knots" at ends
+      for(const [x,y] of [[x1,y1],[x2,y2]]){
+        const dot = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        dot.setAttribute("cx", x); dot.setAttribute("cy", y);
+        dot.setAttribute("r", "5");
+        dot.setAttribute("fill", "#7f1d1d");
+        dot.setAttribute("opacity", "0.9");
+        svg.appendChild(dot);
+      }
+    }
+  }
+
+  // Draw after images load (important!)
+  window.addEventListener("load", draw);
+  window.addEventListener("resize", draw);
+</script>
+
+</body>
+</html>
