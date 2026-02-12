@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "title": "Rabbit Intergers!",
+    "description": "Learn how to add and subtract positive and negative integers.",
+    "subject": "Math",
+    "date": "2026-02-11",
+    "type": "Worksheet",
+    "thumbnail": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "downloadUrl": "https://tutor-razed.github.io/integers/rabbit-integers.html",
+    "rating": 5.0,
+    "tags": ["Integers", "Adding", "Subtracting", "Numbers"]
+  },
+  {
+    "id": "2",
+    "title": "Letter Countdown",
+    "description": "Guess the word before the timer runs out! A fun way to practice spelling and vocabulary.",
+    "subject": "Writing",
+    "date": "2026-02-11",
+    "type": "Game",
+    "thumbnail": "https://images.unsplash.com/photo-1637019837948-58c4c4eb8082?q=80&w=752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "downloadUrl": "https://tutor-razed.github.io/lettercountdown/lettercountdown.html",
+    "rating": 4.8,
+    "tags": ["Writing", "Spelling", "Vocabulary", "Fun", "Hangman"]
+  },
+  {
+    "id": "3",
+    "title": "Digital Multiplication Table",
+    "description": "A read-along story about a dragon who loves to bake cookies. Great for practicing phonics.",
+    "subject": "Math",
+    "date": "2026-02-11",
+    "type": "Book",
+    "thumbnail": "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=600",
+    "downloadUrl": "https://tutor-razed.github.io/multiplication/",
+    "rating": 4.9,
+    "tags": ["Stories", "Dragon", "Reading"]
+  },
+  {
+    "id": "4",
+    "title": "Headline",
+    "description": "Extra! Extra! Read all about it! Create your own news headline and share it with friends. A fun way to practice writing and creativity.",
+    "subject": "Writing",
+    "date": "2026-02-11",
+    "type": "Website",
+    "thumbnail": "https://images.unsplash.com/photo-1523995462485-3d171b5c8fa9?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "downloadUrl": "https://tutor-razed.github.io/headline/",
+    "rating": 4.7,
+    "tags": ["Writing", "Headline", "Fun"]
+  },
+  {
+    "id": "5",
+    "title": "Story Symphony",
+    "description": "Create a visual masterpiece by writing a short story.",
+    "subject": "Art",
+    "date": "2026-02-12",
+    "type": "Website",
+    "thumbnail": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YXJ0fGVufDB8fDB8fHww",
+    "downloadUrl": "https://tutor-razed.github.io/story-symphony/",
+    "rating": 4.9,
+    "tags": ["Art", "Writing", "Creativity"]
+  },
+  {
+    "id": "6",
+    "title": "Instruments of the Orchestra",
+    "description": "Listen to the sounds of the violin, the trumpet, and the drums. Which one is your favorite?",
+    "subject": "Music",
+    "date": "2024-01-10",
+    "type": "Video",
+    "thumbnail": "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=600",
+    "downloadUrl": "#",
+    "rating": 4.6,
+    "tags": ["Instruments", "Music", "Sounds"]
+  }
+]
