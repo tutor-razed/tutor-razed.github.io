@@ -1,0 +1,125 @@
+#leftPennants,
+#rightPennants {
+  position: absolute; /* position relative to main container */
+  top: 4rem; /* same as header height (16 * 1rem = 4rem) */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 20; /* above rink */
+}
+
+#leftPennants {
+  left: 20rem; /* small gap from left edge */
+}
+
+#rightPennants {
+  right: 20rem; /* small gap from right edge */
+}
+
+/* Pennants */
+.pennant {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+}
+
+/* Word Panel & Score */
+#wordPanel input,
+#wordPanel button {
+  outline: none;
+  border: none;
+}
+
+/* Ticker */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Goalies */
+#goalieLeft,
+#goalieRight {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+}
+
+#goalieLeft {
+  left: 8%;
+  background-color: #1e90ff;
+  animation: goalieLeftAnim 5s infinite alternate ease-in-out;
+}
+#goalieRight {
+  left: 82%;
+  background-color: #32cd32;
+  animation: goalieRightAnim 5s infinite alternate ease-in-out;
+}
+
+.timer-warning {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.goalie-save {
+  box-shadow: 0 0 16px rgba(248, 113, 113, 0.95);
+  transform: scale(1.45);
+}
+
+#player {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 11;
+  left: 10%;
+  top: 48%;
+  background-color: #ff3b30;
+  box-shadow: 0 0 8px rgba(255, 59, 48, 0.6);
+  transition: left 0.8s ease-in-out;
+}
+
+@keyframes goalieLeftAnim {
+  0% {
+    top: 35%;
+  }
+  50% {
+    top: 60%;
+  }
+  100% {
+    top: 35%;
+  }
+}
+@keyframes goalieRightAnim {
+  0% {
+    top: 35%;
+  }
+  50% {
+    top: 60%;
+  }
+  100% {
+    top: 35%;
+  }
+}
+
+/* Skaters */
+.player-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  transition: all 3s ease-in-out; /* smooth gliding */
+  opacity: 0.7;
+}
+
+/* Team colors */
+.teamA {
+  background-color: #1e90ff;
+}
+.teamB {
+  background-color: #32cd32;
+}

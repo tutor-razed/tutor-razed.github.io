@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RinkRumble</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#0b95da",
+                "background-light": "#f5f7f8",
+                "background-dark": "#101c22",
+            },
+            fontFamily: {
+                "display": ["Space Grotesk"]
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+        },
+    },
+}
+</script>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+
+<!-- Settings Overlay -->
+<div id="startPanel" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-4">
+    <h2 class="text-xl font-bold mb-4">Game Settings</h2>
+
+    <!-- Username -->
+    <input id="usernameInput" type="text" placeholder="Enter username" class="px-3 py-2 rounded border border-gray-300"/>
+
+    <!-- Team selection -->
+    <select id="teamSelect" class="px-3 py-2 rounded border border-gray-300">
+      <option value="Blizzards">Blizzards</option>
+      <option value="Icicles">Icicles</option>
+      <option value="FrostBites">FrostBites</option>
+      <option value="SnowSharks">SnowSharks</option>
+      <option value="Glaciers">Glaciers</option>
+    </select>
+
+    <!-- Team color -->
+    <input id="teamColor" type="color" value="#0b95da" class="w-16 h-10 border-0 rounded"/>
+
+    <!-- Game mode -->
+    <select id="gameMode" class="px-3 py-2 rounded border border-gray-300">
+      <option value="regular">Regular Season</option>
+      <option value="playoffs">Playoffs</option>
+    </select>
+
+    <!-- Start button -->
+    <button id="startGameBtn" class="px-4 py-2 bg-primary text-white rounded">Start Game</button>
+  </div>
+</div>
+
+
+
+<div class="flex flex-col min-h-screen">
+
+<!-- Header -->
+<header class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-4">
+<svg class="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16.5v-4.18c0-.89-1.08-1.34-1.71-.71l-3.58 3.58c-1.33 1.33.25 3.91 2.29 2.29l3-3zm2-13v4.18c0 .89 1.08 1.34 1.71.71l3.58-3.58c1.33-1.33-.25-3.91-2.29-2.29l-3 3zM13 10.5v-4c0-.82-1-1.33-1.6-.82l-3 2.5c-.6.5-.6 1.14 0 1.64l3 2.5c.6.51 1.6 0 1.6-.82zm-2 5v4c0 .82 1 1.33 1.6.82l3-2.5c.6-.5.6-1.14 0-1.64l-3-2.5c-.6-.51-1.6 0-1.6.82z"></path></svg>
+<h1 class="text-xl font-bold text-gray-900 dark:text-white">RinkRumble</h1>
+</div>
+
+<!-- Account Button -->
+<div class="flex items-center gap-2">
+<button id="settingsBtn" class="flex items-center justify-center w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Main -->
+
+<main class="flex-1 flex flex-col items-center justify-start gap-6 p-4 relative pt-32">
+
+
+
+<!-- Word Entry Panel -->
+<div id="wordPanel" class="fixed top-16 left-1/2 transform -translate-x-1/2
+    w-full max-w-3xl bg-gray-900 rounded-lg shadow-2xl border-4 border-gray-700 p-6 
+    flex flex-col sm:flex-row items-center justify-between gap-4 z-50 hidden">
+
+    <!-- Word Display -->
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-primary flex items-center justify-center rounded-md font-bold text-white text-2xl" id="wordLetter"></div>
+      <div>
+        <p class="text-xl sm:text-2xl font-bold text-white" id="wordFull"></p>
+        <p class="text-sm text-gray-400" id="wordHint">Type the word</p>
+      </div>
+    </div>
+
+    <!-- Word Input & Shoot -->
+    <div class="flex flex-col items-center gap-2 flex-1">
+      <input type="text" id="wordInput" class="px-3 py-2 rounded border border-gray-400 text-center text-lg font-bold text-white bg-gray-800 focus:outline-none w-full" placeholder="Type here"/>
+      <button id="shootBtn" class="px-4 py-2 bg-primary text-white rounded w-full mt-2">Shoot</button>
+      <p class="text-sm text-gray-400 mt-2" id="wordStatus">0 / 0 letters</p>
+    </div>
+
+    <!-- Score & Bonus -->
+    <div class="flex flex-col items-end gap-1">
+      <p class="text-xl font-bold text-white" id="wordScore">Score: 0</p>
+      <p class="text-sm text-gray-400" id="wordBonus">Bonus: 0</p>
+      <p class="text-sm text-gray-300" id="roundTimer">Time: 45s</p>
+      <p class="text-xs text-gray-400 text-right max-w-[12rem]" id="shotEvent"></p>
+    </div>
+  </div>
+
+
+
+<!-- Main Game Area -->
+<div class="flex flex-1 justify-center items-center gap-1 sm:gap-2 px-2 sm:px-4 w-full">
+
+<!-- Left Pennants -->
+<div id="leftPennants" class="flex flex-col gap-2"></div>
+
+<!-- Rink -->
+<div id="rink" class="relative w-[600px] md:w-[800px] bg-[#e8f3f9] dark:bg-[#1a2b36] shadow-lg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+
+  <!-- Ice / rink markings -->
+  <div class="relative aspect-[2/1] w-full p-4 md:p-8">
+    <div class="relative w-full h-full bg-white rounded-3xl border-2 border-gray-400 overflow-hidden">
+
+      <!-- Center line -->
+      <div class="absolute top-1/2 left-1/2 w-[1px] h-full bg-red-500 transform -translate-x-1/2 -translate-y-1/2"></div>
+
+      <!-- Center circle -->
+      <div class="absolute top-1/2 left-1/2 w-32 h-32 border-4 border-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+
+      <!-- Left and right quarter lines -->
+      <div class="absolute top-1/2 left-1/4 w-[1px] h-full bg-blue-500 transform -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute top-1/2 right-1/4 w-[1px] h-full bg-blue-500 transform translate-x-1/2 -translate-y-1/2"></div>
+
+      <!-- Faceoff circles and dots -->
+      <div class="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+        <div class="w-24 h-24 border-2 border-red-500 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+      <div class="absolute top-1/2 right-1/4 transform translate-x-1/2 -translate-y-1/2">
+        <div class="w-24 h-24 border-2 border-red-500 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+
+      <!-- Additional faceoff spots -->
+      <div class="absolute top-1/4 left-[12.5%] transform -translate-x-1/2 -translate-y-1/2">
+        <div class="w-12 h-12 border-2 border-red-500 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+      <div class="absolute bottom-1/4 left-[12.5%] transform -translate-x-1/2 translate-y-1/2">
+        <div class="w-12 h-12 border-2 border-red-500 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+      <div class="absolute top-1/4 right-[12.5%] transform translate-x-1/2 -translate-y-1/2">
+        <div class="w-12 h-12 border-2 border-red-500 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+      <div class="absolute bottom-1/4 right-[12.5%] transform translate-x-1/2 translate-y-1/2">
+        <div class="w-12 h-12 border-2 border-red-500 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+
+      <!-- Goals -->
+      <div class="absolute top-1/2 left-[5%] transform -translate-x-1/2 -translate-y-1/2">
+        <div class="w-12 h-24 border-t-2 border-b-2 border-l-2 border-blue-400 rounded-l-full"></div>
+      </div>
+      <div class="absolute top-1/2 right-[5%] transform translate-x-1/2 -translate-y-1/2">
+        <div class="w-12 h-24 border-t-2 border-b-2 border-r-2 border-blue-400 rounded-r-full"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Players / Skaters -->
+<!-- Goalies -->
+<div id="goalieLeft"></div>
+<div id="goalieRight"></div>
+<div id="player" aria-hidden="true"></div>
+
+<!-- Team A Skaters -->
+<div class="player-circle teamA"></div>
+<div class="player-circle teamA"></div>
+<div class="player-circle teamA"></div>
+<div class="player-circle teamA"></div>
+<div class="player-circle teamA"></div>
+
+<!-- Team B Skaters -->
+<div class="player-circle teamB"></div>
+<div class="player-circle teamB"></div>
+<div class="player-circle teamB"></div>
+<div class="player-circle teamB"></div>
+<div class="player-circle teamB"></div>
+
+
+
+
+
+
+</div>
+
+
+
+<!-- Right Pennants -->
+<div id="rightPennants" class="flex flex-col gap-2"></div>
+
+</div>
+
+
+</main>
+
+<!-- Footer Ticker -->
+<footer class="bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
+  <div class="relative h-12 overflow-hidden">
+    <!-- .ticker wrapper used by script -->
+    <div class="ticker absolute inset-0 flex items-center animate-[ticker_40s_linear_infinite] overflow-hidden">
+      <div class="flex whitespace-nowrap text-gray-500 dark:text-gray-400">
+        <p class="px-6">WELCOME TO RINKRUMBLE!</p>
+        <span class="text-primary font-bold">|</span>
+        <p class="px-6">COLLECT WORDS TO SCORE GOALS!</p>
+        <span class="text-primary font-bold">|</span>
+        <p class="px-6">CHOOSE YOUR TEAM AND COLOR!</p>
+      </div>
+      <div class="flex whitespace-nowrap text-gray-500 dark:text-gray-400">
+        <p class="px-6">WELCOME TO RINKRUMBLE!</p>
+        <span class="text-primary font-bold">|</span>
+        <p class="px-6">COLLECT WORDS TO SCORE GOALS!</p>
+        <span class="text-primary font-bold">|</span>
+        <p class="px-6">CHOOSE YOUR TEAM AND COLOR!</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</div>
+
+<script src="script.js"></script>
+
+
+</body>
+</html>
