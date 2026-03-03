@@ -135,6 +135,8 @@ function checkAnswers() {
 /* ===== Drawing canvas ===== */
 function setupCanvas() {
   const canvas = el("board");
+  const stage = el("boardStage");
+  const viewportEl = stage.parentElement;
   const ctx = canvas.getContext("2d");
   const viewport = {
     scale: 1,
@@ -158,12 +160,18 @@ function setupCanvas() {
   let panStart = null;
 
   function applyViewport() {
-    canvas.style.transformOrigin = "top left";
-    canvas.style.transform = `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.scale})`;
+    stage.style.transform = `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.scale})`;
   }
 
   function clampScale(nextScale) {
     return Math.min(3, Math.max(0.5, nextScale));
+  }
+
+  function resetView() {
+    viewport.scale = 1;
+    viewport.x = 0;
+    viewport.y = 0;
+    applyViewport();
   }
 
   function setMode(mode) {
@@ -176,24 +184,31 @@ function setupCanvas() {
     el("penBtn").classList.toggle("secondary", mode !== "pen");
     el("eraserBtn").classList.toggle("secondary", mode !== "eraser");
     el("panBtn").classList.toggle("secondary", mode !== "pan");
+    viewportEl.classList.toggle("isPanning", mode === "pan");
   }
 
   function getPos(evt) {
     const rect = canvas.getBoundingClientRect();
     const clientX = evt.touches?.[0]?.clientX ?? evt.clientX;
     const clientY = evt.touches?.[0]?.clientY ?? evt.clientY;
-    const displayX = (clientX - rect.left) / viewport.scale;
-    const displayY = (clientY - rect.top) / viewport.scale;
-    const x = displayX * (canvas.width / canvas.clientWidth);
-    const y = displayY * (canvas.height / canvas.clientHeight);
+    const x = (clientX - rect.left) * (canvas.width / rect.width);
+    const y = (clientY - rect.top) * (canvas.height / rect.height);
     return { x, y };
+  }
+
+  function getClientPoint(evt) {
+    return {
+      x: evt.touches?.[0]?.clientX ?? evt.clientX,
+      y: evt.touches?.[0]?.clientY ?? evt.clientY
+    };
   }
 
   function down(evt) {
     if (panning) {
+      const point = getClientPoint(evt);
       panStart = {
-        clientX: evt.touches?.[0]?.clientX ?? evt.clientX,
-        clientY: evt.touches?.[0]?.clientY ?? evt.clientY,
+        clientX: point.x,
+        clientY: point.y,
         x: viewport.x,
         y: viewport.y
       };
@@ -206,10 +221,9 @@ function setupCanvas() {
   }
   function move(evt) {
     if (panning && panStart) {
-      const clientX = evt.touches?.[0]?.clientX ?? evt.clientX;
-      const clientY = evt.touches?.[0]?.clientY ?? evt.clientY;
-      viewport.x = panStart.x + (clientX - panStart.clientX);
-      viewport.y = panStart.y + (clientY - panStart.clientY);
+      const point = getClientPoint(evt);
+      viewport.x = panStart.x + (point.x - panStart.clientX);
+      viewport.y = panStart.y + (point.y - panStart.clientY);
       applyViewport();
       evt.preventDefault();
       return;
@@ -234,18 +248,15 @@ function setupCanvas() {
     drawing = false;
     last = null;
     panStart = null;
-    evt.preventDefault();
+    if (evt) evt.preventDefault();
   }
 
   canvas.addEventListener("pointerdown", down);
-  canvas.addEventListener("pointermove", move);
-  canvas.addEventListener("pointerup", up);
-  canvas.addEventListener("pointerleave", up);
-
-  // Touch fallback
-  canvas.addEventListener("touchstart", down, { passive: false });
-  canvas.addEventListener("touchmove", move, { passive: false });
-  canvas.addEventListener("touchend", up, { passive: false });
+  window.addEventListener("pointermove", move);
+  window.addEventListener("pointerup", up);
+  canvas.addEventListener("pointerleave", (evt) => {
+    if (!panning) up(evt);
+  });
 
   el("penBtn").addEventListener("click", () => { setMode("pen"); });
   el("eraserBtn").addEventListener("click", () => { setMode("eraser"); });
@@ -259,10 +270,7 @@ function setupCanvas() {
     applyViewport();
   });
   el("centerBtn").addEventListener("click", () => {
-    viewport.scale = 1;
-    viewport.x = 0;
-    viewport.y = 0;
-    applyViewport();
+    resetView();
   });
   el("clearBtn").addEventListener("click", () => {
     paintBackground();
@@ -284,12 +292,7 @@ function setupCanvas() {
     clear() {
       paintBackground();
     },
-    resetView() {
-      viewport.scale = 1;
-      viewport.x = 0;
-      viewport.y = 0;
-      applyViewport();
-    }
+    resetView
   };
 }
 

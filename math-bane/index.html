@@ -57,18 +57,34 @@
               <p class="muted small">Use the canvas to show your work.</p>
             </div>
             <div class="toolRow">
-              <button id="penBtn" class="btn secondary">Pen</button>
-              <button id="eraserBtn" class="btn secondary">Eraser</button>
-              <button id="panBtn" class="btn secondary">Pan</button>
-              <button id="zoomInBtn" class="btn secondary">Zoom In</button>
-              <button id="zoomOutBtn" class="btn secondary">Zoom Out</button>
-              <button id="centerBtn" class="btn secondary">Center</button>
-              <button id="clearBtn" class="btn secondary">Clear</button>
+              <button id="penBtn" class="toolBtn secondary" type="button" title="Pen" aria-label="Pen">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm14.71-9.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0L11.92 6.16l3.75 3.75 2.04-1.7z"/></svg>
+              </button>
+              <button id="eraserBtn" class="toolBtn secondary" type="button" title="Eraser" aria-label="Eraser">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.24 3.56 21 8.32a2 2 0 0 1 0 2.83L12.16 20H7.41L3 15.59l10.41-10.41a2 2 0 0 1 2.83 0zM8.24 18h3.09l7.62-7.62-3.09-3.09-8.79 8.8L8.24 18z"/></svg>
+              </button>
+              <button id="panBtn" class="toolBtn secondary" type="button" title="Pan" aria-label="Pan">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 9.5 4.5 11 6v3H8L6.5 7.5 4 10l2.5 2.5L8 11h3v3l-1.5 1.5L12 18l2.5-2.5L13 14v-3h3l1.5 1.5L20 10l-2.5-2.5L16 9h-3V6l1.5-1.5z"/></svg>
+              </button>
+              <button id="zoomInBtn" class="toolBtn secondary" type="button" title="Zoom in" aria-label="Zoom in">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zm-6-2.5v-2h-2V8h2V6h1.5v2h2v1.5h-2v2H9.5z"/></svg>
+              </button>
+              <button id="zoomOutBtn" class="toolBtn secondary" type="button" title="Zoom out" aria-label="Zoom out">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zm-8-4.25h4v1.5h-4v-1.5z"/></svg>
+              </button>
+              <button id="centerBtn" class="toolBtn secondary" type="button" title="Center view" aria-label="Center view">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h6v2H5v4H3V3zm16 0h2v6h-2V5h-4V3h4zM3 15h2v4h4v2H3v-6zm16 4v-4h2v6h-6v-2h4zM8 8h8v8H8V8zm2 2v4h4v-4h-4z"/></svg>
+              </button>
+              <button id="clearBtn" class="toolBtn secondary" type="button" title="Clear drawing" aria-label="Clear drawing">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.24 3.56 21 8.32a2 2 0 0 1 0 2.83L13.16 19H4v-9.16l8.41-8.41a2 2 0 0 1 2.83 0zM6 17h6.34l6.78-6.79-3.33-3.33L6 16.66V17z"/></svg>
+              </button>
             </div>
           </div>
 
           <div class="canvasWrap">
-            <canvas id="board" width="900" height="520"></canvas>
+            <div id="boardStage" class="boardStage">
+              <canvas id="board" width="900" height="520"></canvas>
+            </div>
           </div>
 
           <div class="divider"></div>

@@ -74,18 +74,50 @@ h1 { margin: 0 0 6px; font-size: 28px; }
 }
 .toolRow {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
+  padding: 6px;
+  border: 1px solid #22304a;
+  border-radius: 12px;
+  background: #0d1423;
+}
+.toolBtn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.toolBtn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .canvasWrap {
+  position: relative;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #2b3b5b;
   background: #fff;
   cursor: crosshair;
+  min-height: 420px;
+}
+.canvasWrap.isPanning {
+  cursor: grab;
+}
+.canvasWrap.isPanning:active {
+  cursor: grabbing;
+}
+.boardStage {
+  width: 100%;
+  transform-origin: top left;
+  will-change: transform;
 }
 canvas { width: 100%; height: auto; display: block; touch-action: none; }
 @media (max-width: 760px) {
   .workHeader { flex-direction: column; }
+  .canvasWrap { min-height: 260px; }
 }
