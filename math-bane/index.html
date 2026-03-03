@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Math Practice</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <h1 id="title">Math Practice</h1>
+      <p class="muted">Fill the steps, show your work, then submit.</p>
+    </header>
+
+    <section class="card">
+      <label class="label">Student name</label>
+      <input id="studentName" class="input" placeholder="e.g., Alex" autocomplete="name" />
+
+      <div class="row">
+        <div>
+          <label class="label">Class / Block (optional)</label>
+          <input id="classBlock" class="input" placeholder="e.g., Math 9 - Block B" />
+        </div>
+        <div>
+          <label class="label">Attempt # (optional)</label>
+          <input id="attempt" class="input" placeholder="1" inputmode="numeric" />
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Question</h2>
+      <div id="prompt" class="prompt"></div>
+      <div id="meta" class="muted small"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Step-by-step answers</h2>
+      <div id="steps"></div>
+
+      <div class="divider"></div>
+
+      <label class="label" id="finalLabel">Final Answer</label>
+      <input id="finalAnswer" class="input" placeholder="Final answer" />
+      <div id="checkResult" class="muted small"></div>
+
+      <div class="actions">
+        <button id="checkBtn" class="btn">Check (optional)</button>
+        <button id="saveBtn" class="btn secondary">Download work PNG</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Show your work (draw)</h2>
+      <div class="canvasWrap">
+        <canvas id="board" width="900" height="520"></canvas>
+      </div>
+
+      <div class="row">
+        <button id="penBtn" class="btn secondary">Pen</button>
+        <button id="eraserBtn" class="btn secondary">Eraser</button>
+        <button id="clearBtn" class="btn secondary">Clear</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="actions">
+        <button id="submitBtn" class="btn primary">Submit to Sheet</button>
+        <span id="submitStatus" class="muted small"></span>
+      </div>
+
+      <p class="muted small">
+        Tip: If submission ever fails, download the PNG + screenshot your answers and send them manually.
+      </p>
+    </section>
+
+    <footer class="muted small center">
+      Hosted on GitHub Pages • Submits to your Google Sheet
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
