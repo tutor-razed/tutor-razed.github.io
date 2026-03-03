@@ -13,19 +13,25 @@
       <p class="muted">Fill the steps, show your work, then submit.</p>
     </header>
 
+    <section class="card">
+      <label class="label" for="studentName">Student name</label>
+      <input id="studentName" class="input" placeholder="e.g., Alex" autocomplete="name" />
+    </section>
+
+    <section class="card">
+      <label class="label" for="questionSelect">Choose question</label>
+      <select id="questionSelect" class="input"></select>
+      <div id="questionHelp" class="muted small"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Question</h2>
+      <div id="prompt" class="prompt"></div>
+      <div id="meta" class="muted small"></div>
+    </section>
+
     <section class="layout">
       <div class="leftPane">
-        <section class="card">
-          <label class="label">Student name</label>
-          <input id="studentName" class="input" placeholder="e.g., Alex" autocomplete="name" />
-        </section>
-
-        <section class="card">
-          <h2 class="h2">Question</h2>
-          <div id="prompt" class="prompt"></div>
-          <div id="meta" class="muted small"></div>
-        </section>
-
         <section class="card">
           <h2 class="h2">Step-by-step answers</h2>
           <div id="steps"></div>

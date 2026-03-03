@@ -1,4 +1,5 @@
 let Q = null;
+let QUESTIONS = [];
 
 function el(id) { return document.getElementById(id); }
 
@@ -8,13 +9,16 @@ function approxEqual(a, b, tol) {
 }
 
 async function loadQuestion() {
-  const res = await fetch("./question.json", { cache: "no-store" });
-  Q = await res.json();
+  const select = el("questionSelect");
+  const selectedId = select?.value;
+  Q = QUESTIONS.find((question) => String(question.id) === String(selectedId)) ?? QUESTIONS[0] ?? null;
+  if (!Q) return;
 
-  el("title").textContent = Q.title ?? "Math Bane";
-  document.title = Q.title ?? "Math Bane";
+  el("title").textContent = "Math Bane";
+  document.title = "Math Bane";
   el("prompt").textContent = Q.prompt ?? "";
   el("meta").textContent = `Question ID: ${Q.id ?? "unknown"}`;
+  el("questionHelp").textContent = Q.title ? `Selected: ${Q.title}` : "";
 
   const stepsDiv = el("steps");
   stepsDiv.innerHTML = "";
@@ -45,6 +49,38 @@ async function loadQuestion() {
   });
 
   el("finalLabel").textContent = Q.final?.label ?? "Final Answer";
+  el("finalAnswer").value = "";
+  el("checkResult").textContent = "";
+  el("submitStatus").textContent = "";
+}
+
+async function loadQuestionsList() {
+  try {
+    const res = await fetch("./questions.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`questions.json returned ${res.status}`);
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      QUESTIONS = data;
+      return;
+    }
+    throw new Error("questions.json did not contain an array of questions");
+  } catch (_error) {
+    const fallback = await fetch("./question.json", { cache: "no-store" });
+    if (!fallback.ok) throw new Error(`question.json returned ${fallback.status}`);
+    QUESTIONS = [await fallback.json()];
+  }
+}
+
+function populateQuestionSelect() {
+  const select = el("questionSelect");
+  select.innerHTML = "";
+
+  QUESTIONS.forEach((question, index) => {
+    const option = document.createElement("option");
+    option.value = question.id ?? `question-${index + 1}`;
+    option.textContent = question.title ?? `Question ${index + 1}`;
+    select.appendChild(option);
+  });
 }
 
 function getAnswers() {
@@ -175,7 +211,12 @@ function setupCanvas() {
     a.click();
   });
 
-  return canvas;
+  return {
+    canvas,
+    clear() {
+      paintBackground();
+    }
+  };
 }
 
 function canvasToDataUrl(canvas) {
@@ -227,8 +268,15 @@ function submitToAppsScript(payload) {
 }
 
 async function main() {
+  await loadQuestionsList();
+  populateQuestionSelect();
+  const canvasApi = setupCanvas();
   await loadQuestion();
-  const canvas = setupCanvas();
+
+  el("questionSelect").addEventListener("change", async () => {
+    await loadQuestion();
+    canvasApi.clear();
+  });
 
   el("checkBtn").addEventListener("click", () => {
     checkAnswers();
@@ -253,7 +301,7 @@ async function main() {
     // Optional: check before submit (doesn't block)
     checkAnswers();
 
-    const drawingDataUrl = (Q?.submit?.includeDrawing) ? canvasToDataUrl(canvas) : null;
+    const drawingDataUrl = (Q?.submit?.includeDrawing) ? canvasToDataUrl(canvasApi.canvas) : null;
 
     try {
       submitToAppsScript({ ...answers, drawingDataUrl });
