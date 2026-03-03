@@ -11,7 +11,8 @@ async function loadQuestion() {
   const res = await fetch("./question.json", { cache: "no-store" });
   Q = await res.json();
 
-  el("title").textContent = Q.title ?? "Math Practice";
+  el("title").textContent = Q.title ?? "Math Bane";
+  document.title = Q.title ?? "Math Bane";
   el("prompt").textContent = Q.prompt ?? "";
   el("meta").textContent = `Question ID: ${Q.id ?? "unknown"}`;
 
@@ -48,8 +49,6 @@ async function loadQuestion() {
 
 function getAnswers() {
   const student = el("studentName").value.trim();
-  const block = el("classBlock").value.trim();
-  const attempt = el("attempt").value.trim();
 
   const stepAnswers = (Q.steps ?? []).map((s) => {
     const raw = el(`step_${s.id}`).value.trim();
@@ -63,8 +62,8 @@ function getAnswers() {
   return {
     timestampIso: new Date().toISOString(),
     student,
-    classBlock: block,
-    attempt,
+    classBlock: "",
+    attempt: "",
     questionId: Q.id ?? "",
     steps: stepAnswers,
     final: { label: Q.final?.label ?? "Final", raw: finalRaw, value: finalVal }

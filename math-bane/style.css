@@ -10,6 +10,16 @@ body {
 .top { margin-bottom: 16px; }
 h1 { margin: 0 0 6px; font-size: 28px; }
 .h2 { margin: 0 0 10px; font-size: 18px; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr);
+  gap: 16px;
+  align-items: start;
+}
+.leftPane,
+.rightPane {
+  min-width: 0;
+}
 .card {
   background: #121a29;
   border: 1px solid #22304a;
@@ -27,8 +37,12 @@ h1 { margin: 0 0 6px; font-size: 28px; }
   background: #0e1524;
   color: #e8eefc;
 }
+.step + .step { margin-top: 10px; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 760px) { .row { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .row { grid-template-columns: 1fr; }
+  .layout { grid-template-columns: 1fr; }
+}
 
 .prompt { white-space: pre-wrap; line-height: 1.4; }
 .muted { opacity: .8; }
@@ -50,6 +64,19 @@ h1 { margin: 0 0 6px; font-size: 28px; }
 .btn:hover { filter: brightness(1.08); }
 .btn.primary { background: #2b6bff; border-color: #2b6bff; color: #061023; font-weight: 700; }
 .btn.secondary { background: #0f1930; }
+.workCard { min-height: 100%; }
+.workHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.toolRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
 .canvasWrap {
   border-radius: 12px;
@@ -58,3 +85,6 @@ h1 { margin: 0 0 6px; font-size: 28px; }
   background: #fff;
 }
 canvas { width: 100%; height: auto; display: block; touch-action: none; }
+@media (max-width: 760px) {
+  .workHeader { flex-direction: column; }
+}

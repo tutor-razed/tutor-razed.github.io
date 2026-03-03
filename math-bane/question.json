@@ -1,6 +1,6 @@
 {
   "id": "BC-M9-001",
-  "title": "Math 9/10 Multi-step",
+  "title": "Math Bane",
   "prompt": "A store sells notebooks for $3.50 each.\n\nOn Monday, a customer buys 4 notebooks and a pen that costs $2.25, then pays with a $20 bill.\nOn Tuesday, the store increases notebook prices by 10% and the customer buys 3 notebooks.\n\n1) Find the Monday total.\n2) Find the Monday change from $20.\n3) Find the new notebook price Tuesday.\n4) Find the Tuesday total.\n\nFinal: Total spent both days.\n",
   "steps": [
     { "id": "monday_total", "label": "Step 1: Monday total ($)", "answer": 16.25, "tolerance": 0.01 },
