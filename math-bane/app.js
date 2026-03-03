@@ -136,6 +136,11 @@ function checkAnswers() {
 function setupCanvas() {
   const canvas = el("board");
   const ctx = canvas.getContext("2d");
+  const viewport = {
+    scale: 1,
+    x: 0,
+    y: 0
+  };
 
   // White background so exported PNG isn't transparent
   function paintBackground() {
@@ -148,23 +153,67 @@ function setupCanvas() {
 
   let drawing = false;
   let erasing = false;
+  let panning = false;
   let last = null;
+  let panStart = null;
+
+  function applyViewport() {
+    canvas.style.transformOrigin = "top left";
+    canvas.style.transform = `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.scale})`;
+  }
+
+  function clampScale(nextScale) {
+    return Math.min(3, Math.max(0.5, nextScale));
+  }
+
+  function setMode(mode) {
+    erasing = mode === "eraser";
+    panning = mode === "pan";
+
+    el("penBtn").classList.toggle("primary", mode === "pen");
+    el("eraserBtn").classList.toggle("primary", mode === "eraser");
+    el("panBtn").classList.toggle("primary", mode === "pan");
+    el("penBtn").classList.toggle("secondary", mode !== "pen");
+    el("eraserBtn").classList.toggle("secondary", mode !== "eraser");
+    el("panBtn").classList.toggle("secondary", mode !== "pan");
+  }
 
   function getPos(evt) {
     const rect = canvas.getBoundingClientRect();
     const clientX = evt.touches?.[0]?.clientX ?? evt.clientX;
     const clientY = evt.touches?.[0]?.clientY ?? evt.clientY;
-    const x = (clientX - rect.left) * (canvas.width / rect.width);
-    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    const displayX = (clientX - rect.left) / viewport.scale;
+    const displayY = (clientY - rect.top) / viewport.scale;
+    const x = displayX * (canvas.width / canvas.clientWidth);
+    const y = displayY * (canvas.height / canvas.clientHeight);
     return { x, y };
   }
 
   function down(evt) {
+    if (panning) {
+      panStart = {
+        clientX: evt.touches?.[0]?.clientX ?? evt.clientX,
+        clientY: evt.touches?.[0]?.clientY ?? evt.clientY,
+        x: viewport.x,
+        y: viewport.y
+      };
+      evt.preventDefault();
+      return;
+    }
     drawing = true;
     last = getPos(evt);
     evt.preventDefault();
   }
   function move(evt) {
+    if (panning && panStart) {
+      const clientX = evt.touches?.[0]?.clientX ?? evt.clientX;
+      const clientY = evt.touches?.[0]?.clientY ?? evt.clientY;
+      viewport.x = panStart.x + (clientX - panStart.clientX);
+      viewport.y = panStart.y + (clientY - panStart.clientY);
+      applyViewport();
+      evt.preventDefault();
+      return;
+    }
     if (!drawing) return;
     const p = getPos(evt);
 
@@ -184,6 +233,7 @@ function setupCanvas() {
   function up(evt) {
     drawing = false;
     last = null;
+    panStart = null;
     evt.preventDefault();
   }
 
@@ -197,8 +247,23 @@ function setupCanvas() {
   canvas.addEventListener("touchmove", move, { passive: false });
   canvas.addEventListener("touchend", up, { passive: false });
 
-  el("penBtn").addEventListener("click", () => { erasing = false; });
-  el("eraserBtn").addEventListener("click", () => { erasing = true; });
+  el("penBtn").addEventListener("click", () => { setMode("pen"); });
+  el("eraserBtn").addEventListener("click", () => { setMode("eraser"); });
+  el("panBtn").addEventListener("click", () => { setMode("pan"); });
+  el("zoomInBtn").addEventListener("click", () => {
+    viewport.scale = clampScale(viewport.scale + 0.2);
+    applyViewport();
+  });
+  el("zoomOutBtn").addEventListener("click", () => {
+    viewport.scale = clampScale(viewport.scale - 0.2);
+    applyViewport();
+  });
+  el("centerBtn").addEventListener("click", () => {
+    viewport.scale = 1;
+    viewport.x = 0;
+    viewport.y = 0;
+    applyViewport();
+  });
   el("clearBtn").addEventListener("click", () => {
     paintBackground();
   });
@@ -211,10 +276,19 @@ function setupCanvas() {
     a.click();
   });
 
+  setMode("pen");
+  applyViewport();
+
   return {
     canvas,
     clear() {
       paintBackground();
+    },
+    resetView() {
+      viewport.scale = 1;
+      viewport.x = 0;
+      viewport.y = 0;
+      applyViewport();
     }
   };
 }
@@ -276,6 +350,7 @@ async function main() {
   el("questionSelect").addEventListener("change", async () => {
     await loadQuestion();
     canvasApi.clear();
+    canvasApi.resetView();
   });
 
   el("checkBtn").addEventListener("click", () => {

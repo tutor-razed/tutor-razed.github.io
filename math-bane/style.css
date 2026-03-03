@@ -83,6 +83,7 @@ h1 { margin: 0 0 6px; font-size: 28px; }
   overflow: hidden;
   border: 1px solid #2b3b5b;
   background: #fff;
+  cursor: crosshair;
 }
 canvas { width: 100%; height: auto; display: block; touch-action: none; }
 @media (max-width: 760px) {
