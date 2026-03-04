@@ -1,0 +1,17 @@
+{
+    "name":  "tutor-github-switch",
+    "private":  true,
+    "version":  "0.1.0",
+    "type":  "module",
+    "scripts":  {
+                    "apps:list":  "node scripts/apps-runner.mjs list",
+                    "install:apps":  "node scripts/apps-runner.mjs install",
+                    "ci:apps":  "node scripts/apps-runner.mjs ci",
+                    "build:apps":  "node scripts/apps-runner.mjs build",
+                    "assemble":  "node scripts/assemble.mjs",
+                    "build":  "npm run assemble",
+                    "dev":  "node scripts/apps-runner.mjs dev",
+                    "preview:site":  "npx serve site -l 4173",
+                    "resources:sync":  "node scripts/sync-portal-resources.mjs"
+                }
+}

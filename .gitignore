@@ -1,0 +1,7 @@
+﻿node_modules/
+site/
+apps-src/*/node_modules/
+apps-src/*/dist/
+apps-src/*/.env.local
+apps-src/*/.env
+
