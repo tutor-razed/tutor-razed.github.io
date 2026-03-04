@@ -1,11 +1,55 @@
-# Tutor GitHub Switch (Staging)
+# Tutor Site
 
-This repository is a clean staging architecture for a multi-app GitHub Pages site.
+This repository builds and deploys a multi-app GitHub Pages site from one source repo.
 
-## Single Source Of Truth
-All app registration lives in `apps.manifest.json`.
+It supports two kinds of subsites:
+
+- React/Vite apps in `apps-src/`
+- static HTML/CSS/JS sites in `static-src/`
+
+The final published output is assembled into `site/` and deployed by GitHub Actions.
+
+## How It Works
+
+At the root level:
+
+- `apps.manifest.json` defines which React/Vite apps are part of the site
+- `static-src/` contains static sites that are copied as-is
+- `scripts/assemble.mjs` builds apps and assembles the final `site/`
+- `.github/workflows/deploy-pages.yml` deploys `site/` to GitHub Pages
+
+Build flow:
+
+1. Sync portal resources from `resources.portal.json`
+2. Build each app listed in `apps.manifest.json`
+3. Copy each app's `dist/` output into `site/`
+4. Copy each `static-src/<name>/` folder into `site/<name>/`
+5. Upload `site/` to GitHub Pages
+
+## Project Structure
+
+```text
+apps-src/
+  portal/
+  headline-to-story/
+  ...
+static-src/
+  multiplication/
+  polygons/
+  ...
+scripts/
+apps.manifest.json
+resources.portal.json
+package.json
+site/
+```
+
+## Manifest
+
+All React/Vite apps must be listed in `apps.manifest.json`.
 
 Example:
+
 ```json
 {
   "apps": [
@@ -15,72 +59,145 @@ Example:
 }
 ```
 
-- `name`: app id used by scripts
-- `path`: location of the Vite app
-- `mount`: URL base on GitHub Pages (`/` for portal, `/<tool>/` for tools)
+Fields:
 
-## Static Sites
-Legacy static sites go in `static-src/<site-name>/`.
-
-Build behavior:
-- `static-src/worksheets/index.html` -> `site/worksheets/index.html`
-- `static-src/old-calculator/*` -> `site/old-calculator/*`
+- `name`: app id used by root scripts
+- `path`: relative path to the app folder
+- `mount`: final published path
 
 Rules:
-- Each static site must be a subfolder directly inside `static-src`
-- Folder name becomes its published path
-- Static folder name cannot conflict with a Vite app mount folder
 
-## Final Layout
+- every app name must be unique
+- every mount path must be unique
+- root app should use `/`
+- non-root apps should usually use `/<app-name>/`
+
+## Static Sites
+
+Static sites live in `static-src/<site-name>/`.
+
+Example:
+
 ```text
-/apps-src/
-/static-src/
-/apps.manifest.json
-/site/
-/scripts/
-  apps-config.mjs
-  apps-runner.mjs
-  assemble.mjs
-/package.json
+static-src/fractions-game/
+  index.html
+  style.css
+  script.js
+```
+
+This becomes:
+
+```text
+site/fractions-game/
+```
+
+Rules:
+
+- each static site must be a direct child of `static-src/`
+- the folder name becomes the published path
+- a static site folder name cannot conflict with an app mount folder
+
+## Clone And Run
+
+Prerequisites:
+
+- Node.js 20 recommended
+- npm
+
+Install app dependencies:
+
+```powershell
+npm run install:apps
+```
+
+Build the full site:
+
+```powershell
+npm run build
+```
+
+Preview the assembled site locally:
+
+```powershell
+npm run preview:site
+```
+
+Run one React/Vite app in development mode:
+
+```powershell
+npm run dev -- portal
 ```
 
 ## Root Commands
-- `npm run apps:list` -> prints manifest apps
-- `npm run install:apps` -> `npm install` for each app in manifest
-- `npm run ci:apps` -> `npm ci` for each app in manifest
-- `npm run build` -> clean `site/`, build each app, copy app dist outputs and static sites into `site/`
-- `npm run dev -- <app-name>` -> run Vite dev for one app (example: `npm run dev -- portal`)
-- `npm run preview:site` -> serve assembled `site/`
 
-## Migration Workflow
-1. Remove placeholder apps you do not want.
-2. Copy each real Vite app into `apps-src/<tool-name>/`.
-3. Update `apps.manifest.json` only.
-4. In each app, set `vite.config.ts` base to match manifest mount:
-   - portal: `/`
-   - tool app: `/<tool-name>/`
-5. For old static sites, copy each one into `static-src/<site-name>/`.
-6. Install deps for all apps:
-   - `npm run install:apps`
-7. Build all and assemble:
-   - `npm run build`
-8. Preview and verify routes:
-   - `npm run preview:site`
+- `npm run apps:list` prints all manifest-listed apps
+- `npm run install:apps` runs `npm install` in each manifest-listed app
+- `npm run ci:apps` runs `npm ci` in each manifest-listed app
+- `npm run build` assembles the full deployable `site/`
+- `npm run dev -- <app-name>` runs one app locally in dev mode
+- `npm run preview:site` serves the final assembled `site/`
+- `npm run resources:sync` syncs `resources.portal.json` into the portal app
 
-## GitHub Actions
-Workflow reads manifest indirectly via root scripts:
-- install step: `npm run ci:apps`
-- build step: `npm run build`
+## Adding A React/Vite App
 
-When apps change, update only `apps.manifest.json` and app configs.
-When static sites change, update folders inside `static-src/`.
+1. Create or copy the app into `apps-src/<app-name>/`
+2. Make sure it has a working `build` script and outputs `dist/`
+3. Add it to `apps.manifest.json`
+4. Set its Vite `base` to match its manifest mount
+5. Commit its `package-lock.json`
+6. Run `npm run build`
+7. Run `npm run preview:site`
 
-## Portal Resources Editing
+Example Vite base:
 
-Edit `resources.portal.json` at repo root.
+```ts
+base: "/my-new-app/"
+```
 
-Then run:
-- `npm run build` (syncs resources automatically)
+Important:
 
-Optional manual sync only:
-- `npm run resources:sync`
+- every manifest-listed app must have its own `package-lock.json`
+- if the app is linked from the portal, also update `resources.portal.json`
+
+## Adding A Static Site
+
+1. Create `static-src/<site-name>/`
+2. Put the full site inside that folder
+3. Run `npm run build`
+4. Run `npm run preview:site`
+
+If you want the portal to link to it, also update `resources.portal.json`.
+
+## Deployment
+
+This repo is set up for GitHub Pages via GitHub Actions.
+
+Workflow file:
+
+```text
+.github/workflows/deploy-pages.yml
+```
+
+On push to `main`, the workflow:
+
+1. checks out the repo
+2. installs dependencies with `npm run ci:apps`
+3. builds with `npm run build`
+4. uploads `site/`
+5. deploys to GitHub Pages
+
+Repository setting required:
+
+- `Settings > Pages > Source = GitHub Actions`
+
+## Notes For Reuse
+
+If you clone this repo to run your own site:
+
+- replace the app and static site content with your own
+- update `apps.manifest.json`
+- update `resources.portal.json` if you use the portal listing
+- make sure each React/Vite app has the correct `base`
+- make sure each manifest-listed app has a committed `package-lock.json`
+
+The internal `doc/` folder contains personal notes and is gitignored.
