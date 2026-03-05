@@ -494,6 +494,60 @@
     }
   },
   {
+    "id": "BC-M9-017",
+    "title": "Quadratics: School Fair Profit Analysis (Expert)",
+    "prompt": "At a school fair, the ticket price is (40 - x) dollars when a discount of x dollars is offered.\n\nThe number of tickets sold is (x + 8).\nTotal cost is $120 plus $6 per ticket sold.\n\n1) Expand the revenue model R = (40 - x)(x + 8) and give the coefficient of x^2.\n2) Write the cost model C and give the constant term.\n3) Write the profit model P = R - C and give the coefficient of x.\n4) If profit is $240, rewrite in standard form x^2 - 26x + c = 0 and find c.\n5) Solve for the smaller positive value of x.\n6) Find the ticket price at that value.\n7) Find the number of tickets sold at that value.\n\nFinal: Confirm the profit at that value of x.",
+    "steps": [
+      {
+        "id": "rev_x2_coeff",
+        "label": "Step 1: Coefficient of x^2 in revenue model",
+        "answer": -1,
+        "tolerance": 0.01
+      },
+      {
+        "id": "cost_constant",
+        "label": "Step 2: Constant term in cost model",
+        "answer": 168,
+        "tolerance": 0.01
+      },
+      {
+        "id": "profit_x_coeff",
+        "label": "Step 3: Coefficient of x in profit model",
+        "answer": 26,
+        "tolerance": 0.01
+      },
+      {
+        "id": "std_c",
+        "label": "Step 4: Constant c in x^2 - 26x + c = 0",
+        "answer": 88,
+        "tolerance": 0.01
+      },
+      {
+        "id": "x_small",
+        "label": "Step 5: Smaller positive value of x",
+        "answer": 4,
+        "tolerance": 0.01
+      },
+      {
+        "id": "ticket_price",
+        "label": "Step 6: Ticket price ($)",
+        "answer": 36,
+        "tolerance": 0.01
+      },
+      {
+        "id": "tickets_sold",
+        "label": "Step 7: Tickets sold",
+        "answer": 12,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Profit ($)",
+      "answer": 240,
+      "tolerance": 0.01
+    }
+  },
+  {
     "id": "BC-M9-008",
     "title": "Quadratics: Stage Backdrop Dimensions",
     "prompt": "A school is making a rectangular stage backdrop.\n\nThe width is x meters and the length is 6 meters longer than the width.\nThe area is 91 m^2.\n\n1) Write the quadratic equation in standard form from x(x + 6) = 91.\n2) Factor and solve for the positive width x.\n3) Find the length.\n4) Find the perimeter.\n\nFinal: Border trim costs $4.25 per meter. Find the total trim cost.",
