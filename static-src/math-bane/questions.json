@@ -1,0 +1,256 @@
+[
+  {
+    "id": "BC-M9-001",
+    "title": "Notebook Prices",
+    "prompt": "A store sells notebooks for $3.50 each.\n\nOn Monday, a customer buys 4 notebooks and a pen that costs $2.25, then pays with a $20 bill.\nOn Tuesday, the store increases notebook prices by 10% and the customer buys 3 notebooks.\n\n1) Find the Monday total.\n2) Find the Monday change from $20.\n3) Find the new notebook price Tuesday.\n4) Find the Tuesday total.\n\nFinal: Total spent both days.\n",
+    "steps": [
+      {
+        "id": "monday_total",
+        "label": "Step 1: Monday total ($)",
+        "answer": 16.25,
+        "tolerance": 0.01
+      },
+      {
+        "id": "change",
+        "label": "Step 2: Monday change ($)",
+        "answer": 3.75,
+        "tolerance": 0.01
+      },
+      {
+        "id": "new_price",
+        "label": "Step 3: New notebook price Tuesday ($)",
+        "answer": 3.85,
+        "tolerance": 0.01
+      },
+      {
+        "id": "tuesday_total",
+        "label": "Step 4: Tuesday total ($)",
+        "answer": 11.55,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total spent both days ($)",
+      "answer": 27.8,
+      "tolerance": 0.01
+    },
+    "submit": {
+      "appsScriptUrl": "https://script.google.com/macros/s/AKfycbz3iXYqosKZ0d2iCVbn3eEAvDfg9yZFiJDNzkcj6HJ6Cx0kHW93WNRQRffCJdUxoOYGNQ/exec",
+      "includeDrawing": true
+    }
+  },
+  {
+    "id": "BC-M9-002",
+    "title": "Math 9/10 Multi-step",
+    "prompt": "A jacket costs $85. The store is having a 20% off sale.\n\nAfter the discount, a 12% sales tax is applied.\n\n1) Find the discount amount.\n2) Find the price after the discount.\n3) Find the amount of tax.\n4) Find the final price after tax.\n\nFinal: How much money did the customer save compared to the original price including tax?",
+    "steps": [
+      {
+        "id": "discount",
+        "label": "Step 1: Discount amount ($)",
+        "answer": 17,
+        "tolerance": 0.01
+      },
+      {
+        "id": "after_discount",
+        "label": "Step 2: Price after discount ($)",
+        "answer": 68,
+        "tolerance": 0.01
+      },
+      {
+        "id": "tax",
+        "label": "Step 3: Tax amount ($)",
+        "answer": 8.16,
+        "tolerance": 0.01
+      },
+      {
+        "id": "final_price",
+        "label": "Step 4: Final price after tax ($)",
+        "answer": 76.16,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total savings compared to original price + tax ($)",
+      "answer": 19.04,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-003",
+    "title": "Math 9/10 Multi-step",
+    "prompt": "A cyclist travels 18 km in 45 minutes.\n\n1) Convert 45 minutes to hours.\n2) Find the cyclist's average speed in km/h.\n3) At this speed, how far would the cyclist travel in 2.5 hours?\n4) If the cyclist slows down to 80% of the original speed, what is the new speed?\n\nFinal: How long would it take to travel 50 km at the slower speed?",
+    "steps": [
+      {
+        "id": "time_hours",
+        "label": "Step 1: Time in hours",
+        "answer": 0.75,
+        "tolerance": 0.01
+      },
+      {
+        "id": "speed",
+        "label": "Step 2: Speed (km/h)",
+        "answer": 24,
+        "tolerance": 0.01
+      },
+      {
+        "id": "distance",
+        "label": "Step 3: Distance in 2.5 hours (km)",
+        "answer": 60,
+        "tolerance": 0.01
+      },
+      {
+        "id": "slow_speed",
+        "label": "Step 4: Slower speed (km/h)",
+        "answer": 19.2,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Time to travel 50 km at slower speed (hours)",
+      "answer": 2.604,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-004",
+    "title": "Math 9/10 Multi-step",
+    "prompt": "A rectangular garden is 12 m long and 8 m wide.\n\nA path 1.5 m wide is built around the outside of the garden.\n\n1) Find the area of the garden.\n2) Find the new length including the path.\n3) Find the new width including the path.\n4) Find the total area including the path.\n\nFinal: Find the area of just the path.",
+    "steps": [
+      {
+        "id": "garden_area",
+        "label": "Step 1: Garden area (m^2)",
+        "answer": 96,
+        "tolerance": 0.01
+      },
+      {
+        "id": "new_length",
+        "label": "Step 2: New length (m)",
+        "answer": 15,
+        "tolerance": 0.01
+      },
+      {
+        "id": "new_width",
+        "label": "Step 3: New width (m)",
+        "answer": 11,
+        "tolerance": 0.01
+      },
+      {
+        "id": "total_area",
+        "label": "Step 4: Total area (m^2)",
+        "answer": 165,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Area of the path (m^2)",
+      "answer": 69,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-005",
+    "title": "Math 9/10 Multi-step",
+    "prompt": "A phone plan costs $25 per month plus $0.08 per text message.\n\n1) Write an expression for the monthly cost if x texts are sent.\n2) Find the cost if 150 texts are sent.\n3) If the bill is $41, how many texts were sent?\n4) What would the cost be for 300 texts?\n\nFinal: If the customer wants to keep the bill under $50, what is the maximum number of texts they can send?",
+    "steps": [
+      {
+        "id": "expression",
+        "label": "Step 1: Coefficient of x in the cost expression",
+        "answer": 0.08,
+        "tolerance": 0.0001
+      },
+      {
+        "id": "cost150",
+        "label": "Step 2: Cost for 150 texts ($)",
+        "answer": 37,
+        "tolerance": 0.01
+      },
+      {
+        "id": "texts",
+        "label": "Step 3: Number of texts if bill is $41",
+        "answer": 200,
+        "tolerance": 0.01
+      },
+      {
+        "id": "cost300",
+        "label": "Step 4: Cost for 300 texts ($)",
+        "answer": 49,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Maximum texts under $50",
+      "answer": 312,
+      "tolerance": 0.1
+    }
+  },
+  {
+    "id": "BC-M9-006",
+    "title": "Math 9/10 Multi-step",
+    "prompt": "A town had a population of 8,000 people.\n\nThe population increased by 6% in the first year.\nThe next year it increased by another 4%.\n\n1) Find the population after the first year.\n2) Find the increase during the second year.\n3) Find the population after the second year.\n4) Find the total increase over the two years.\n\nFinal: What is the total percent increase from the original population?",
+    "steps": [
+      {
+        "id": "year1",
+        "label": "Step 1: Population after year 1",
+        "answer": 8480,
+        "tolerance": 0.01
+      },
+      {
+        "id": "increase2",
+        "label": "Step 2: Increase during year 2",
+        "answer": 339.2,
+        "tolerance": 0.01
+      },
+      {
+        "id": "year2",
+        "label": "Step 3: Population after year 2",
+        "answer": 8819.2,
+        "tolerance": 0.01
+      },
+      {
+        "id": "total_increase",
+        "label": "Step 4: Total increase",
+        "answer": 819.2,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total percent increase (%)",
+      "answer": 10.24,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-007",
+    "title": "Taxi Fare",
+    "prompt": "A taxi charges a $4.50 starting fee plus $2.75 per kilometer.\n\nOn the first trip, the driver travels 6 kilometers.\nOn the second trip, the driver travels 8 kilometers and gives a $3.00 discount.\n\n1) Find the cost of the first trip.\n2) Find the regular cost of the second trip before the discount.\n3) Find the discounted cost of the second trip.\n\nFinal: Total paid for both trips.\n",
+    "steps": [
+      {
+        "id": "first_trip",
+        "label": "Step 1: First trip cost ($)",
+        "answer": 21,
+        "tolerance": 0.01
+      },
+      {
+        "id": "second_regular",
+        "label": "Step 2: Second trip regular cost ($)",
+        "answer": 26.5,
+        "tolerance": 0.01
+      },
+      {
+        "id": "second_discounted",
+        "label": "Step 3: Second trip discounted cost ($)",
+        "answer": 23.5,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total paid ($)",
+      "answer": 44.5,
+      "tolerance": 0.01
+    },
+    "submit": {
+      "appsScriptUrl": "https://script.google.com/macros/s/AKfycbz3iXYqosKZ0d2iCVbn3eEAvDfg9yZFiJDNzkcj6HJ6Cx0kHW93WNRQRffCJdUxoOYGNQ/exec",
+      "includeDrawing": true
+    }
+  }
+]
