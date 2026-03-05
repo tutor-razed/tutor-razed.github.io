@@ -1,7 +1,43 @@
 [
   {
+    "id": "BC-M9-002",
+    "title": "Finance: Discount and Tax",
+    "prompt": "A jacket costs $85. The store is having a 20% off sale.\n\nAfter the discount, a 12% sales tax is applied.\n\n1) Find the discount amount.\n2) Find the price after the discount.\n3) Find the amount of tax.\n4) Find the final price after tax.\n\nFinal: How much money did the customer save compared to the original price including tax?",
+    "steps": [
+      {
+        "id": "discount",
+        "label": "Step 1: Discount amount ($)",
+        "answer": 17,
+        "tolerance": 0.01
+      },
+      {
+        "id": "after_discount",
+        "label": "Step 2: Price after discount ($)",
+        "answer": 68,
+        "tolerance": 0.01
+      },
+      {
+        "id": "tax",
+        "label": "Step 3: Tax amount ($)",
+        "answer": 8.16,
+        "tolerance": 0.01
+      },
+      {
+        "id": "final_price",
+        "label": "Step 4: Final price after tax ($)",
+        "answer": 76.16,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total savings compared to original price + tax ($)",
+      "answer": 19.04,
+      "tolerance": 0.01
+    }
+  },
+  {
     "id": "BC-M9-001",
-    "title": "Notebook Prices",
+    "title": "Finance: Notebook Price Change",
     "prompt": "A store sells notebooks for $3.50 each.\n\nOn Monday, a customer buys 4 notebooks and a pen that costs $2.25, then pays with a $20 bill.\nOn Tuesday, the store increases notebook prices by 10% and the customer buys 3 notebooks.\n\n1) Find the Monday total.\n2) Find the Monday change from $20.\n3) Find the new notebook price Tuesday.\n4) Find the Tuesday total.\n\nFinal: Total spent both days.\n",
     "steps": [
       {
@@ -40,80 +76,8 @@
     }
   },
   {
-    "id": "BC-M9-002",
-    "title": "Math 9/10 Multi-step",
-    "prompt": "A jacket costs $85. The store is having a 20% off sale.\n\nAfter the discount, a 12% sales tax is applied.\n\n1) Find the discount amount.\n2) Find the price after the discount.\n3) Find the amount of tax.\n4) Find the final price after tax.\n\nFinal: How much money did the customer save compared to the original price including tax?",
-    "steps": [
-      {
-        "id": "discount",
-        "label": "Step 1: Discount amount ($)",
-        "answer": 17,
-        "tolerance": 0.01
-      },
-      {
-        "id": "after_discount",
-        "label": "Step 2: Price after discount ($)",
-        "answer": 68,
-        "tolerance": 0.01
-      },
-      {
-        "id": "tax",
-        "label": "Step 3: Tax amount ($)",
-        "answer": 8.16,
-        "tolerance": 0.01
-      },
-      {
-        "id": "final_price",
-        "label": "Step 4: Final price after tax ($)",
-        "answer": 76.16,
-        "tolerance": 0.01
-      }
-    ],
-    "final": {
-      "label": "Final: Total savings compared to original price + tax ($)",
-      "answer": 19.04,
-      "tolerance": 0.01
-    }
-  },
-  {
-    "id": "BC-M9-003",
-    "title": "Math 9/10 Multi-step",
-    "prompt": "A cyclist travels 18 km in 45 minutes.\n\n1) Convert 45 minutes to hours.\n2) Find the cyclist's average speed in km/h.\n3) At this speed, how far would the cyclist travel in 2.5 hours?\n4) If the cyclist slows down to 80% of the original speed, what is the new speed?\n\nFinal: How long would it take to travel 50 km at the slower speed?",
-    "steps": [
-      {
-        "id": "time_hours",
-        "label": "Step 1: Time in hours",
-        "answer": 0.75,
-        "tolerance": 0.01
-      },
-      {
-        "id": "speed",
-        "label": "Step 2: Speed (km/h)",
-        "answer": 24,
-        "tolerance": 0.01
-      },
-      {
-        "id": "distance",
-        "label": "Step 3: Distance in 2.5 hours (km)",
-        "answer": 60,
-        "tolerance": 0.01
-      },
-      {
-        "id": "slow_speed",
-        "label": "Step 4: Slower speed (km/h)",
-        "answer": 19.2,
-        "tolerance": 0.01
-      }
-    ],
-    "final": {
-      "label": "Final: Time to travel 50 km at slower speed (hours)",
-      "answer": 2.604,
-      "tolerance": 0.01
-    }
-  },
-  {
     "id": "BC-M9-004",
-    "title": "Math 9/10 Multi-step",
+    "title": "Geometry: Garden and Path Area",
     "prompt": "A rectangular garden is 12 m long and 8 m wide.\n\nA path 1.5 m wide is built around the outside of the garden.\n\n1) Find the area of the garden.\n2) Find the new length including the path.\n3) Find the new width including the path.\n4) Find the total area including the path.\n\nFinal: Find the area of just the path.",
     "steps": [
       {
@@ -148,8 +112,80 @@
     }
   },
   {
+    "id": "BC-M9-011",
+    "title": "Linear Relations: Bike Rental Model",
+    "prompt": "A bike rental shop charges a fixed fee plus an hourly rate.\n\nThe total cost is $26 for 3 hours and $38 for 5 hours.\n\n1) Find the slope (hourly rate).\n2) Find the y-intercept (fixed fee).\n3) Write the relation in the form y = mx + b and use it to find the cost for 8 hours.\n4) Use the relation to find how many hours are rented if the cost is $62.\n\nFinal: Find the cost for 12 hours.",
+    "steps": [
+      {
+        "id": "slope",
+        "label": "Step 1: Slope m (dollars per hour)",
+        "answer": 6,
+        "tolerance": 0.01
+      },
+      {
+        "id": "intercept",
+        "label": "Step 2: y-intercept b (dollars)",
+        "answer": 8,
+        "tolerance": 0.01
+      },
+      {
+        "id": "cost_8h",
+        "label": "Step 3: Cost for 8 hours ($)",
+        "answer": 56,
+        "tolerance": 0.01
+      },
+      {
+        "id": "hours_62",
+        "label": "Step 4: Hours if cost is $62",
+        "answer": 9,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Cost for 12 hours ($)",
+      "answer": 80,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-012",
+    "title": "Linear Relations: Line from Two Points",
+    "prompt": "A line passes through the points (-2, 7) and (4, -5).\n\n1) Find the slope m.\n2) Find the y-intercept b.\n3) Use y = mx + b to find y when x = 10.\n4) Find x when y = -1.\n\nFinal: Find the x-intercept of the line.",
+    "steps": [
+      {
+        "id": "slope_points",
+        "label": "Step 1: Slope m",
+        "answer": -2,
+        "tolerance": 0.01
+      },
+      {
+        "id": "intercept_points",
+        "label": "Step 2: y-intercept b",
+        "answer": 3,
+        "tolerance": 0.01
+      },
+      {
+        "id": "y_at_10",
+        "label": "Step 3: y when x = 10",
+        "answer": -17,
+        "tolerance": 0.01
+      },
+      {
+        "id": "x_when_neg1",
+        "label": "Step 4: x when y = -1",
+        "answer": 2,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: x-intercept",
+      "answer": 1.5,
+      "tolerance": 0.01
+    }
+  },
+  {
     "id": "BC-M9-005",
-    "title": "Math 9/10 Multi-step",
+    "title": "Linear Relations: Phone Plan Cost",
     "prompt": "A phone plan costs $25 per month plus $0.08 per text message.\n\n1) Write an expression for the monthly cost if x texts are sent.\n2) Find the cost if 150 texts are sent.\n3) If the bill is $41, how many texts were sent?\n4) What would the cost be for 300 texts?\n\nFinal: If the customer wants to keep the bill under $50, what is the maximum number of texts they can send?",
     "steps": [
       {
@@ -184,8 +220,126 @@
     }
   },
   {
+    "id": "BC-M9-014",
+    "title": "Linear Relations: Plan Comparison (Advanced)",
+    "prompt": "Two printing plans charge by the number of posters x.\n\nPlan A: y = 35 + 2.4x\nPlan B passes through the points (5, 50) and (15, 70).\n\n1) Find the slope of Plan B.\n2) Find the y-intercept of Plan B.\n3) Find the cost of Plan A for 12 posters.\n4) Find the cost of Plan B for 12 posters.\n5) Find the number of posters where both plans cost the same.\n6) Find that common cost.\n\nFinal: For 30 posters, how much cheaper is the better plan?",
+    "steps": [
+      {
+        "id": "slope_b",
+        "label": "Step 1: Slope of Plan B",
+        "answer": 2,
+        "tolerance": 0.01
+      },
+      {
+        "id": "intercept_b",
+        "label": "Step 2: y-intercept of Plan B",
+        "answer": 40,
+        "tolerance": 0.01
+      },
+      {
+        "id": "cost_a_12",
+        "label": "Step 3: Plan A cost for 12 posters ($)",
+        "answer": 63.8,
+        "tolerance": 0.01
+      },
+      {
+        "id": "cost_b_12",
+        "label": "Step 4: Plan B cost for 12 posters ($)",
+        "answer": 64,
+        "tolerance": 0.01
+      },
+      {
+        "id": "break_even_x",
+        "label": "Step 5: Break-even number of posters",
+        "answer": 12.5,
+        "tolerance": 0.01
+      },
+      {
+        "id": "break_even_cost",
+        "label": "Step 6: Common break-even cost ($)",
+        "answer": 65,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Savings at 30 posters ($)",
+      "answer": 7,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-007",
+    "title": "Linear Relations: Taxi Fare",
+    "prompt": "A taxi charges a $4.50 starting fee plus $2.75 per kilometer.\n\nOn the first trip, the driver travels 6 kilometers.\nOn the second trip, the driver travels 8 kilometers and gives a $3.00 discount.\n\n1) Find the cost of the first trip.\n2) Find the regular cost of the second trip before the discount.\n3) Find the discounted cost of the second trip.\n\nFinal: Total paid for both trips.\n",
+    "steps": [
+      {
+        "id": "first_trip",
+        "label": "Step 1: First trip cost ($)",
+        "answer": 21,
+        "tolerance": 0.01
+      },
+      {
+        "id": "second_regular",
+        "label": "Step 2: Second trip regular cost ($)",
+        "answer": 26.5,
+        "tolerance": 0.01
+      },
+      {
+        "id": "second_discounted",
+        "label": "Step 3: Second trip discounted cost ($)",
+        "answer": 23.5,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total paid ($)",
+      "answer": 44.5,
+      "tolerance": 0.01
+    },
+    "submit": {
+      "appsScriptUrl": "https://script.google.com/macros/s/AKfycbz3iXYqosKZ0d2iCVbn3eEAvDfg9yZFiJDNzkcj6HJ6Cx0kHW93WNRQRffCJdUxoOYGNQ/exec",
+      "includeDrawing": true
+    }
+  },
+  {
+    "id": "BC-M9-013",
+    "title": "Linear Relations: Water Tank Fill Rate",
+    "prompt": "A water tank starts with some water and fills at a constant rate.\n\nAfter 2 minutes, the tank has 19 liters.\nAfter 7 minutes, the tank has 39 liters.\n\n1) Find the slope m (liters per minute).\n2) Find the y-intercept b (starting liters).\n3) Find the amount of water after 12 minutes.\n4) Find the time when the tank reaches 55 liters.\n\nFinal: How much water is in the tank after 20 minutes?",
+    "steps": [
+      {
+        "id": "fill_rate",
+        "label": "Step 1: Slope m (L/min)",
+        "answer": 4,
+        "tolerance": 0.01
+      },
+      {
+        "id": "start_amount",
+        "label": "Step 2: y-intercept b (L)",
+        "answer": 11,
+        "tolerance": 0.01
+      },
+      {
+        "id": "liters_12",
+        "label": "Step 3: Water after 12 minutes (L)",
+        "answer": 59,
+        "tolerance": 0.01
+      },
+      {
+        "id": "time_55",
+        "label": "Step 4: Time when water is 55 L (minutes)",
+        "answer": 11,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Water after 20 minutes (L)",
+      "answer": 91,
+      "tolerance": 0.01
+    }
+  },
+  {
     "id": "BC-M9-006",
-    "title": "Math 9/10 Multi-step",
+    "title": "Percent Growth: Population Change",
     "prompt": "A town had a population of 8,000 people.\n\nThe population increased by 6% in the first year.\nThe next year it increased by another 4%.\n\n1) Find the population after the first year.\n2) Find the increase during the second year.\n3) Find the population after the second year.\n4) Find the total increase over the two years.\n\nFinal: What is the total percent increase from the original population?",
     "steps": [
       {
@@ -220,37 +374,243 @@
     }
   },
   {
-    "id": "BC-M9-007",
-    "title": "Taxi Fare",
-    "prompt": "A taxi charges a $4.50 starting fee plus $2.75 per kilometer.\n\nOn the first trip, the driver travels 6 kilometers.\nOn the second trip, the driver travels 8 kilometers and gives a $3.00 discount.\n\n1) Find the cost of the first trip.\n2) Find the regular cost of the second trip before the discount.\n3) Find the discounted cost of the second trip.\n\nFinal: Total paid for both trips.\n",
+    "id": "BC-M9-009",
+    "title": "Quadratics: Chair Grid Arrangement",
+    "prompt": "A hall is setting up chairs in a rectangular grid.\n\nThe number of columns is 1 more than the number of rows.\nThe total number of chairs is 72.\n\n1) Write the quadratic equation in standard form from r(r + 1) = 72.\n2) Factor and solve for the positive number of rows r.\n3) Find the number of columns.\n4) Find the total number of chairs in the first 3 rows.\n\nFinal: If each chair rental costs $1.75, find the total rental cost for all chairs.",
     "steps": [
       {
-        "id": "first_trip",
-        "label": "Step 1: First trip cost ($)",
-        "answer": 21,
+        "id": "constant_term",
+        "label": "Step 1: Constant term in r^2 + r + c = 0",
+        "answer": -72,
         "tolerance": 0.01
       },
       {
-        "id": "second_regular",
-        "label": "Step 2: Second trip regular cost ($)",
-        "answer": 26.5,
+        "id": "rows",
+        "label": "Step 2: Number of rows r",
+        "answer": 8,
         "tolerance": 0.01
       },
       {
-        "id": "second_discounted",
-        "label": "Step 3: Second trip discounted cost ($)",
-        "answer": 23.5,
+        "id": "columns",
+        "label": "Step 3: Number of columns",
+        "answer": 9,
+        "tolerance": 0.01
+      },
+      {
+        "id": "first_three_rows",
+        "label": "Step 4: Chairs in first 3 rows",
+        "answer": 27,
         "tolerance": 0.01
       }
     ],
     "final": {
-      "label": "Final: Total paid ($)",
-      "answer": 44.5,
+      "label": "Final: Total rental cost ($)",
+      "answer": 126,
       "tolerance": 0.01
-    },
-    "submit": {
-      "appsScriptUrl": "https://script.google.com/macros/s/AKfycbz3iXYqosKZ0d2iCVbn3eEAvDfg9yZFiJDNzkcj6HJ6Cx0kHW93WNRQRffCJdUxoOYGNQ/exec",
-      "includeDrawing": true
+    }
+  },
+  {
+    "id": "BC-M9-010",
+    "title": "Quadratics: Fundraiser Revenue",
+    "prompt": "For a fundraiser, the number of snack boxes sold is x.\n\nEach box sells for (30 - x) dollars.\nThe total revenue is $216.\n\n1) Write the quadratic equation in standard form from x(30 - x) = 216.\n2) Factor and solve for the smaller positive value of x.\n3) Find the selling price per box at that value.\n4) Find the number of unsold boxes if 30 were available.\n\nFinal: Confirm the total revenue at that value of x.",
+    "steps": [
+      {
+        "id": "b_coefficient",
+        "label": "Step 1: Coefficient of x in x^2 + bx + 216 = 0",
+        "answer": -30,
+        "tolerance": 0.01
+      },
+      {
+        "id": "smaller_solution",
+        "label": "Step 2: Smaller positive value of x",
+        "answer": 12,
+        "tolerance": 0.01
+      },
+      {
+        "id": "price_per_box",
+        "label": "Step 3: Selling price per box ($)",
+        "answer": 18,
+        "tolerance": 0.01
+      },
+      {
+        "id": "unsold",
+        "label": "Step 4: Unsold boxes",
+        "answer": 18,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total revenue ($)",
+      "answer": 216,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-015",
+    "title": "Quadratics: Inner Garden Path (Advanced)",
+    "prompt": "A rectangular garden has width x meters and length (x + 5) meters.\n\nA 1 m wide path is built inside all four edges, leaving a smaller planting rectangle.\nThe planting area is 60 m^2.\n\n1) Write the planting area equation in factored form.\n2) Write it in standard form and give the constant term c in x^2 + x + c = 0.\n3) Solve for the positive width x of the original garden.\n4) Find the original length.\n5) Find the original total area.\n6) Find the area of just the path.\n\nFinal: If paving the path costs $18 per m^2, find the total paving cost.",
+    "steps": [
+      {
+        "id": "factored_lhs_const",
+        "label": "Step 1: Constant on right side in (x - 2)(x + 3) = ?",
+        "answer": 60,
+        "tolerance": 0.01
+      },
+      {
+        "id": "std_constant",
+        "label": "Step 2: Constant term c in x^2 + x + c = 0",
+        "answer": -66,
+        "tolerance": 0.01
+      },
+      {
+        "id": "width",
+        "label": "Step 3: Positive width x (m)",
+        "answer": 6,
+        "tolerance": 0.01
+      },
+      {
+        "id": "length",
+        "label": "Step 4: Original length (m)",
+        "answer": 11,
+        "tolerance": 0.01
+      },
+      {
+        "id": "orig_area",
+        "label": "Step 5: Original area (m^2)",
+        "answer": 66,
+        "tolerance": 0.01
+      },
+      {
+        "id": "path_area",
+        "label": "Step 6: Path area (m^2)",
+        "answer": 6,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Path paving cost ($)",
+      "answer": 108,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-008",
+    "title": "Quadratics: Stage Backdrop Dimensions",
+    "prompt": "A school is making a rectangular stage backdrop.\n\nThe width is x meters and the length is 6 meters longer than the width.\nThe area is 91 m^2.\n\n1) Write the quadratic equation in standard form from x(x + 6) = 91.\n2) Factor and solve for the positive width x.\n3) Find the length.\n4) Find the perimeter.\n\nFinal: Border trim costs $4.25 per meter. Find the total trim cost.",
+    "steps": [
+      {
+        "id": "constant_term",
+        "label": "Step 1: Constant term in x^2 + 6x + c = 0",
+        "answer": -91,
+        "tolerance": 0.01
+      },
+      {
+        "id": "width",
+        "label": "Step 2: Positive width x (m)",
+        "answer": 7,
+        "tolerance": 0.01
+      },
+      {
+        "id": "length",
+        "label": "Step 3: Length (m)",
+        "answer": 13,
+        "tolerance": 0.01
+      },
+      {
+        "id": "perimeter",
+        "label": "Step 4: Perimeter (m)",
+        "answer": 40,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Total trim cost ($)",
+      "answer": 170,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-016",
+    "title": "Quadratics: Ticket Revenue Optimization (Advanced)",
+    "prompt": "At a school event, ticket price is (40 - x) dollars when x discount dollars are offered.\n\nThe number of tickets sold is (x + 10).\n\n1) Write the revenue equation R in terms of x from R = (40 - x)(x + 10).\n2) Expand to standard form and give the coefficient of x^2.\n3) If revenue is $624, write the equation in standard form and give the constant term c in x^2 - 30x + c = 0.\n4) Solve for the smaller positive value of x.\n5) Find the ticket price at that x.\n6) Find the number of tickets sold at that x.\n\nFinal: Confirm the total revenue at that x.",
+    "steps": [
+      {
+        "id": "linear_coeff",
+        "label": "Step 1: Coefficient of x in expanded R",
+        "answer": 30,
+        "tolerance": 0.01
+      },
+      {
+        "id": "quad_coeff",
+        "label": "Step 2: Coefficient of x^2 in expanded R",
+        "answer": -1,
+        "tolerance": 0.01
+      },
+      {
+        "id": "constant_c",
+        "label": "Step 3: Constant term c in x^2 - 30x + c = 0",
+        "answer": 224,
+        "tolerance": 0.01
+      },
+      {
+        "id": "x_small",
+        "label": "Step 4: Smaller positive value of x",
+        "answer": 14,
+        "tolerance": 0.01
+      },
+      {
+        "id": "ticket_price",
+        "label": "Step 5: Ticket price ($)",
+        "answer": 26,
+        "tolerance": 0.01
+      },
+      {
+        "id": "tickets_sold",
+        "label": "Step 6: Tickets sold",
+        "answer": 24,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Revenue ($)",
+      "answer": 624,
+      "tolerance": 0.01
+    }
+  },
+  {
+    "id": "BC-M9-003",
+    "title": "Rates: Cycling Speed and Time",
+    "prompt": "A cyclist travels 18 km in 45 minutes.\n\n1) Convert 45 minutes to hours.\n2) Find the cyclist's average speed in km/h.\n3) At this speed, how far would the cyclist travel in 2.5 hours?\n4) If the cyclist slows down to 80% of the original speed, what is the new speed?\n\nFinal: How long would it take to travel 50 km at the slower speed?",
+    "steps": [
+      {
+        "id": "time_hours",
+        "label": "Step 1: Time in hours",
+        "answer": 0.75,
+        "tolerance": 0.01
+      },
+      {
+        "id": "speed",
+        "label": "Step 2: Speed (km/h)",
+        "answer": 24,
+        "tolerance": 0.01
+      },
+      {
+        "id": "distance",
+        "label": "Step 3: Distance in 2.5 hours (km)",
+        "answer": 60,
+        "tolerance": 0.01
+      },
+      {
+        "id": "slow_speed",
+        "label": "Step 4: Slower speed (km/h)",
+        "answer": 19.2,
+        "tolerance": 0.01
+      }
+    ],
+    "final": {
+      "label": "Final: Time to travel 50 km at slower speed (hours)",
+      "answer": 2.604,
+      "tolerance": 0.01
     }
   }
 ]
