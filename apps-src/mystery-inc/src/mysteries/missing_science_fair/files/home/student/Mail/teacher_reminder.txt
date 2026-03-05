@@ -1,0 +1,10 @@
+From: Ms. Kim <kim@school.local>
+To: student
+Subject: Science Fair Upload Deadline
+
+Reminder:
+- Final upload cut-off is 09:00 today.
+- Filename must be science_fair_final.sci
+- Keep one backup copy in your Documents folder.
+
+If your file is missing, check recent opened logs and Downloads.

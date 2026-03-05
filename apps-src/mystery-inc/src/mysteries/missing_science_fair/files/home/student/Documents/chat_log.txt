@@ -1,0 +1,7 @@
+[07:05] Nia: You done with the final export?
+[07:06] Student: Almost. File vanished after I checked Downloads.
+[07:07] Alex: I ran quick backup script on lab machine, maybe that changed recents.
+[07:08] Nia: Alex your passwords are always pet + locker number :P
+[07:08] Alex: stop exposing my elite security
+[07:09] Student: Which locker?
+[07:09] Alex: 42

@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "id": "missing_science_fair",
+    "title": "The Missing Science Fair File",
+    "estimatedMinutes": "15-30",
+    "difficultyOptions": ["easy", "normal"],
+    "defaultTheme": "green-phosphor",
+    "themes": [
+      {
+        "id": "green-phosphor",
+        "label": "Green Phosphor",
+        "vars": {
+          "--bg": "#06110a",
+          "--panel": "#0d1c12",
+          "--panel-2": "#122718",
+          "--text": "#a9ffbe",
+          "--muted": "#73b383",
+          "--accent": "#60f97a",
+          "--danger": "#f7d66c",
+          "--font": "'Courier New', 'Lucida Console', monospace"
+        }
+      },
+      {
+        "id": "amber",
+        "label": "Amber",
+        "vars": {
+          "--bg": "#1a1208",
+          "--panel": "#2a1d10",
+          "--panel-2": "#322414",
+          "--text": "#ffd199",
+          "--muted": "#c79a67",
+          "--accent": "#ffb347",
+          "--danger": "#ffe082",
+          "--font": "'Courier New', 'Lucida Console', monospace"
+        }
+      }
+    ]
+  },
+  "boot": {
+    "lines": [
+      "QNX-Lite BIOS v1.3",
+      "Memory check... 640KB OK",
+      "Mounting /home ... done",
+      "Launching schoolnet agent ... done",
+      "WARNING: Last shutdown was unclean",
+      "Type username to continue"
+    ],
+    "login": {
+      "username": "student",
+      "prompt": "Password for student:",
+      "acceptedPasswords": ["falcon", "science"],
+      "welcomeMessage": "Welcome back, detective. Science Fair submission deadline: 09:00."
+    }
+  },
+  "initialPath": "/home/student",
+  "fileConfig": [
+    {
+      "path": "/home/student/Documents/.rot13_hint.txt",
+      "hidden": true,
+      "revealed": false,
+      "metadata": {
+        "owner": "student",
+        "permissions": "rw-------",
+        "modifiedAt": "1989-10-03T07:11:00"
+      }
+    },
+    {
+      "path": "/home/student/Downloads/Locker",
+      "lock": {
+        "type": "password",
+        "value": "comet42",
+        "attemptsMessage": "unlock: denied. Think about the chat clue."
+      },
+      "metadata": {
+        "owner": "student",
+        "permissions": "rwx------"
+      }
+    },
+    {
+      "path": "/home/student/Downloads/diagram_photo.bin",
+      "binary": true,
+      "metadata": {
+        "owner": "student",
+        "permissions": "rw-r--r--",
+        "modifiedAt": "1989-10-03T06:59:00"
+      }
+    },
+    {
+      "path": "/var/log/recent_opened.log",
+      "revealed": false,
+      "metadata": {
+        "owner": "root",
+        "permissions": "r--r--r--",
+        "modifiedAt": "1989-10-03T07:48:00"
+      }
+    }
+  ],
+  "initialObjectives": [
+    {
+      "id": "obj_start",
+      "text": "Read the teacher reminder and figure out what was submitted last night.",
+      "completed": false
+    },
+    {
+      "id": "obj_trace",
+      "text": "Trace where the missing science fair file was moved.",
+      "completed": false
+    },
+    {
+      "id": "obj_find_file",
+      "text": "Recover the missing file and identify who moved it.",
+      "completed": false
+    }
+  ],
+  "hints": [
+    {
+      "id": "hint-1",
+      "text": "Start in /home/student/Mail and /home/student/Documents.",
+      "whenObjectiveIncomplete": "obj_start"
+    },
+    {
+      "id": "hint-2",
+      "text": "The chat mentions a pet plus a number. That can open something in Downloads.",
+      "whenObjectiveIncomplete": "obj_find_file",
+      "minActions": 6
+    },
+    {
+      "id": "hint-3",
+      "text": "Easy mode strong hint: decode the hidden note in Documents, then try unlock /home/student/Downloads/Locker comet42.",
+      "whenObjectiveIncomplete": "obj_find_file",
+      "minActions": 8,
+      "strong": true
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_chat_password",
+      "title": "Chat Password Hint",
+      "description": "A chat line says Alex uses pet name + locker number for quick passwords.",
+      "evidenceRefs": ["/home/student/Documents/chat_log.txt"]
+    },
+    {
+      "id": "clue_script",
+      "title": "Copy Script",
+      "description": "A script in Downloads copies the fair file into Locker and an Alex backup folder.",
+      "evidenceRefs": ["/home/student/Downloads/usb_sync.sh"]
+    },
+    {
+      "id": "clue_recent_log",
+      "title": "Recent Opened Log",
+      "description": "System logs show alex_m account opening the project shortly before it vanished.",
+      "evidenceRefs": ["/var/log/recent_opened.log"]
+    },
+    {
+      "id": "clue_apology",
+      "title": "Apology Note",
+      "description": "Alex admits moving the file while comparing formatting and forgetting to restore it.",
+      "evidenceRefs": ["/home/student/Downloads/Locker/apology_from_alex.txt"]
+    }
+  ],
+  "suspects": ["Alex Mora", "Nia Patel", "Coach Rios", "GhostGuest90"],
+  "events": [
+    {
+      "id": "ev_teacher_read",
+      "trigger": { "type": "on_read", "path": "/home/student/Mail/teacher_reminder.txt" },
+      "effects": [
+        { "type": "add_message", "message": "Objective updated: check logs and drafts for movement clues." },
+        { "type": "update_objective", "objectiveId": "obj_start", "completed": true }
+      ]
+    },
+    {
+      "id": "ev_chat_read",
+      "trigger": { "type": "on_read", "path": "/home/student/Documents/chat_log.txt" },
+      "effects": [
+        { "type": "reveal_path", "path": "/home/student/Documents/.rot13_hint.txt" },
+        { "type": "add_clue", "clueId": "clue_chat_password" },
+        { "type": "add_message", "message": "A hidden note appeared in Documents." }
+      ]
+    },
+    {
+      "id": "ev_script_read",
+      "trigger": { "type": "on_read", "path": "/home/student/Downloads/usb_sync.sh" },
+      "effects": [
+        { "type": "add_clue", "clueId": "clue_script" },
+        { "type": "add_message", "message": "The script links Alex's backup routine to the missing file." }
+      ]
+    },
+    {
+      "id": "ev_reveal_log_after_actions",
+      "trigger": { "type": "after_actions", "count": 5 },
+      "effects": [
+        { "type": "reveal_path", "path": "/var/log/recent_opened.log" },
+        { "type": "add_message", "message": "System notice: archived recent log restored under /var/log." }
+      ]
+    },
+    {
+      "id": "ev_log_read",
+      "trigger": { "type": "on_read", "path": "/var/log/recent_opened.log" },
+      "effects": [
+        { "type": "add_clue", "clueId": "clue_recent_log" },
+        { "type": "update_objective", "objectiveId": "obj_trace", "completed": true }
+      ]
+    },
+    {
+      "id": "ev_unlock_locker",
+      "trigger": { "type": "on_flag", "flag": "unlocked:/home/student/Downloads/Locker", "equals": true },
+      "effects": [
+        { "type": "add_clue", "clueId": "clue_apology" },
+        { "type": "update_objective", "objectiveId": "obj_find_file", "completed": true },
+        { "type": "add_message", "message": "Recovered file located in Locker." }
+      ]
+    }
+  ],
+  "solution": {
+    "culprit": "Alex Mora",
+    "requiredClueIds": ["clue_script", "clue_recent_log", "clue_apology"]
+  }
+}
