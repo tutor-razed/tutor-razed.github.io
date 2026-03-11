@@ -34,7 +34,20 @@ const Resources: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-16 pr-8 py-6 bg-white rounded-[2.5rem] shadow-xl border-4 border-transparent focus:border-yellow-400 transition-all outline-none text-xl font-bold text-indigo-900"
           />
-          <span className="absolute left-6 top-1/2 -translate-y-1/2 text-3xl">ðŸ”</span>
+          <span className="absolute left-6 top-1/2 -translate-y-1/2 text-indigo-500" aria-hidden="true">
+            <svg
+              className="h-8 w-8"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+          </span>
         </div>
 
         {/* Subject Filter Chips */}
@@ -60,7 +73,22 @@ const Resources: React.FC = () => {
             </div>
           ) : (
             <div className="bg-white rounded-[3rem] p-20 text-center shadow-xl border-4 border-dashed border-indigo-100">
-              <span className="text-6xl mb-8 block">ðŸ§</span>
+              <span className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-100 text-indigo-600" aria-hidden="true">
+                <svg
+                  className="h-10 w-10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                  <path d="M9.5 9.5h3" />
+                  <path d="M11 9.5v3.25" />
+                </svg>
+              </span>
               <h3 className="text-3xl font-black text-indigo-900 mb-4">We couldn't find that!</h3>
               <p className="text-xl text-gray-500 font-medium mb-10">Try a different word or click "All" to see everything.</p>
               <button 

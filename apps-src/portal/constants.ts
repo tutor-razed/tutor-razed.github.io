@@ -38,7 +38,14 @@ function toResource(input: ResourceInput, index: number): Resource {
   };
 }
 
-export const RESOURCES: Resource[] = (resourcesData as ResourceInput[]).map(toResource);
+function getTimestamp(value: string): number {
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+export const RESOURCES: Resource[] = (resourcesData as ResourceInput[])
+  .map(toResource)
+  .sort((left, right) => getTimestamp(right.date) - getTimestamp(left.date));
 
 const uniqueSubjects = Array.from(new Set(RESOURCES.map((item) => item.subject).filter(Boolean)));
 export const SUBJECTS: string[] = ["All", ...uniqueSubjects];
