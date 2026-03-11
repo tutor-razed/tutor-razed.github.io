@@ -188,7 +188,7 @@ Workflow file:
 .github/workflows/deploy-pages.yml
 ```
 
-On push to `main`, the workflow: 
+On push to `main`, the workflow:
 
 1. checks out the repo
 2. installs dependencies with `npm run ci:apps`
