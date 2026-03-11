@@ -141,12 +141,22 @@ npm run dev -- portal
 ## Adding A React/Vite App
 
 1. Create or copy the app into `apps-src/<app-name>/`
+   Remove any nested `.git/` folder if the app came from another repository.
 2. Make sure it has a working `build` script and outputs `dist/`
 3. Add it to `apps.manifest.json`
 4. Set its Vite `base` to match its manifest mount
 5. Commit its `package-lock.json`
 6. Run `npm run build`
 7. Run `npm run preview:site`
+
+Import checklist for apps copied from another repo:
+
+- remove the copied app's `.git/` folder before running `git add`
+- keep only source files and the app's own `package.json` and `package-lock.json`
+- do not keep copied `node_modules/`, `dist/`, `coverage/`, `playwright-report/`, or `test-results/`
+- confirm the app path in `apps.manifest.json` matches the folder name
+- confirm the Vite `base` exactly matches the manifest mount
+- run `npm run build` from the repo root to verify the app assembles into `site/`
 
 Example Vite base:
 

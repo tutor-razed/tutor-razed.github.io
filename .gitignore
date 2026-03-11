@@ -1,9 +1,14 @@
-﻿node_modules/
+node_modules/
 site/
 apps-src/*/node_modules/
 apps-src/*/dist/
+apps-src/*/coverage/
+apps-src/*/playwright-report/
+apps-src/*/test-results/
+apps-src/*/*.tsbuildinfo
 apps-src/*/.env.local
 apps-src/*/.env
+apps-src/*/.ai/
 doc/
 dev/
 .vscode/
