@@ -70,5 +70,17 @@
     "path": "/rumblerink/",
     "rating": 4.6,
     "tags": ["Writing","Hockey","Creativity"]
+  },
+    {
+    "id": "7",
+    "title": "Graduate Together",
+    "description": "Amber wants to help you all graduate. Learn skills and earn credits on your way.",
+    "subject": "Lifeskills",
+    "date": "2024-03-10",
+    "type": "Game",
+    "thumbnail": "https://images.unsplash.com/photo-1665567032056-4d22d92638da?auto=format&fit=crop&q=80&w=600",
+    "path": "/graduate-together/",
+    "rating": 4.6,
+    "tags": ["Lifeskills","Game","Symbols"]
   }
 ]
