@@ -1,0 +1,50 @@
+[
+  {
+    "id": "spring-break-2026-week-1",
+    "title": "Spring Break",
+    "description": "Sample school district spring break week one.",
+    "start": "2026-03-16T00:00:00",
+    "end": "2026-03-20T23:59:00",
+    "allDay": true,
+    "category": "school-break",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "spring-break-2026-week-2",
+    "title": "Spring Break",
+    "description": "Sample school district spring break week two.",
+    "start": "2026-03-23T00:00:00",
+    "end": "2026-03-27T23:59:00",
+    "allDay": true,
+    "category": "school-break",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "professional-day-apr-2026",
+    "title": "Professional Development Day",
+    "description": "Non-instructional day across the district.",
+    "start": "2026-04-24T00:00:00",
+    "end": "2026-04-24T23:59:00",
+    "allDay": true,
+    "category": "school-closure",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "curriculum-implementation-day-2026",
+    "title": "Curriculum Implementation Day",
+    "description": "Sample district closure for teacher planning.",
+    "start": "2026-05-15T00:00:00",
+    "end": "2026-05-15T23:59:00",
+    "allDay": true,
+    "category": "school-closure",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "surrey-spring-break-2026-week-1",
+    "title": "Surrey Spring Break",
+    "description": "District spring break.",
+    "start": "2026-03-16T00:00:00",
+    "end": "2026-03-20T23:59:00",
+    "allDay": true,
+    "category": "school-break",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "surrey-spring-break-2026-week-2",
+    "title": "Surrey Spring Break",
+    "description": "District spring break.",
+    "start": "2026-03-23T00:00:00",
+    "end": "2026-03-27T23:59:00",
+    "allDay": true,
+    "category": "school-break",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "surrey-non-instructional-may-2026",
+    "title": "Surrey Non-Instructional Day",
+    "description": "District non-instructional day.",
+    "start": "2026-05-15T00:00:00",
+    "end": "2026-05-15T23:59:00",
+    "allDay": true,
+    "category": "school-closure",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  }
+]

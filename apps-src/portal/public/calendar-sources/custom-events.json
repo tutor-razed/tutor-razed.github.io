@@ -1,0 +1,28 @@
+[
+  {
+    "id": "report-card-reminder",
+    "title": "Bring report card to next session",
+    "description": "Helpful reminder so tutoring goals can be adjusted quickly.",
+    "start": "2026-03-18T18:00:00-07:00",
+    "end": "2026-03-18T18:30:00-07:00",
+    "allDay": false,
+    "category": "custom",
+    "notes": "Parent reminder",
+    "affectsSessions": false,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "deadline-reminder-apr-02",
+    "title": "Cancellation reminder for Apr 3 session",
+    "description": "Friendly reminder to confirm or cancel before the holiday session deadline.",
+    "start": "2026-04-02T09:00:00-07:00",
+    "end": "2026-04-02T09:15:00-07:00",
+    "allDay": false,
+    "category": "cancellation",
+    "notes": "Generated example reminder stored as static JSON.",
+    "affectsSessions": false,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  }
+]

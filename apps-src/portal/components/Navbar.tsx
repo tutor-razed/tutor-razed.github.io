@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,18 +18,24 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-10">
-            <a
-              href="#/"
+            <Link
+              to="/"
               className="text-indigo-900 hover:text-pink-500 font-bold text-lg transition-colors"
             >
               Start Here
-            </a>
-            <a
-              href="#/resources"
+            </Link>
+            <Link
+              to="/calendar"
+              className="text-indigo-900 hover:text-pink-500 font-bold text-lg transition-colors"
+            >
+              Schedule
+            </Link>
+            <Link
+              to="/resources"
               className="text-indigo-900 hover:text-pink-500 font-bold text-lg transition-colors"
             >
               Fun Library
-            </a>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -57,15 +64,18 @@ const Navbar: React.FC = () => {
       {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden bg-white border-b border-gray-100 p-6 space-y-6">
-          <a href="#/" className="block text-indigo-900 font-bold text-xl">
+          <Link to="/" className="block text-indigo-900 font-bold text-xl">
             Start Here
-          </a>
-          <a
-            href="#/resources"
+          </Link>
+          <Link to="/calendar" className="block text-indigo-900 font-bold text-xl">
+            Schedule
+          </Link>
+          <Link
+            to="/resources"
             className="block text-indigo-900 font-bold text-xl"
           >
             Fun Library
-          </a>
+          </Link>
         </div>
       )}
     </nav>

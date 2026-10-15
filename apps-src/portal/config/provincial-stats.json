@@ -1,0 +1,106 @@
+{
+  "provinces": [
+    {
+      "code": "BC",
+      "name": "British Columbia",
+      "outputFile": "bc-stat-holidays.json",
+      "color": "#f43f5e",
+      "textColor": "#4c0519",
+      "description": "Province-wide BC holidays.",
+      "holidays": [
+        {
+          "name": "Family Day",
+          "rule": {
+            "kind": "nth_weekday",
+            "month": 2,
+            "weekday": 1,
+            "occurrence": 3
+          },
+          "years": [2026, 2027]
+        },
+        {
+          "name": "Good Friday",
+          "dates": ["2026-04-03", "2027-03-26"]
+        },
+        {
+          "name": "Victoria Day",
+          "rule": {
+            "kind": "nth_weekday",
+            "month": 5,
+            "weekday": 1,
+            "occurrence": 3
+          },
+          "years": [2026, 2027]
+        }
+      ]
+    },
+    {
+      "code": "AB",
+      "name": "Alberta",
+      "outputFile": "ab-stat-holidays.json",
+      "color": "#ef4444",
+      "textColor": "#450a0a",
+      "description": "Province-wide Alberta holidays.",
+      "holidays": [
+        {
+          "name": "Family Day",
+          "rule": {
+            "kind": "nth_weekday",
+            "month": 2,
+            "weekday": 1,
+            "occurrence": 3
+          },
+          "years": [2026, 2027]
+        },
+        {
+          "name": "Good Friday",
+          "dates": ["2026-04-03", "2027-03-26"]
+        },
+        {
+          "name": "Victoria Day",
+          "rule": {
+            "kind": "nth_weekday",
+            "month": 5,
+            "weekday": 1,
+            "occurrence": 3
+          },
+          "years": [2026, 2027]
+        }
+      ]
+    },
+    {
+      "code": "ON",
+      "name": "Ontario",
+      "outputFile": "on-stat-holidays.json",
+      "color": "#fb7185",
+      "textColor": "#4c0519",
+      "description": "Province-wide Ontario holidays.",
+      "holidays": [
+        {
+          "name": "Family Day",
+          "rule": {
+            "kind": "nth_weekday",
+            "month": 2,
+            "weekday": 1,
+            "occurrence": 3
+          },
+          "years": [2026, 2027]
+        },
+        {
+          "name": "Good Friday",
+          "dates": ["2026-04-03", "2027-03-26"]
+        },
+        {
+          "name": "Victoria Day",
+          "rule": {
+            "kind": "nth_weekday",
+            "month": 5,
+            "weekday": 1,
+            "occurrence": 3
+          },
+          "years": [2026, 2027]
+        }
+      ]
+    }
+  ]
+}

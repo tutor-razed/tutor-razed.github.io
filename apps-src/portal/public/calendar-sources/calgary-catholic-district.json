@@ -1,0 +1,26 @@
+[
+  {
+    "id": "calgary-catholic-spring-break-2026",
+    "title": "Calgary Catholic Spring Break",
+    "description": "District spring break.",
+    "start": "2026-03-23T00:00:00",
+    "end": "2026-03-27T23:59:00",
+    "allDay": true,
+    "category": "school-break",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "calgary-catholic-easter-monday-2026",
+    "title": "Easter Monday Closure",
+    "description": "District closure.",
+    "start": "2026-04-06T00:00:00",
+    "end": "2026-04-06T23:59:00",
+    "allDay": true,
+    "category": "school-closure",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  }
+]

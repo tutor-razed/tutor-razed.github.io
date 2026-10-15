@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { MOCK_RESOURCES } from "../constants";
 import ResourceCard from "../components/ResourceCard";
+import CancellationDeadlineWidget from "../src/features/calendar/components/CancellationDeadlineWidget";
 
 const Home: React.FC = () => {
   return (
@@ -8,7 +10,6 @@ const Home: React.FC = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 px-4 bg-gradient-to-b from-indigo-50 to-white">
         <div className="absolute top-0 left-0 w-full h-full -z-10 opacity-20 pointer-events-none">
-          {/* Fun blobs */}
           <div className="absolute top-20 left-10 w-64 h-64 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-20 right-10 w-80 h-80 bg-pink-300 rounded-full blur-3xl"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-300 rounded-full blur-3xl"></div>
@@ -38,6 +39,12 @@ const Home: React.FC = () => {
               >
                 Go to Library 🚀
               </a>
+              <Link
+                to="/calendar"
+                className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 rounded-[2rem] font-black text-xl shadow-xl ring-1 ring-slate-200 hover:-translate-y-2 transition-all flex items-center justify-center"
+              >
+                View Schedule
+              </Link>
             </div>
           </div>
 
@@ -49,11 +56,16 @@ const Home: React.FC = () => {
                 className="w-full h-auto"
               />
             </div>
-            {/* Floating badges for fun */}
             <div className="absolute -top-10 -right-10 bg-pink-500 p-8 rounded-full shadow-2xl z-20 hidden md:block border-4 border-white animate-pulse">
               <span className="text-4xl">🎨</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-8">
+        <div className="max-w-7xl mx-auto">
+          <CancellationDeadlineWidget />
         </div>
       </section>
 

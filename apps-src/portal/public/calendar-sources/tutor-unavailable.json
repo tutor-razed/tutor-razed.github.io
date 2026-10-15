@@ -1,0 +1,27 @@
+[
+  {
+    "id": "tutor-pd-mar-24",
+    "title": "Tutor professional development block",
+    "description": "Tutor unavailable for regular sessions while attending PD.",
+    "start": "2026-03-24T15:00:00-07:00",
+    "end": "2026-03-24T18:00:00-07:00",
+    "allDay": false,
+    "category": "tutor-unavailable",
+    "affectsSessions": true,
+    "notes": "Reschedule recommended.",
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "tutor-family-day-may-15",
+    "title": "Tutor family commitment",
+    "description": "Tutor marked unavailable for afternoon appointments.",
+    "start": "2026-05-15T12:00:00-07:00",
+    "end": "2026-05-15T18:00:00-07:00",
+    "allDay": false,
+    "category": "tutor-unavailable",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  }
+]

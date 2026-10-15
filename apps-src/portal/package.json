@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "convert-ics": "node scripts/convert-ics-to-json.ts",
+    "sync-calendars": "node scripts/sync-calendar-config.ts"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",

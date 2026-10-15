@@ -1,0 +1,74 @@
+[
+  {
+    "id": "on-family-day-2026-02-16",
+    "title": "Family Day",
+    "description": "Ontario statutory holiday.",
+    "start": "2026-02-16T00:00:00",
+    "end": "2026-02-16T23:59:00",
+    "allDay": true,
+    "category": "holiday",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "on-family-day-2027-02-15",
+    "title": "Family Day",
+    "description": "Ontario statutory holiday.",
+    "start": "2027-02-15T00:00:00",
+    "end": "2027-02-15T23:59:00",
+    "allDay": true,
+    "category": "holiday",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "on-good-friday-2026-04-03",
+    "title": "Good Friday",
+    "description": "Ontario statutory holiday.",
+    "start": "2026-04-03T00:00:00",
+    "end": "2026-04-03T23:59:00",
+    "allDay": true,
+    "category": "holiday",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "on-good-friday-2027-03-26",
+    "title": "Good Friday",
+    "description": "Ontario statutory holiday.",
+    "start": "2027-03-26T00:00:00",
+    "end": "2027-03-26T23:59:00",
+    "allDay": true,
+    "category": "holiday",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "on-victoria-day-2026-05-18",
+    "title": "Victoria Day",
+    "description": "Ontario statutory holiday.",
+    "start": "2026-05-18T00:00:00",
+    "end": "2026-05-18T23:59:00",
+    "allDay": true,
+    "category": "holiday",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  },
+  {
+    "id": "on-victoria-day-2027-05-17",
+    "title": "Victoria Day",
+    "description": "Ontario statutory holiday.",
+    "start": "2027-05-17T00:00:00",
+    "end": "2027-05-17T23:59:00",
+    "allDay": true,
+    "category": "holiday",
+    "affectsSessions": true,
+    "visibleToParents": true,
+    "visibleToAdmins": true
+  }
+]

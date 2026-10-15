@@ -1,0 +1,40 @@
+{
+  "districts": [
+    {
+      "id": "nanaimo-ladysmith-district",
+      "name": "Nanaimo Ladysmith Public School District",
+      "districtKey": "ladysmith",
+      "province": "BC",
+      "calendarUrl": "https://www.sd68.bc.ca/calendars/",
+      "icsUrl": "https://www.sd68.bc.ca/feed/events.ics",
+      "outputFile": "nanaimo-ladysmith.json",
+      "color": "#f59e0b",
+      "textColor": "#78350f",
+      "description": "District closures imported from a public calendar feed."
+    },
+    {
+      "id": "surrey-district",
+      "name": "Surrey Schools",
+      "districtKey": "surrey",
+      "province": "BC",
+      "calendarUrl": "https://example.com/surrey-calendar",
+      "icsUrl": "https://example.com/surrey-calendar.ics",
+      "outputFile": "surrey-district.json",
+      "color": "#d97706",
+      "textColor": "#78350f",
+      "description": "District closures imported from a public calendar feed."
+    },
+    {
+      "id": "calgary-catholic-district",
+      "name": "Calgary Catholic School District",
+      "districtKey": "calgary-catholic",
+      "province": "AB",
+      "calendarUrl": "https://example.com/calgary-catholic-calendar",
+      "icsUrl": "https://example.com/calgary-catholic-calendar.ics",
+      "outputFile": "calgary-catholic-district.json",
+      "color": "#f97316",
+      "textColor": "#7c2d12",
+      "description": "District closures imported from a public calendar feed."
+    }
+  ]
+}

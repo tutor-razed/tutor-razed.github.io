@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Resources from "./pages/Resources";
+import CalendarPage from "./src/features/calendar/pages/CalendarPage";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/calendar" element={<CalendarPage />} />
           </Routes>
         </main>
       </div>
